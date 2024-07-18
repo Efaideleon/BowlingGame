@@ -6,7 +6,7 @@ public class PinsLoader : MonoBehaviour
     [SerializeField] GameObject bowlingPinPrefab;
     private float spacing = 0.3f;
     private readonly static float heighLevel = 1.2f;
-    private readonly static Vector2 origin = new Vector2(-0.85f, 0);
+    private readonly static Vector2 origin = new Vector2(0, 22);
     private List<List<Vector3>> positions; 
 
     void Start()
