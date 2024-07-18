@@ -4,7 +4,7 @@ public class BowlingBall : MonoBehaviour
 {
     [SerializeField] float forceMultiplier = 50f;
     [SerializeField] float spinMultiplier = 10f;
-    [SerializeField] float maxChargeTime = 2f;
+    [SerializeField] float maxChargeTime = 1.5f;
     private Rigidbody rb;
     private float chargeStartTime;
     private bool isCharging = false;
