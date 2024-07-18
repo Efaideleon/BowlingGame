@@ -8,14 +8,13 @@ public class PinsLoader : MonoBehaviour
     private readonly float pinSpacing = 0.3f;
     private readonly static float pinsBaseHeight = 1.2f;
     private readonly static Vector2 pinsOriginPosition = new(0, 22);
-    private List<List<Vector3>> pinPositions;
 
     void Start()
     {
-        pinPositions = CalculatePositions();
+        List<List<Vector3>> pinPositions = CalculatePositions();
         if (bowlingPinPrefab != null)
         {
-            InstantiatePins();
+            InstantiatePins(pinPositions);
         }
         else
         {
@@ -23,7 +22,7 @@ public class PinsLoader : MonoBehaviour
         }
     }
 
-    void InstantiatePins()
+    void InstantiatePins(List<List<Vector3>> pinPositions)
     {
         foreach (List<Vector3> row in pinPositions)
         {
