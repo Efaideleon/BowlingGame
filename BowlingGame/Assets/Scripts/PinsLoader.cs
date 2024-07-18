@@ -4,9 +4,9 @@ using UnityEngine;
 public class PinsLoader : MonoBehaviour
 {
     [SerializeField] GameObject bowlingPinPrefab;
-    [SerializeField] float spacing = 1;
+    private float spacing = 0.3f;
     private readonly static float heighLevel = 1.2f;
-    private readonly static Vector2 origin = new Vector2(0, 0);
+    private readonly static Vector2 origin = new Vector2(-0.85f, 0);
     private List<List<Vector3>> positions; 
 
     void Start()
@@ -34,7 +34,7 @@ public class PinsLoader : MonoBehaviour
         float spacingOffset;
         float yPosition = origin.y;
         float xPosition = origin.x;
-        float xStart = 0;
+        float xStart = origin.x;
         for (int i = 0; i < 4; i++)
         {
             List<Vector3> row = new List<Vector3>();
