@@ -9,22 +9,20 @@ public class BowlingBall : MonoBehaviour
     private float chargeStartTime;
     private bool isCharging = false;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
     void Update()
     {
+        // Player presses the space bar.
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            isCharging = true;
-            chargeStartTime = Time.time;
+            StartCharging();
         }
-
-        if (Input.GetKeyUp(KeyCode.Space) || Time.time - chargeStartTime >= maxChargeTime)
+        // Player lets go of the space bar or power is fully charged.
+        if (Input.GetKeyUp(KeyCode.Space) || IsFullyCharged())
         {
             if (isCharging)
             {
@@ -33,10 +31,19 @@ public class BowlingBall : MonoBehaviour
         }
     }
 
-    void ReleaseBall()
+    private void StartCharging()
     {
-        isCharging = false;
+        isCharging = true;
+        chargeStartTime = Time.time;
+    }
 
+    private bool IsFullyCharged()
+    {
+        return Time.time - chargeStartTime >= maxChargeTime;
+    }
+
+    private (Vector3, Vector3) CalculateReleaseForces()
+    {
         float chargeDuration = Time.time - chargeStartTime;
         float power = Mathf.Clamp01(chargeDuration / maxChargeTime);
 
@@ -45,7 +52,19 @@ public class BowlingBall : MonoBehaviour
         float spin = Input.GetAxis("Horizontal");
         Vector3 spinTorque = Vector3.up * spin * spinMultiplier;
 
+        return (throwForce, spinTorque);
+    }
+
+    private void ApplyForcesToBall(Vector3 throwForce, Vector3 spinTorque)
+    {
         rb.AddForce(throwForce, ForceMode.Impulse);
         rb.AddTorque(spinTorque);
+    }
+
+    private void ReleaseBall()
+    {
+        (Vector3 throwForce, Vector3 spinTorque) = CalculateReleaseForces();
+        ApplyForcesToBall(throwForce, spinTorque);
+        isCharging = false;
     }
 }

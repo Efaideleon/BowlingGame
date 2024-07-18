@@ -574,8 +574,9 @@ GameObject:
   - component: {fileID: 836821840}
   - component: {fileID: 836821839}
   - component: {fileID: 836821843}
+  - component: {fileID: 836821844}
   m_Layer: 0
-  m_Name: BawlingBall
+  m_Name: BowlingBall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -697,6 +698,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &836821844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 836821838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff53d91879fc749829bf854cef850af7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  forceMultiplier: 50
+  spinMultiplier: 10
+  maxChargeTime: 2
 --- !u!1 &1823688464
 GameObject:
   m_ObjectHideFlags: 0
