@@ -4,10 +4,11 @@ using UnityEngine;
 public class PinsLoader : MonoBehaviour
 {
     [SerializeField] GameObject bowlingPinPrefab;
-    private float spacing = 0.3f;
-    private readonly static float heighLevel = 1.2f;
-    private readonly static Vector2 origin = new Vector2(0, 22);
-    private List<List<Vector3>> positions; 
+    private const int NUM_PIN_ROWS = 4;
+    private readonly float spacing = 0.3f;
+    private readonly static float heightLevel = 1.2f;
+    private readonly static Vector2 origin = new(0, 22);
+    private List<List<Vector3>> positions;
 
     void Start()
     {
@@ -24,30 +25,27 @@ public class PinsLoader : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Error: The bawlingPinPrefab has not been assigned!");
+            Debug.LogError("Error: The bowlingPinPrefab has not been assigned!");
         }
     }
 
     List<List<Vector3>> CalculatePositions()
     {
-        List<List<Vector3>> positions = new List<List<Vector3>> ();
-        float spacingOffset;
-        float yPosition = origin.y;
-        float xPosition = origin.x;
-        float xStart = origin.x;
-        for (int i = 0; i < 4; i++)
+        List<List<Vector3>> positions = new();
+
+        for (int row = 0; row < NUM_PIN_ROWS; row++)
         {
-            List<Vector3> row = new List<Vector3>();
-            for (int j = 0; j < i + 1; j++)
+            List<Vector3> rowPositions = new();
+            float xOffset = -(row * spacing) / 2f;
+
+            for (int col = 0; col <= row; col++)
             {
-                row.Add(new Vector3(xPosition, heighLevel, yPosition));
-                xPosition += spacing;
+                float xPos = origin.x + xOffset + (col * spacing);
+                float yPos = origin.y + (row * spacing);
+                rowPositions.Add(new Vector3(xPos, heightLevel, yPos));
             }
-            positions.Add(row);
-            spacingOffset = -(spacing / 2);
-            yPosition += spacing;
-            xStart += spacingOffset;
-            xPosition = xStart;
+
+            positions.Add(rowPositions);
         }
 
         return positions;
