@@ -1,10 +1,11 @@
+using System;
 using UnityEngine;
 
 public class BowlingBall : Chargeable 
 {
-    [SerializeField] float forceMultiplier = 50f;
+    [SerializeField] float forceMultiplier = 20f;
     [SerializeField] float spinMultiplier = 10f;
-    [SerializeField] float maxChargeTime = 1.5f;
+    [SerializeField] float maxChargeTime = 2;
     private Rigidbody rb;
     private float chargeStartTime;
     private bool isCharging = false;
@@ -20,14 +21,15 @@ public class BowlingBall : Chargeable
         chargeStartTime = Time.time;
     }
 
-    private bool IsFullyCharged()
+    private float GetCurrentCharge()
     {
-        return Time.time - chargeStartTime >= maxChargeTime;
+        if (!isCharging) return 0f;
+        return Mathf.Min(Time.time - chargeStartTime, maxChargeTime);
     }
 
     private (Vector3, Vector3) CalculateReleaseForces()
     {
-        float chargeDuration = Time.time - chargeStartTime;
+        float chargeDuration = GetCurrentCharge();
         float power = Mathf.Clamp01(chargeDuration / maxChargeTime);
 
         Vector3 throwForce = forceMultiplier * power * Vector3.forward;
@@ -46,11 +48,17 @@ public class BowlingBall : Chargeable
 
     public override void ReleaseCharge()
     {
-        if (isCharging || IsFullyCharged())
+        if (isCharging)
         {
             (Vector3 throwForce, Vector3 spinTorque) = CalculateReleaseForces();
             ApplyForcesToBall(throwForce, spinTorque);
             isCharging = false;
         }
+    }
+
+    public override float GetChargePercentage()
+    {
+        Debug.Log(GetCurrentCharge() / maxChargeTime);
+        return Mathf.Clamp01(GetCurrentCharge() / maxChargeTime);
     }
 }

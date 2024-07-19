@@ -1,33 +1,40 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PowerBar : Chargeable
+public class PowerBar : MonoBehaviour
 {
-    [SerializeField] Image fillImage;
-    [SerializeField] float maxChargeTime = 2f;
-    private float currentCharge;
-    private bool isCharging = false;
-    private readonly float chargingSpeed = 5f;
+    [SerializeField] private Image fillImage;
+    [SerializeField] private GameObject powerBarContainer;
+    [SerializeField] private Chargeable bowlingBall;
+
+    void Start()
+    {
+        powerBarContainer.SetActive(false);
+    }
 
     void Update()
     {
-        if (isCharging)
+        if (bowlingBall.GetChargePercentage() > 0)
         {
-            currentCharge = Mathf.Lerp(currentCharge, maxChargeTime, Time.deltaTime * chargingSpeed);
-            fillImage.fillAmount = currentCharge / maxChargeTime;
-        }        
+            SetPowerBarVisibility(true);
+            fillImage.fillAmount = bowlingBall.GetChargePercentage();
+        }
+        else 
+        {
+            SetPowerBarVisibility(false);
+            fillImage.fillAmount = 0;
+        }
     }
 
-    public override void StartCharging()
+    private void SetPowerBarVisibility(bool isVisible)
     {
-        isCharging = true;
-        currentCharge = 0f;
-    }
-
-    public override void ReleaseCharge()
-    {
-        isCharging = false;
-        currentCharge = 0f;
-        fillImage.fillAmount = 0f;
+        if (powerBarContainer != null)
+        {
+            powerBarContainer.SetActive(isVisible);
+        } 
+        else
+        {
+            Debug.LogWarning("Power bar container is not assigned");
+        } 
     }
 }
