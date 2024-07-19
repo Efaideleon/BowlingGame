@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PowerBar : MonoBehaviour, IChargeable
+public class PowerBar : Chargeable
 {
     [SerializeField] Image fillImage;
     [SerializeField] float maxChargeTime = 2f;
@@ -18,13 +18,13 @@ public class PowerBar : MonoBehaviour, IChargeable
         }        
     }
 
-    public void StartCharging()
+    public override void StartCharging()
     {
         isCharging = true;
         currentCharge = 0f;
     }
 
-    public void ReleaseCharge()
+    public override void ReleaseCharge()
     {
         isCharging = false;
         currentCharge = 0f;

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BowlingBall : MonoBehaviour, IChargeable
+public class BowlingBall : Chargeable 
 {
     [SerializeField] float forceMultiplier = 50f;
     [SerializeField] float spinMultiplier = 10f;
@@ -14,7 +14,7 @@ public class BowlingBall : MonoBehaviour, IChargeable
         rb = GetComponent<Rigidbody>();
     }
 
-    public void StartCharging()
+    public override void StartCharging()
     {
         isCharging = true;
         chargeStartTime = Time.time;
@@ -44,7 +44,7 @@ public class BowlingBall : MonoBehaviour, IChargeable
         rb.AddTorque(spinTorque);
     }
 
-    public void ReleaseCharge()
+    public override void ReleaseCharge()
     {
         if (isCharging || IsFullyCharged())
         {

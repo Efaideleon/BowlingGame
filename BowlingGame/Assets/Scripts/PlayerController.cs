@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public IChargeable bowlingBall;
-    [SerializeField] IChargeable powerBar;
+    [SerializeField] Chargeable bowlingBall;
+    [SerializeField] Chargeable powerBar;
 
     void Update()
     {
