@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BowlingBall : MonoBehaviour
+public class BowlingBall : MonoBehaviour, IChargeable
 {
     [SerializeField] float forceMultiplier = 50f;
     [SerializeField] float spinMultiplier = 10f;
@@ -14,24 +14,7 @@ public class BowlingBall : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    void Update()
-    {
-        // Player presses the space bar.
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            StartCharging();
-        }
-        // Player lets go of the space bar or power is fully charged.
-        if (Input.GetKeyUp(KeyCode.Space) || IsFullyCharged())
-        {
-            if (isCharging)
-            {
-                ReleaseBall();
-            }
-        }
-    }
-
-    private void StartCharging()
+    public void StartCharging()
     {
         isCharging = true;
         chargeStartTime = Time.time;
@@ -47,10 +30,10 @@ public class BowlingBall : MonoBehaviour
         float chargeDuration = Time.time - chargeStartTime;
         float power = Mathf.Clamp01(chargeDuration / maxChargeTime);
 
-        Vector3 throwForce = Vector3.forward * power * forceMultiplier;
+        Vector3 throwForce = forceMultiplier * power * Vector3.forward;
 
         float spin = Input.GetAxis("Horizontal");
-        Vector3 spinTorque = Vector3.up * spin * spinMultiplier;
+        Vector3 spinTorque = spin * spinMultiplier * Vector3.up;
 
         return (throwForce, spinTorque);
     }
@@ -61,10 +44,13 @@ public class BowlingBall : MonoBehaviour
         rb.AddTorque(spinTorque);
     }
 
-    private void ReleaseBall()
+    public void ReleaseCharge()
     {
-        (Vector3 throwForce, Vector3 spinTorque) = CalculateReleaseForces();
-        ApplyForcesToBall(throwForce, spinTorque);
-        isCharging = false;
+        if (isCharging || IsFullyCharged())
+        {
+            (Vector3 throwForce, Vector3 spinTorque) = CalculateReleaseForces();
+            ApplyForcesToBall(throwForce, spinTorque);
+            isCharging = false;
+        }
     }
 }
