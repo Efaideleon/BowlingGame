@@ -4,50 +4,52 @@ using UnityEngine;
 public class PinsLoader : MonoBehaviour
 {
     [SerializeField] GameObject bowlingPinPrefab;
-    [SerializeField] float spacing = 1;
-    private readonly static float heighLevel = 1.2f;
-    private readonly static Vector2 origin = new Vector2(0, 0);
-    private List<List<Vector3>> positions; 
+    private const int NUM_PIN_ROWS = 4;
+    private readonly float pinSpacing = 0.3f;
+    private readonly static float pinsBaseHeight = 1.2f;
+    private readonly static Vector2 pinsOriginPosition = new(0, 22);
 
     void Start()
     {
-        positions = CalculatePositions();
+        List<List<Vector3>> pinPositions = CalculatePositions();
         if (bowlingPinPrefab != null)
         {
-            foreach (List<Vector3> row in positions)
-            {
-                foreach (Vector3 position in row)
-                {
-                    Instantiate(bowlingPinPrefab, position, Quaternion.identity);
-                }
-            }
+            InstantiatePins(pinPositions);
         }
         else
         {
-            Debug.LogError("Error: The bawlingPinPrefab has not been assigned!");
+            Debug.LogError("Error: The bowlingPinPrefab has not been assigned!");
+        }
+    }
+
+    void InstantiatePins(List<List<Vector3>> pinPositions)
+    {
+        foreach (List<Vector3> row in pinPositions)
+        {
+            foreach (Vector3 position in row)
+            {
+                Instantiate(bowlingPinPrefab, position, Quaternion.identity);
+            }
         }
     }
 
     List<List<Vector3>> CalculatePositions()
     {
-        List<List<Vector3>> positions = new List<List<Vector3>> ();
-        float spacingOffset;
-        float yPosition = origin.y;
-        float xPosition = origin.x;
-        float xStart = 0;
-        for (int i = 0; i < 4; i++)
+        List<List<Vector3>> positions = new();
+
+        for (int row = 0; row < NUM_PIN_ROWS; row++)
         {
-            List<Vector3> row = new List<Vector3>();
-            for (int j = 0; j < i + 1; j++)
+            List<Vector3> rowPositions = new();
+            float xOffset = -(row * pinSpacing) / 2f;
+
+            for (int col = 0; col <= row; col++)
             {
-                row.Add(new Vector3(xPosition, heighLevel, yPosition));
-                xPosition += spacing;
+                float xPos = pinsOriginPosition.x + xOffset + (col * pinSpacing);
+                float yPos = pinsOriginPosition.y + (row * pinSpacing);
+                rowPositions.Add(new Vector3(xPos, pinsBaseHeight, yPos));
             }
-            positions.Add(row);
-            spacingOffset = -(spacing / 2);
-            yPosition += spacing;
-            xStart += spacingOffset;
-            xPosition = xStart;
+
+            positions.Add(rowPositions);
         }
 
         return positions;
