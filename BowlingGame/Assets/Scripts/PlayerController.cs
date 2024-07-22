@@ -4,7 +4,9 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Chargeable bowlingBall;
+    [SerializeField] private GameManager gameManager;
     private PlayerInputActions playerInputActions;
+    private bool isCharging = false;
 
     private void Awake()
     {
@@ -27,9 +29,11 @@ public class PlayerController : MonoBehaviour
 
     private void OnPlayerChargeStarted(InputAction.CallbackContext context)
     {
-        if (bowlingBall != null)
+        if (bowlingBall != null && gameManager.CanThrow())
         {
             bowlingBall.StartCharging();
+            isCharging = true;
+            gameManager.StartCharing();
         } 
         else 
         {
@@ -39,9 +43,11 @@ public class PlayerController : MonoBehaviour
 
     private void OnPlayerChargeCanceled(InputAction.CallbackContext context)
     {
-        if (bowlingBall != null)
+        if (bowlingBall != null && isCharging)
         {
             bowlingBall.ReleaseCharge();
+            gameManager.ReleaseThrow(1); // How do we calculate the score?
+            isCharging = false;
         } 
         else 
         {
