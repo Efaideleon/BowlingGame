@@ -22,7 +22,6 @@ public class PlayerController : MonoBehaviour
         {
             bowlingBall.StartCharging();
         }
-        // Player lets go of the space bar or power is fully charged.
         if (Input.GetKeyUp(KeyCode.Space))
         {
             bowlingBall.ReleaseCharge();
