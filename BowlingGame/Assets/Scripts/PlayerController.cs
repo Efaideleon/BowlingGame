@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
         if (bowlingBall != null && isCharging)
         {
             bowlingBall.ReleaseCharge();
-            gameManager.ReleaseThrow(1); // How do we calculate the score?
+            gameManager.ReleaseThrow(); // How do we calculate the score?
             isCharging = false;
         } 
         else 

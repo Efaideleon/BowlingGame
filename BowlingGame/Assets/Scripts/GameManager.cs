@@ -6,10 +6,23 @@ public class GameManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI roundText;
     [SerializeField] TextMeshProUGUI throwStatusText;
     [SerializeField] TextMeshProUGUI scoreText;
-
     private int currentRound = 1;
-    private int playerScore = 0;
     private bool canThrow = true;
+    private int fallenPinsThisThrow = 0;
+
+    public static GameManager Instance { get; private set;}
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     void Start()
     {
@@ -30,10 +43,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ReleaseThrow(int score)
+    public void ReleaseThrow()
     {
         canThrow = true;
-        playerScore += score;
         currentRound++;
         UpdateGUI();
     }
@@ -41,7 +53,7 @@ public class GameManager : MonoBehaviour
     private void UpdateGUI()
     {
         roundText.text = "Round: " + currentRound;
-        scoreText.text = "Score: " + playerScore;
+        scoreText.text = "Score: " + fallenPinsThisThrow;
         UpdateThrowStatus("Ready!");
     }
 
@@ -50,4 +62,9 @@ public class GameManager : MonoBehaviour
         throwStatusText.text = status;
     }
 
+    public void PinFallen()
+    {
+        fallenPinsThisThrow++;
+        UpdateGUI();
+    }
 }
