@@ -34,7 +34,7 @@ public class BowlingViewModel : MonoBehaviour
         return game.CurrentRoll == 1 || (game.CurrentFrame == 10 && game.CurrentRoll == 3);    
     }
 
-    public bool ShoudRemoveFallenPins()
+    public bool ShouldRemoveFallenPins()
     {
         return !ShouldResetPins() && !game.IsGameOver;
     }
