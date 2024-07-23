@@ -7,7 +7,7 @@ public class BowlingGame
 
     private int currentFrame = 1;
     private int currentRoll = 1;
-    private int[] rolls = new int[21];
+    private readonly int[] rolls = new int[21];
     private int currentRollIndex = 0;
     public int CurrentFrame => currentFrame;
     public int CurrentRoll => currentRoll;

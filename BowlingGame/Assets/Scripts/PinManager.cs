@@ -8,7 +8,7 @@ public class PinManager : MonoBehaviour
     private readonly float pinSpacing = 0.3f;
     private readonly static float pinsBaseHeight = 1.2f;
     private readonly static Vector2 pinsOriginPosition = new(0, 22);
-    private List<Pin> pins = new();
+    private readonly List<Pin> pins = new();
 
     void Start()
     {
