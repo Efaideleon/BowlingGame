@@ -11,18 +11,16 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject throwStatusPanel;
     [SerializeField] private PinManager pinManager;
     [SerializeField] private BowlingBall bowlingBall;
-    private BowlingGame game;
+    [SerializeField] private BowlingViewModel viewModel;
 
-    void Start()
+    private void Start()
     {
-        game = new BowlingGame();
+        viewModel.OnGameStateChange += UpdateGUI;
+        viewModel.OnGameOver += HandleGameOver;
         UpdateGUI();
     }
 
-    public bool CanThrow()
-    {
-        return !game.IsGameOver;
-    }
+    public bool CanThrow() => !viewModel.IsGameOver;
 
     public void StartCharging()
     {
@@ -31,9 +29,9 @@ public class GameManager : MonoBehaviour
 
     private void UpdateGUI()
     {
-        currentFrameText.text = "Frame: " + game.CurrentFrame;
-        scoreText.text = "Score: " + game.Score;
-        currentRollText.text = "Roll: " + game.CurrentRoll;
+        currentFrameText.text = "Frame: " + viewModel.CurrentFrame;
+        scoreText.text = "Score: " + viewModel.Score;
+        currentRollText.text = "Roll: " + viewModel.CurrentRoll;
         UpdateThrowStatus("Ready!");
     }
 
@@ -45,33 +43,29 @@ public class GameManager : MonoBehaviour
     public void CheckPinsAfterThrow()
     {
         StartCoroutine(WaitAndCountPins());
-    } 
+    }
 
     private IEnumerator WaitAndCountPins()
     {
         yield return new WaitForSeconds(8f);
 
         int pinsKnocked = pinManager.CountFallenPins();
-        UpdateGameState(pinsKnocked); 
+        UpdateGameState(pinsKnocked);
     }
 
     private void UpdateGameState(int pinsKnocked)
     {
-        game.Roll(pinsKnocked);  
-        UpdateGUI();
-        Debug.Log("current roll: " + game.CurrentRoll);
-        if (game.CurrentRoll <= 10  && (game.CurrentRoll == 1 || game.IsGameOver))
+        viewModel.Roll(pinsKnocked);
+
+        if (viewModel.ShouldResetPins())
         {
             EndFrame();
         }
-        else if (game.CurrentFrame == 10 && game.CurrentRoll == 3)
+        else if (viewModel.ShoudRemoveFallenPins())
         {
-            EndFrame();
-        }
-        else {
             pinManager.RemoveFallenPins();
         }
-        
+
         bowlingBall.ResetBall();
     }
 
@@ -80,5 +74,16 @@ public class GameManager : MonoBehaviour
         throwStatusPanel.SetActive(true);
         pinManager.ResetPins();
         bowlingBall.ResetBall();
+    }
+
+    private void HandleGameOver()
+    {
+        Debug.Log("Game Over! Final Score: " + viewModel.Score);
+    }
+
+    private void OnDestroy()
+    {
+        viewModel.OnGameStateChange -= UpdateGUI;
+        viewModel.OnGameOver -= HandleGameOver;
     }
 }
