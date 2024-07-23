@@ -61,7 +61,7 @@ public class GameManager : MonoBehaviour
         {
             EndFrame();
         }
-        else if (viewModel.ShoudRemoveFallenPins())
+        else if (viewModel.ShouldRemoveFallenPins())
         {
             pinManager.RemoveFallenPins();
         }
