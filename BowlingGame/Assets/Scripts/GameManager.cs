@@ -6,7 +6,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI roundText;
     [SerializeField] TextMeshProUGUI throwStatusText;
     [SerializeField] TextMeshProUGUI scoreText;
+    [SerializeField] GameObject throwStatusPanel;
     [SerializeField] PinsLoader pinsLoader;
+    
     private int currentFrame = 1;
     private bool canThrow = true;
     private int playerScore = 0;
@@ -42,6 +44,7 @@ public class GameManager : MonoBehaviour
         {
             canThrow = false;
             UpdateThrowStatus("");
+            throwStatusPanel.SetActive(false);
         }
     }
 
@@ -86,6 +89,7 @@ public class GameManager : MonoBehaviour
         playerScore += fallenPinsThisThrow;
         fallenPinsThisThrow = 0;
         currentFrame++;
+        throwStatusPanel.SetActive(true);
         pinsLoader.ResetPins();
     }
 }

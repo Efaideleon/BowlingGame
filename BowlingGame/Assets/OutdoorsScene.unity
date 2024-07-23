@@ -203,6 +203,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8141052714570528035, guid: 967c300fea8dd7d489a8b81eabebe0c8, type: 3}
+      propertyPath: m_Drag
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8141052714570528035, guid: 967c300fea8dd7d489a8b81eabebe0c8, type: 3}
       propertyPath: m_Mass
       value: 8
       objectReference: {fileID: 0}
@@ -1113,6 +1117,7 @@ MonoBehaviour:
   roundText: {fileID: 265309019}
   throwStatusText: {fileID: 1899277112}
   scoreText: {fileID: 1976109033}
+  throwStatusPanel: {fileID: 840664258}
   pinsLoader: {fileID: 342271559}
 --- !u!4 &658957444
 Transform:
@@ -18214,7 +18219,7 @@ BoxCollider:
     m_Bits: 0
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
-  m_ProvidesContacts: 0
+  m_ProvidesContacts: 1
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 25.132698, y: 2, z: 2}

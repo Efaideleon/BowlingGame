@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -69,7 +68,7 @@ public class BowlingBall : Chargeable
     {
        yield return new WaitForSeconds(0.5f); 
 
-       while(rigidbody.linearVelocity.magnitude > 0.2f)
+       while(rigidbody.linearVelocity.magnitude > 0.15f)
        {
             yield return null;
        }
