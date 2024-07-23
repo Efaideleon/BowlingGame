@@ -6,11 +6,12 @@ public class BowlingBall : Chargeable
     [SerializeField] float forceMultiplier = 20f;
     [SerializeField] float spinMultiplier = 10f;
     [SerializeField] float maxChargeTime = 2;
+    [SerializeField] GameManager gameManager;
     private new Rigidbody rigidbody;
     private float chargeStartTime;
     private bool isCharging = false;
     private Vector3 initialPosition;
-
+    
     void Start()
     {
         initialPosition = transform.position;
@@ -55,26 +56,13 @@ public class BowlingBall : Chargeable
             (Vector3 throwForce, Vector3 spinTorque) = CalculateReleaseForces();
             ApplyForcesToBall(throwForce, spinTorque);
             isCharging = false;
-            StartCoroutine(CheckForFrameEnd());
+            gameManager.CheckPinsAfterThrow(); 
         }
     }
 
     public override float GetChargePercentage()
     {
         return Mathf.Clamp01(GetCurrentCharge() / maxChargeTime);
-    }
-
-    private IEnumerator CheckForFrameEnd()
-    {
-       yield return new WaitForSeconds(0.5f); 
-
-       while(rigidbody.linearVelocity.magnitude > 0.15f)
-       {
-            yield return null;
-       }
-
-       GameManager.Instance.UpdateGameState();
-       ResetBall();
     }
 
     public void ResetBall()

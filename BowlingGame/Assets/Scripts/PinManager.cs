@@ -1,26 +1,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PinsLoader : MonoBehaviour
+public class PinManager : MonoBehaviour
 {
     [SerializeField] Pin bowlingPinPrefab;
     private const int NUM_PIN_ROWS = 4;
     private readonly float pinSpacing = 0.3f;
     private readonly static float pinsBaseHeight = 1.2f;
     private readonly static Vector2 pinsOriginPosition = new(0, 22);
-    private List<Pin> activePins = new();
+    private List<Pin> pins = new();
 
     void Start()
     {
-        List<List<Vector3>> pinPositions = CalculatePositions();
-        if (bowlingPinPrefab != null)
-        {
-            InstantiatePins(pinPositions);
-        }
-        else
-        {
-            Debug.LogError("Error: The bowlingPinPrefab has not been assigned!");
-        }
+        LoadPins();
     }
 
     private void InstantiatePins(List<List<Vector3>> pinPositions)
@@ -30,7 +22,7 @@ public class PinsLoader : MonoBehaviour
             foreach (Vector3 position in row)
             {
                 Pin newPin = Instantiate(bowlingPinPrefab, position, Quaternion.identity);
-                activePins.Add(newPin);
+                pins.Add(newPin);
             }
         }
     }
@@ -57,9 +49,46 @@ public class PinsLoader : MonoBehaviour
         return positions;
     }
 
+    private void LoadPins()
+    {
+        List<List<Vector3>> pinPositions = CalculatePositions();
+        if (bowlingPinPrefab != null)
+        {
+            InstantiatePins(pinPositions);
+        }
+        else
+        {
+            Debug.LogError("Error: The bowlingPinPrefab has not been assigned!");
+        }
+    }
+
+    public int CountFallenPins()
+    {
+        int fallenPins = 0;
+        foreach (Pin pin in pins)
+        {
+            if (pin.IsFallen && pin.gameObject.activeSelf)
+            {
+                fallenPins++;
+            }
+        }
+        return fallenPins;
+    }
+
+    public void RemoveFallenPins()
+    {
+        foreach (Pin pin in pins)
+        {
+            if (pin.IsFallen)
+            {
+                pin.gameObject.SetActive(false);
+            }
+        }
+    }
+
     public void ResetPins()
     {
-        foreach (Pin pin in activePins)
+        foreach (Pin pin in pins)
         {
             pin.ResetPin();
         }

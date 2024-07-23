@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
         {
             bowlingBall.StartCharging();
             isCharging = true;
-            gameManager.StartCharing();
+            gameManager.StartCharging();
         } 
         else 
         {
@@ -46,7 +46,6 @@ public class PlayerController : MonoBehaviour
         if (bowlingBall != null && isCharging)
         {
             bowlingBall.ReleaseCharge();
-            gameManager.ReleaseThrow(); // How do we calculate the score?
             isCharging = false;
         } 
         else 

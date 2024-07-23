@@ -1,62 +1,39 @@
 using UnityEngine;
 using TMPro;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI roundText;
-    [SerializeField] TextMeshProUGUI throwStatusText;
-    [SerializeField] TextMeshProUGUI scoreText;
-    [SerializeField] GameObject throwStatusPanel;
-    [SerializeField] PinsLoader pinsLoader;
-    
-    private int currentFrame = 1;
-    private bool canThrow = true;
-    private int playerScore = 0;
-    private int fallenPinsThisThrow = 0;
-
-    public static GameManager Instance { get; private set;}
-
-    void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
+    [SerializeField] private TextMeshProUGUI currentFrameText;
+    [SerializeField] private TextMeshProUGUI currentRollText;
+    [SerializeField] private TextMeshProUGUI throwStatusText;
+    [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private GameObject throwStatusPanel;
+    [SerializeField] private PinManager pinManager;
+    [SerializeField] private BowlingBall bowlingBall;
+    private BowlingGame game;
 
     void Start()
     {
+        game = new BowlingGame();
         UpdateGUI();
     }
 
     public bool CanThrow()
     {
-        return canThrow;
+        return !game.IsGameOver;
     }
 
-    public void StartCharing()
+    public void StartCharging()
     {
-        if (canThrow)
-        {
-            canThrow = false;
-            UpdateThrowStatus("");
-            throwStatusPanel.SetActive(false);
-        }
-    }
-
-    public void ReleaseThrow()
-    {
-        canThrow = true;
+        throwStatusPanel.SetActive(false);
     }
 
     private void UpdateGUI()
     {
-        roundText.text = "Round: " + currentFrame;
-        scoreText.text = "Score: " + playerScore;
+        currentFrameText.text = "Frame: " + game.CurrentFrame;
+        scoreText.text = "Score: " + game.Score;
+        currentRollText.text = "Roll: " + game.CurrentRoll;
         UpdateThrowStatus("Ready!");
     }
 
@@ -65,31 +42,43 @@ public class GameManager : MonoBehaviour
         throwStatusText.text = status;
     }
 
-    public void PinFallen()
+    public void CheckPinsAfterThrow()
     {
-        fallenPinsThisThrow++;
+        StartCoroutine(WaitAndCountPins());
+    } 
+
+    private IEnumerator WaitAndCountPins()
+    {
+        yield return new WaitForSeconds(8f);
+
+        int pinsKnocked = pinManager.CountFallenPins();
+        UpdateGameState(pinsKnocked); 
     }
 
-    public void UpdateGameState()
+    private void UpdateGameState(int pinsKnocked)
     {
-        if (IsStrike() || fallenPinsThisThrow > 0)
+        game.Roll(pinsKnocked);  
+        UpdateGUI();
+        Debug.Log("current roll: " + game.CurrentRoll);
+        if (game.CurrentRoll <= 10  && (game.CurrentRoll == 1 || game.IsGameOver))
         {
             EndFrame();
-            UpdateGUI();
         }
-    }
-
-    private bool IsStrike()
-    {
-        return fallenPinsThisThrow == 10;
+        else if (game.CurrentFrame == 10 && game.CurrentRoll == 3)
+        {
+            EndFrame();
+        }
+        else {
+            pinManager.RemoveFallenPins();
+        }
+        
+        bowlingBall.ResetBall();
     }
 
     private void EndFrame()
     {
-        playerScore += fallenPinsThisThrow;
-        fallenPinsThisThrow = 0;
-        currentFrame++;
         throwStatusPanel.SetActive(true);
-        pinsLoader.ResetPins();
+        pinManager.ResetPins();
+        bowlingBall.ResetBall();
     }
 }
