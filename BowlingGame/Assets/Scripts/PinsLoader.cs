@@ -3,11 +3,12 @@ using UnityEngine;
 
 public class PinsLoader : MonoBehaviour
 {
-    [SerializeField] GameObject bowlingPinPrefab;
+    [SerializeField] Pin bowlingPinPrefab;
     private const int NUM_PIN_ROWS = 4;
     private readonly float pinSpacing = 0.3f;
     private readonly static float pinsBaseHeight = 1.2f;
     private readonly static Vector2 pinsOriginPosition = new(0, 22);
+    private List<Pin> activePins = new();
 
     void Start()
     {
@@ -22,18 +23,19 @@ public class PinsLoader : MonoBehaviour
         }
     }
 
-    void InstantiatePins(List<List<Vector3>> pinPositions)
+    private void InstantiatePins(List<List<Vector3>> pinPositions)
     {
         foreach (List<Vector3> row in pinPositions)
         {
             foreach (Vector3 position in row)
             {
-                Instantiate(bowlingPinPrefab, position, Quaternion.identity);
+                Pin newPin = Instantiate(bowlingPinPrefab, position, Quaternion.identity);
+                activePins.Add(newPin);
             }
         }
     }
 
-    List<List<Vector3>> CalculatePositions()
+    private List<List<Vector3>> CalculatePositions()
     {
         List<List<Vector3>> positions = new();
 
@@ -53,5 +55,13 @@ public class PinsLoader : MonoBehaviour
         }
 
         return positions;
+    }
+
+    public void ResetPins()
+    {
+        foreach (Pin pin in activePins)
+        {
+            pin.ResetPin();
+        }
     }
 }

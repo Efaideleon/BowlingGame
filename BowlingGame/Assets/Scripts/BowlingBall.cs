@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class BowlingBall : Chargeable 
@@ -6,13 +7,15 @@ public class BowlingBall : Chargeable
     [SerializeField] float forceMultiplier = 20f;
     [SerializeField] float spinMultiplier = 10f;
     [SerializeField] float maxChargeTime = 2;
-    private Rigidbody rb;
+    private new Rigidbody rigidbody;
     private float chargeStartTime;
     private bool isCharging = false;
+    private Vector3 initialPosition;
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        initialPosition = transform.position;
+        rigidbody = GetComponent<Rigidbody>();
     }
 
     public override void StartCharging()
@@ -42,8 +45,8 @@ public class BowlingBall : Chargeable
 
     private void ApplyForcesToBall(Vector3 throwForce, Vector3 spinTorque)
     {
-        rb.AddForce(throwForce, ForceMode.Impulse);
-        rb.AddTorque(spinTorque);
+        rigidbody.AddForce(throwForce, ForceMode.Impulse);
+        rigidbody.AddTorque(spinTorque);
     }
 
     public override void ReleaseCharge()
@@ -53,12 +56,32 @@ public class BowlingBall : Chargeable
             (Vector3 throwForce, Vector3 spinTorque) = CalculateReleaseForces();
             ApplyForcesToBall(throwForce, spinTorque);
             isCharging = false;
+            StartCoroutine(CheckForFrameEnd());
         }
     }
 
     public override float GetChargePercentage()
     {
-        Debug.Log(GetCurrentCharge() / maxChargeTime);
         return Mathf.Clamp01(GetCurrentCharge() / maxChargeTime);
+    }
+
+    private IEnumerator CheckForFrameEnd()
+    {
+       yield return new WaitForSeconds(0.5f); 
+
+       while(rigidbody.linearVelocity.magnitude > 0.2f)
+       {
+            yield return null;
+       }
+
+       GameManager.Instance.UpdateGameState();
+       ResetBall();
+    }
+
+    public void ResetBall()
+    {
+        transform.SetPositionAndRotation(initialPosition, Quaternion.identity);
+        rigidbody.linearVelocity = Vector3.zero;
+        rigidbody.angularVelocity = Vector3.zero;
     }
 }
