@@ -87,6 +87,6 @@ public class BowlingBall : Chargeable
     {
         rigidbody.isKinematic = true;
         transform.parent = parent;
-        transform.SetLocalPositionAndRotation(new Vector3(0, 0.95f, 0.37f), Quaternion.identity);
+        transform.SetLocalPositionAndRotation(new Vector3(0, 0.5f, 0.37f), Quaternion.identity);
     } 
 }
