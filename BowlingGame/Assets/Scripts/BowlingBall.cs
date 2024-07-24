@@ -1,3 +1,4 @@
+using UnityEditor.Callbacks;
 using UnityEngine;
 
 public class BowlingBall : Chargeable 
@@ -10,7 +11,8 @@ public class BowlingBall : Chargeable
     private float chargeStartTime;
     private bool isCharging = false;
     private Vector3 initialPosition;
-    
+    private Vector3 throwForce;
+    private Vector3 spinTorque;
     void Start()
     {
         initialPosition = transform.position;
@@ -52,11 +54,16 @@ public class BowlingBall : Chargeable
     {
         if (isCharging)
         {
-            (Vector3 throwForce, Vector3 spinTorque) = CalculateReleaseForces();
-            ApplyForcesToBall(throwForce, spinTorque);
+            (throwForce, spinTorque) = CalculateReleaseForces();
             isCharging = false;
-            gameManager.CheckPinsAfterThrow(); 
         }
+    }
+
+    public void Throw()
+    {
+        rigidbody.isKinematic = false;
+        ApplyForcesToBall(throwForce, spinTorque);
+        gameManager.CheckPinsAfterThrow(); 
     }
 
     public override float GetChargePercentage()
@@ -70,4 +77,11 @@ public class BowlingBall : Chargeable
         rigidbody.linearVelocity = Vector3.zero;
         rigidbody.angularVelocity = Vector3.zero;
     }
+
+    public void OnHold(Transform parent)
+    {
+        rigidbody.isKinematic = true;
+        transform.parent = parent;
+        transform.SetLocalPositionAndRotation(new Vector3(0, 0.95f, 0.37f), Quaternion.identity);
+    } 
 }

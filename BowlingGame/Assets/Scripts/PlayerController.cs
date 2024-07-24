@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private Chargeable bowlingBall;
+    [SerializeField] private Player player;
     [SerializeField] private GameManager gameManager;
     private PlayerInputActions playerInputActions;
     private bool isCharging = false;
@@ -18,40 +18,53 @@ public class PlayerController : MonoBehaviour
         playerInputActions.Player.Enable();
         playerInputActions.Player.Charge.started += OnPlayerChargeStarted;
         playerInputActions.Player.Charge.canceled += OnPlayerChargeCanceled;
+        playerInputActions.Player.PickUp.started += OnPlayerPickUpStarted;
     }
 
     private void OnDisable()
     {
         playerInputActions.Player.Charge.started -= OnPlayerChargeStarted;
         playerInputActions.Player.Charge.canceled -= OnPlayerChargeCanceled;
+        playerInputActions.Player.PickUp.started -= OnPlayerPickUpStarted;
         playerInputActions.Player.Disable();
     }
 
     private void OnPlayerChargeStarted(InputAction.CallbackContext context)
     {
-        if (bowlingBall != null && gameManager.CanThrow())
+        if (player != null && gameManager.CanThrow())
         {
-            bowlingBall.StartCharging();
+            player.StartCharging();
             isCharging = true;
             gameManager.StartCharging();
         } 
         else 
         {
-            Debug.LogError("Error: bowlingBall has not been assigned to PlayerController");
+            Debug.LogError("Error: Player has not been assigned to PlayerController");
         }
     }
 
     private void OnPlayerChargeCanceled(InputAction.CallbackContext context)
     {
-        if (bowlingBall != null && isCharging)
+        if (player != null && isCharging)
         {
-            bowlingBall.ReleaseCharge();
+            player.ReleaseCharge();
             isCharging = false;
         } 
         else 
         {
-            Debug.LogError("Error: bowlingBall has not been assigned to PlayerController");
+            Debug.LogError("Error: Player has not been assigned to PlayerController");
         }
+    }
 
+    private void OnPlayerPickUpStarted(InputAction.CallbackContext context)
+    {
+        if (player != null)
+        {
+            player.HoldBowl();
+        }
+        else
+        {
+            Debug.LogError("Error: Player has not been assigned");
+        }
     }
 }
