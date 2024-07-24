@@ -13,10 +13,15 @@ public class BowlingBall : Chargeable
     private Vector3 initialPosition;
     private Vector3 throwForce;
     private Vector3 spinTorque;
+
+    void Awake()
+    {
+        rigidbody = GetComponent<Rigidbody>();
+    }
+    
     void Start()
     {
         initialPosition = transform.position;
-        rigidbody = GetComponent<Rigidbody>();
     }
 
     public override void StartCharging()

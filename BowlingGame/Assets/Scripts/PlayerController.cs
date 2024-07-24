@@ -18,14 +18,12 @@ public class PlayerController : MonoBehaviour
         playerInputActions.Player.Enable();
         playerInputActions.Player.Charge.started += OnPlayerChargeStarted;
         playerInputActions.Player.Charge.canceled += OnPlayerChargeCanceled;
-        playerInputActions.Player.PickUp.started += OnPlayerPickUpStarted;
     }
 
     private void OnDisable()
     {
         playerInputActions.Player.Charge.started -= OnPlayerChargeStarted;
         playerInputActions.Player.Charge.canceled -= OnPlayerChargeCanceled;
-        playerInputActions.Player.PickUp.started -= OnPlayerPickUpStarted;
         playerInputActions.Player.Disable();
     }
 
@@ -53,18 +51,6 @@ public class PlayerController : MonoBehaviour
         else 
         {
             Debug.LogError("Error: Player has not been assigned to PlayerController");
-        }
-    }
-
-    private void OnPlayerPickUpStarted(InputAction.CallbackContext context)
-    {
-        if (player != null)
-        {
-            player.HoldBowl();
-        }
-        else
-        {
-            Debug.LogError("Error: Player has not been assigned");
         }
     }
 }

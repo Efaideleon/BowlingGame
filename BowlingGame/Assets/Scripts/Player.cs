@@ -9,11 +9,6 @@ public class Player : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
-    }
-
-    public void HoldBowl()
-    {
-        animator.SetTrigger("PickUp");
         bowlingBall.OnHold(ballHoldPosition);
     }
 
