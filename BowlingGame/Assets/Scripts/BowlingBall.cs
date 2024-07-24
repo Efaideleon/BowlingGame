@@ -10,18 +10,12 @@ public class BowlingBall : Chargeable
     private new Rigidbody rigidbody;
     private float chargeStartTime;
     private bool isCharging = false;
-    private Vector3 initialPosition;
     private Vector3 throwForce;
     private Vector3 spinTorque;
 
     void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
-    }
-    
-    void Start()
-    {
-        initialPosition = transform.position;
     }
 
     public override void StartCharging()
@@ -76,17 +70,12 @@ public class BowlingBall : Chargeable
         return Mathf.Clamp01(GetCurrentCharge() / maxChargeTime);
     }
 
-    public void ResetBall()
-    {
-        transform.SetPositionAndRotation(initialPosition, Quaternion.identity);
-        rigidbody.linearVelocity = Vector3.zero;
-        rigidbody.angularVelocity = Vector3.zero;
-    }
-
     public void OnHold(Transform parent)
     {
         rigidbody.isKinematic = true;
         transform.parent = parent;
         transform.SetLocalPositionAndRotation(new Vector3(0, 0.5f, 0.37f), Quaternion.identity);
+        rigidbody.linearVelocity = Vector3.zero;
+        rigidbody.angularVelocity = Vector3.zero;
     } 
 }

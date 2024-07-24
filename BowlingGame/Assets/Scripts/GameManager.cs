@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private GameObject throwStatusPanel;
     [SerializeField] private PinManager pinManager;
-    [SerializeField] private BowlingBall bowlingBall;
+    [SerializeField] private Player player;
     [SerializeField] private BowlingViewModel viewModel;
 
     private void Start()
@@ -66,14 +66,14 @@ public class GameManager : MonoBehaviour
             pinManager.RemoveFallenPins();
         }
 
-        bowlingBall.ResetBall();
+        player.HoldBall();
     }
 
     private void EndFrame()
     {
         throwStatusPanel.SetActive(true);
         pinManager.ResetPins();
-        bowlingBall.ResetBall();
+        player.HoldBall();
     }
 
     private void HandleGameOver()

@@ -17,6 +17,12 @@ public class Player : MonoBehaviour
         bowlingBall.StartCharging();
     }
 
+    public void HoldBall()
+    {
+        animator.SetTrigger("HoldBall");
+        bowlingBall.OnHold(ballHoldPosition);
+    }
+
     public void ReleaseCharge()
     {
         animator.SetTrigger("Throw");
