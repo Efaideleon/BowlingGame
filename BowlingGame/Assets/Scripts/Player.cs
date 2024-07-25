@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform swingBallPosition;
     [SerializeField] private Animator animator;
     private CharacterController characterController;
-    private readonly float speed = 6;
+    private readonly float speed = 30;
     private Vector3 moveDirection = Vector3.zero;
 
     void Start()
