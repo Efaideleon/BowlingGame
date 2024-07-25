@@ -5,6 +5,7 @@ public class Pin : MonoBehaviour
     private Vector3 initialPosition; 
     private new Rigidbody rigidbody;
     public bool IsFallen => transform.up.y < 0.5f;
+    public bool IsSettled => rigidbody.linearVelocity.magnitude < 0.4;
 
     void Start()
     {

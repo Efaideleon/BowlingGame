@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -5,10 +7,12 @@ public class PinManager : MonoBehaviour
 {
     [SerializeField] Pin bowlingPinPrefab;
     private const int NUM_PIN_ROWS = 4;
+    private const float PIN_SETTLE_TIME = 2f;
     private readonly float pinSpacing = 0.3f;
     private readonly static float pinsBaseHeight = 1.2f;
     private readonly static Vector2 pinsOriginPosition = new(0, 22);
     private readonly List<Pin> pins = new();
+    public event Action OnPinsSettled;
 
     void Start()
     {
@@ -91,6 +95,38 @@ public class PinManager : MonoBehaviour
         foreach (Pin pin in pins)
         {
             pin.ResetPin();
+        }
+    }
+
+    public void CheckForPinsToSettle()
+    {
+        StartCoroutine(WaitForPinsToSettle());
+    }
+
+    private IEnumerator WaitForPinsToSettle()
+    {
+        yield return new WaitForSeconds(PIN_SETTLE_TIME);
+        bool pinsSettled = false;
+
+        foreach (Pin pin in pins)
+        {
+            if (pin.IsSettled)
+            {
+                pinsSettled = true;
+            }
+            else
+            {
+                pinsSettled = false;
+            }
+        }
+
+        if (pinsSettled)
+        {
+            OnPinsSettled.Invoke();
+        }
+        else
+        {
+            StartCoroutine(WaitForPinsToSettle());
         }
     }
 }
