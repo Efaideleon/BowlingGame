@@ -3,6 +3,6 @@ using UnityEngine;
 public interface IChargeable
 {
     void StartCharging();
-    void ReleaseCharge();
+    void StopCharging();
     float GetChargePercentage();
 }

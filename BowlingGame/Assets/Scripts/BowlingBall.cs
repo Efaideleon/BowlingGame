@@ -10,18 +10,12 @@ public class BowlingBall : Chargeable
     private new Rigidbody rigidbody;
     private float chargeStartTime;
     private bool isCharging = false;
-    private Vector3 initialPosition;
     private Vector3 throwForce;
     private Vector3 spinTorque;
 
     void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
-    }
-    
-    void Start()
-    {
-        initialPosition = transform.position;
     }
 
     public override void StartCharging()
@@ -40,7 +34,6 @@ public class BowlingBall : Chargeable
     {
         float chargeDuration = GetCurrentCharge();
         float power = Mathf.Clamp01(chargeDuration / maxChargeTime);
-
         Vector3 throwForce = forceMultiplier * power * Vector3.forward;
 
         float spin = Input.GetAxis("Horizontal");
@@ -55,7 +48,7 @@ public class BowlingBall : Chargeable
         rigidbody.AddTorque(spinTorque);
     }
 
-    public override void ReleaseCharge()
+    public override void StopCharging()
     {
         if (isCharging)
         {
@@ -64,29 +57,32 @@ public class BowlingBall : Chargeable
         }
     }
 
-    public void Throw()
-    {
-        rigidbody.isKinematic = false;
-        ApplyForcesToBall(throwForce, spinTorque);
-        gameManager.CheckPinsAfterThrow(); 
-    }
-
     public override float GetChargePercentage()
     {
         return Mathf.Clamp01(GetCurrentCharge() / maxChargeTime);
     }
 
-    public void ResetBall()
-    {
-        transform.SetPositionAndRotation(initialPosition, Quaternion.identity);
-        rigidbody.linearVelocity = Vector3.zero;
-        rigidbody.angularVelocity = Vector3.zero;
-    }
-
-    public void OnHold(Transform parent)
+    public void OnHold(Transform holdParent)
     {
         rigidbody.isKinematic = true;
-        transform.parent = parent;
-        transform.SetLocalPositionAndRotation(new Vector3(0, 0.5f, 0.37f), Quaternion.identity);
+        transform.parent = holdParent;
+        transform.SetLocalPositionAndRotation(new Vector3(0f, 0f, 0f), Quaternion.identity);
+        rigidbody.linearVelocity = Vector3.zero;
+        rigidbody.angularVelocity = Vector3.zero;
     } 
+
+    public void SwingPosition(Transform swingPosition)
+    {
+        transform.parent = swingPosition;
+        transform.SetLocalPositionAndRotation(new Vector3(0f, 0f, 0f), Quaternion.identity);
+    }
+
+    public void Throw()
+    {
+        rigidbody.isKinematic = false;
+        transform.parent = null;
+        ApplyForcesToBall(throwForce, spinTorque);
+        gameManager.CheckPinsAfterThrow(); 
+    }
+
 }
