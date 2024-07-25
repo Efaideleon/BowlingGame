@@ -42,7 +42,6 @@ public class Player : MonoBehaviour
 
     public void Move(Vector2 moveInput)
     {
-        Debug.Log("move direction: " + moveInput.x);
         moveDirection = speed * Time.deltaTime * new Vector3(moveInput.x, 0f, 0f);
     }
 
