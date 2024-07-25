@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     {
         viewModel.OnGameStateChange += UpdateGUI;
         viewModel.OnGameOver += HandleGameOver;
+        pinManager.OnPinsSettled += HandlePinSettled;
         UpdateGUI();
     }
 
@@ -23,6 +24,7 @@ public class GameManager : MonoBehaviour
     {
         viewModel.OnGameStateChange -= UpdateGUI;
         viewModel.OnGameOver -= HandleGameOver;
+        pinManager.OnPinsSettled -= HandlePinSettled;
     }
 
     public bool CanThrow => !viewModel.IsGameOver;
@@ -36,11 +38,20 @@ public class GameManager : MonoBehaviour
         currentRollText.text = "Roll: " + viewModel.CurrentRoll;
     }
 
-    public void CheckPinsAfterThrow() => StartCoroutine(WaitAndCountPins());
+    public void CheckPinsAfterThrow()
+    {
+        StartCoroutine(WaitAndCountPins());
+    } 
 
     private IEnumerator WaitAndCountPins()
     {
         yield return new WaitForSeconds(8f);
+        pinManager.CheckForPinsToSettle();
+    }
+
+    private void HandlePinSettled()
+    {
+        Debug.Log("Pins have settled");   
         UpdateGameState(pinManager.CountFallenPins());
     }
 

@@ -2052,6 +2052,7 @@ MonoBehaviour:
   m_Script: {fileID: 1756132029}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Entries: []
 --- !u!4 &1022870937
 Transform:
   m_ObjectHideFlags: 19
@@ -2722,6 +2723,7 @@ MonoBehaviour:
   m_Script: {fileID: 1843483560}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Entries: []
 --- !u!4 &1574223345
 Transform:
   m_ObjectHideFlags: 19
@@ -5701,6 +5703,7 @@ GameObject:
   - component: {fileID: 7446696704757165181}
   - component: {fileID: 3395123264527196386}
   - component: {fileID: 4498490987210953927}
+  - component: {fileID: 7446696704757165182}
   m_Layer: 0
   m_Name: Lane Ball Catcher R
   m_TagString: Untagged
@@ -15989,6 +15992,7 @@ GameObject:
   - component: {fileID: 8891531020591764753}
   - component: {fileID: 3374128254653874167}
   - component: {fileID: 6247871793584124209}
+  - component: {fileID: 8891531020591764754}
   m_Layer: 0
   m_Name: Lane Metal Side L
   m_TagString: Untagged
@@ -19058,6 +19062,7 @@ GameObject:
   - component: {fileID: 7911649069538535298}
   - component: {fileID: 5558573231837338053}
   - component: {fileID: 2463839954437084459}
+  - component: {fileID: 7911649069538535299}
   m_Layer: 0
   m_Name: Lane Metal Side R
   m_TagString: Untagged
@@ -21755,6 +21760,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7911649069538535298}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &7446696704757165182
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 692692909764691191}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.5170584, y: 0.14143406, z: 18.763996}
+  m_Center: {x: 0.0013954788, y: -0.010187456, z: -0.08321524}
 --- !u!4 &7452867838682714294
 Transform:
   m_ObjectHideFlags: 0
@@ -22512,6 +22538,7 @@ GameObject:
   - component: {fileID: 4695574269704379269}
   - component: {fileID: 8940945299417450189}
   - component: {fileID: 769891825994328901}
+  - component: {fileID: 8940945299417450190}
   m_Layer: 0
   m_Name: Lane Ball Catcher L
   m_TagString: Untagged
@@ -22804,6 +22831,27 @@ Transform:
   - {fileID: 7446696704757165181}
   m_Father: {fileID: 4336080113957249093}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &7911649069538535299
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6207139865652147785}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.590606, y: 0.85330915, z: 18.872574}
+  m_Center: {x: 1.360582, y: 0.42665458, z: 13.899725}
 --- !u!4 &7913201332513848490
 Transform:
   m_ObjectHideFlags: 0
@@ -25120,6 +25168,27 @@ Transform:
   - {fileID: 4695574269704379269}
   m_Father: {fileID: 4336080113957249093}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &8891531020591764754
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4781515830727272502}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.590606, y: 0.85330915, z: 18.872574}
+  m_Center: {x: -1.360582, y: 0.42665458, z: 13.899725}
 --- !u!4 &8904208500574928693
 Transform:
   m_ObjectHideFlags: 0
@@ -25286,6 +25355,27 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7737722264637304086}
   m_Mesh: {fileID: -432983320495150205, guid: 7c7d4ae0eb4638c4cb497d7824bbc63a, type: 3}
+--- !u!65 &8940945299417450190
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7737722264637304086}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.5170584, y: 0.14143404, z: 18.763996}
+  m_Center: {x: 0.00004194677, y: -0.008837499, z: -0.09449434}
 --- !u!4 &8957115169871887035
 Transform:
   m_ObjectHideFlags: 0

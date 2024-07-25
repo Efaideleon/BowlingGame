@@ -12,6 +12,7 @@ public class BowlingBall : Chargeable
     private bool isCharging = false;
     private Vector3 throwForce;
     private Vector3 spinTorque;
+    public bool IsSettled => rigidbody.linearVelocity.magnitude < 0.4f;
 
     void Awake()
     {
@@ -84,5 +85,4 @@ public class BowlingBall : Chargeable
         ApplyForcesToBall(throwForce, spinTorque);
         gameManager.CheckPinsAfterThrow(); 
     }
-
 }
