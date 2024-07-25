@@ -6,9 +6,8 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI currentFrameText;
     [SerializeField] private TextMeshProUGUI currentRollText;
-    [SerializeField] private TextMeshProUGUI throwStatusText;
     [SerializeField] private TextMeshProUGUI scoreText;
-    [SerializeField] private GameObject throwStatusPanel;
+    [SerializeField] private GameObject ReadyPanel;
     [SerializeField] private PinManager pinManager;
     [SerializeField] private Player player;
     [SerializeField] private BowlingViewModel viewModel;
@@ -20,37 +19,29 @@ public class GameManager : MonoBehaviour
         UpdateGUI();
     }
 
-    public bool CanThrow() => !viewModel.IsGameOver;
-
-    public void StartCharging()
+    private void OnDestroy()
     {
-        throwStatusPanel.SetActive(false);
+        viewModel.OnGameStateChange -= UpdateGUI;
+        viewModel.OnGameOver -= HandleGameOver;
     }
+
+    public bool CanThrow => !viewModel.IsGameOver;
+
+    public void StartCharging() => ReadyPanel.SetActive(false);
 
     private void UpdateGUI()
     {
         currentFrameText.text = "Frame: " + viewModel.CurrentFrame;
         scoreText.text = "Score: " + viewModel.Score;
         currentRollText.text = "Roll: " + viewModel.CurrentRoll;
-        UpdateThrowStatus("Ready!");
     }
 
-    private void UpdateThrowStatus(string status)
-    {
-        throwStatusText.text = status;
-    }
-
-    public void CheckPinsAfterThrow()
-    {
-        StartCoroutine(WaitAndCountPins());
-    }
+    public void CheckPinsAfterThrow() => StartCoroutine(WaitAndCountPins());
 
     private IEnumerator WaitAndCountPins()
     {
         yield return new WaitForSeconds(8f);
-
-        int pinsKnocked = pinManager.CountFallenPins();
-        UpdateGameState(pinsKnocked);
+        UpdateGameState(pinManager.CountFallenPins());
     }
 
     private void UpdateGameState(int pinsKnocked)
@@ -65,13 +56,13 @@ public class GameManager : MonoBehaviour
         {
             pinManager.RemoveFallenPins();
         }
-
+        
         player.HoldBall();
     }
 
     private void EndFrame()
     {
-        throwStatusPanel.SetActive(true);
+        ReadyPanel.SetActive(true);
         pinManager.ResetPins();
         player.HoldBall();
     }
@@ -79,11 +70,5 @@ public class GameManager : MonoBehaviour
     private void HandleGameOver()
     {
         Debug.Log("Game Over! Final Score: " + viewModel.Score);
-    }
-
-    private void OnDestroy()
-    {
-        viewModel.OnGameStateChange -= UpdateGUI;
-        viewModel.OnGameOver -= HandleGameOver;
     }
 }
