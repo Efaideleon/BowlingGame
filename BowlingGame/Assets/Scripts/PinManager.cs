@@ -62,6 +62,9 @@ public class PinManager : MonoBehaviour
             {
                 pin.gameObject.SetActive(false);
             }
+            else {
+                pin.ResetPin();
+            }
         }
     }
 
