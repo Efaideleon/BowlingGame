@@ -11,12 +11,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PinManager pinManager;
     [SerializeField] private Player player;
     [SerializeField] private BowlingViewModel viewModel;
+    [SerializeField] private BowlingBall bowlingBall;
 
     private void Start()
     {
         viewModel.OnGameStateChange += UpdateGUI;
         viewModel.OnGameOver += HandleGameOver;
         pinManager.OnPinsSettled += HandlePinSettled;
+        bowlingBall.OnBallThrown += HandleBallThrown;
         UpdateGUI();
     }
 
@@ -25,6 +27,7 @@ public class GameManager : MonoBehaviour
         viewModel.OnGameStateChange -= UpdateGUI;
         viewModel.OnGameOver -= HandleGameOver;
         pinManager.OnPinsSettled -= HandlePinSettled;
+        bowlingBall.OnBallThrown -= HandleBallThrown;
     }
 
     public bool CanThrow => !viewModel.IsGameOver;
@@ -38,7 +41,7 @@ public class GameManager : MonoBehaviour
         currentRollText.text = "Roll: " + viewModel.CurrentRoll;
     }
 
-    public void CheckPinsAfterThrow()
+    public void HandleBallThrown()
     {
         StartCoroutine(WaitAndCountPins());
     } 

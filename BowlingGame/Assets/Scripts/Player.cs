@@ -13,26 +13,25 @@ public class Player : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
-        bowlingBall.OnHold(holdBallPosition);
+        bowlingBall.Hold(holdBallPosition);
         characterController = GetComponent<CharacterController>();
     }
 
     public void HoldBall()
     {
         animator.SetTrigger("HoldBall");
-        bowlingBall.OnHold(holdBallPosition);
+        bowlingBall.Hold(holdBallPosition);
     }
 
-    public void StartCharging()
+    public void Charge()
     {
-        bowlingBall.StartCharging();
+        bowlingBall.Charge();
     }
 
-    public void StopCharging()
+    public void Swing()
     {
         animator.SetTrigger("Throw");
-        bowlingBall.StopCharging();
-        bowlingBall.SwingPosition(swingBallPosition);
+        bowlingBall.Swing(swingBallPosition);
     }
 
     public void Throw()

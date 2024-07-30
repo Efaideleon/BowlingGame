@@ -5,7 +5,7 @@ public class PowerBar : MonoBehaviour
 {
     [SerializeField] private Image fillImage;
     [SerializeField] private GameObject powerBarContainer;
-    [SerializeField] private Chargeable bowlingBall;
+    [SerializeField] private BowlingBall bowlingBall;
 
     void Start()
     {
@@ -14,10 +14,10 @@ public class PowerBar : MonoBehaviour
 
     void Update()
     {
-        if (bowlingBall.GetChargePercentage() > 0)
+        if (bowlingBall.ChargePercentage > 0)
         {
             SetPowerBarVisibility(true);
-            fillImage.fillAmount = bowlingBall.GetChargePercentage();
+            fillImage.fillAmount = bowlingBall.ChargePercentage;
         }
         else 
         {

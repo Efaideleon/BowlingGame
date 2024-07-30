@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour
     {
         if (player != null && gameManager.CanThrow)
         {
-            player.StartCharging();
+            player.Charge();
             isCharging = true;
             gameManager.StartCharging();
         } 
@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour
     {
         if (player != null && isCharging)
         {
-            player.StopCharging();
+            player.Swing();
             isCharging = false;
         } 
         else 
