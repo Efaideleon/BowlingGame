@@ -3,27 +3,27 @@ using UnityEngine;
 
 public class BowlingViewModel : MonoBehaviour
 {
-    private BowlingGame game;
+    private BowlingGame _game;
 
     public event Action OnGameStateChange;
     public event Action OnGameOver;
 
-    public int CurrentFrame => game.CurrentFrame;
-    public int CurrentRoll => game.CurrentRoll;
-    public int Score => game.Score;
-    public bool IsGameOver => game.IsGameOver;
+    public int CurrentFrame => _game.CurrentFrame;
+    public int CurrentRoll => _game.CurrentRoll;
+    public int Score => _game.Score;
+    public bool IsGameOver => _game.IsGameOver;
 
     private void Awake()
     {
-        game = new BowlingGame();
+        _game = new BowlingGame();
     }
 
     public void Roll(int pinsKnocked)
     {
-        game.Roll(pinsKnocked);
+        _game.Roll(pinsKnocked);
         OnGameStateChange?.Invoke();
 
-        if (game.IsGameOver)
+        if (_game.IsGameOver)
         {
             OnGameOver.Invoke();
         }
@@ -31,11 +31,11 @@ public class BowlingViewModel : MonoBehaviour
 
     public bool ShouldResetPins()
     {
-        return game.CurrentRoll == 1 || (game.CurrentFrame == 10 && game.CurrentRoll == 3);    
+        return _game.CurrentRoll == 1 || (_game.CurrentFrame == 10 && _game.CurrentRoll == 3);
     }
 
     public bool ShouldRemoveFallenPins()
     {
-        return !ShouldResetPins() && !game.IsGameOver;
+        return !ShouldResetPins() && !_game.IsGameOver;
     }
 }

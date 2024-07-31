@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace StateMachine
 {
     public interface IState<T>
@@ -12,7 +10,7 @@ namespace StateMachine
     public class StateMachine<T>
     {
         private readonly T _owner;
-        private IState<T> currentState;
+        private IState<T> _currentState;
 
         public StateMachine(T owner)
         {
@@ -21,10 +19,10 @@ namespace StateMachine
     
         public void ChangeState(IState<T> newState)
         {
-            currentState?.Exit(_owner);
-            currentState = newState;
-            currentState.Enter(_owner);
-            currentState.Execute(_owner);
+            _currentState?.Exit(_owner);
+            _currentState = newState;
+            _currentState.Enter(_owner);
+            _currentState.Execute(_owner);
         }
     }
 }

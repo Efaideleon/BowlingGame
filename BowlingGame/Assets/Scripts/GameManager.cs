@@ -4,41 +4,41 @@ using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI currentFrameText;
-    [SerializeField] private TextMeshProUGUI currentRollText;
-    [SerializeField] private TextMeshProUGUI scoreText;
-    [SerializeField] private GameObject ReadyPanel;
-    [SerializeField] private PinManager pinManager;
-    [SerializeField] private Player player;
-    [SerializeField] private BowlingViewModel viewModel;
-    [SerializeField] private BowlingBall bowlingBall;
+    [SerializeField] private TextMeshProUGUI _currentFrameText;
+    [SerializeField] private TextMeshProUGUI _currentRollText;
+    [SerializeField] private TextMeshProUGUI _scoreText;
+    [SerializeField] private GameObject _readyPanel;
+    [SerializeField] private PinManager _pinManager;
+    [SerializeField] private Player _player;
+    [SerializeField] private BowlingViewModel _viewModel;
+    [SerializeField] private BowlingBall _bowlingBall;
 
     private void Start()
     {
-        viewModel.OnGameStateChange += UpdateGUI;
-        viewModel.OnGameOver += HandleGameOver;
-        pinManager.OnPinsSettled += HandlePinSettled;
-        bowlingBall.OnBallThrown += HandleBallThrown;
+        _viewModel.OnGameStateChange += UpdateGUI;
+        _viewModel.OnGameOver += HandleGameOver;
+        _pinManager.OnPinsSettled += HandlePinSettled;
+        _bowlingBall.OnBallThrown += HandleBallThrown;
         UpdateGUI();
     }
 
     private void OnDestroy()
     {
-        viewModel.OnGameStateChange -= UpdateGUI;
-        viewModel.OnGameOver -= HandleGameOver;
-        pinManager.OnPinsSettled -= HandlePinSettled;
-        bowlingBall.OnBallThrown -= HandleBallThrown;
+        _viewModel.OnGameStateChange -= UpdateGUI;
+        _viewModel.OnGameOver -= HandleGameOver;
+        _pinManager.OnPinsSettled -= HandlePinSettled;
+        _bowlingBall.OnBallThrown -= HandleBallThrown;
     }
 
-    public bool CanThrow => !viewModel.IsGameOver;
+    public bool CanThrow => !_viewModel.IsGameOver;
 
-    public void StartCharging() => ReadyPanel.SetActive(false);
+    public void StartCharging() => _readyPanel.SetActive(false);
 
     private void UpdateGUI()
     {
-        currentFrameText.text = "Frame: " + viewModel.CurrentFrame;
-        scoreText.text = "Score: " + viewModel.Score;
-        currentRollText.text = "Roll: " + viewModel.CurrentRoll;
+        _currentFrameText.text = "Frame: " + _viewModel.CurrentFrame;
+        _scoreText.text = "Score: " + _viewModel.Score;
+        _currentRollText.text = "Roll: " + _viewModel.CurrentRoll;
     }
 
     public void HandleBallThrown()
@@ -49,40 +49,40 @@ public class GameManager : MonoBehaviour
     private IEnumerator WaitAndCountPins()
     {
         yield return new WaitForSeconds(8f);
-        pinManager.CheckForPinsToSettle();
+        _pinManager.CheckForPinsToSettle();
     }
 
     private void HandlePinSettled()
     {
         Debug.Log("Pins have settled");   
-        UpdateGameState(pinManager.CountFallenPins());
+        UpdateGameState(_pinManager.CountFallenPins());
     }
 
     private void UpdateGameState(int pinsKnocked)
     {
-        viewModel.Roll(pinsKnocked);
+        _viewModel.Roll(pinsKnocked);
 
-        if (viewModel.ShouldResetPins())
+        if (_viewModel.ShouldResetPins())
         {
             EndFrame();
         }
-        else if (viewModel.ShouldRemoveFallenPins())
+        else if (_viewModel.ShouldRemoveFallenPins())
         {
-            pinManager.RemoveFallenPins();
+            _pinManager.RemoveFallenPins();
         }
         
-        player.HoldBall();
+        _player.HoldBall();
     }
 
     private void EndFrame()
     {
-        ReadyPanel.SetActive(true);
-        pinManager.ResetPins();
-        player.HoldBall();
+        _readyPanel.SetActive(true);
+        _pinManager.ResetPins();
+        _player.HoldBall();
     }
 
     private void HandleGameOver()
     {
-        Debug.Log("Game Over! Final Score: " + viewModel.Score);
+        Debug.Log("Game Over! Final Score: " + _viewModel.Score);
     }
 }

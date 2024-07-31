@@ -9,10 +9,10 @@ public class PinManager : MonoBehaviour
     [SerializeField] Pin bowlingPinPrefab;
     private const int NUM_PIN_ROWS = 4;
     private const float PIN_SETTLE_TIME = 1f;
-    private readonly float pinSpacing = 0.3f;
-    private readonly static float pinsBaseHeight = 1.2f;
-    private readonly static Vector2 pinsOriginPosition = new(0, 22);
-    private readonly List<Pin> pins = new();
+    private readonly float _pinSpacing = 0.3f;
+    private readonly static float _pinsBaseHeight = 1.2f;
+    private readonly static Vector2 _pinsOriginPosition = new(0, 22);
+    private readonly List<Pin> _pins = new();
     public event Action OnPinsSettled;
 
     void Start()
@@ -22,20 +22,20 @@ public class PinManager : MonoBehaviour
 
     private void InstantiatePins(IEnumerable<Vector3> pinPositions)
     {
-        pins.AddRange(pinPositions.Select(position => Instantiate(bowlingPinPrefab, position, Quaternion.identity)));
+        _pins.AddRange(pinPositions.Select(position => Instantiate(bowlingPinPrefab, position, Quaternion.identity)));
     }
 
     private IEnumerable<Vector3> CalculatePositions()
     {
         for (int row = 0; row < NUM_PIN_ROWS; row++)
         {
-            float xOffset = -(row * pinSpacing) / 2f;
+            float xOffset = -(row * _pinSpacing) / 2f;
 
             for (int col = 0; col <= row; col++)
             {
-                float xPos = pinsOriginPosition.x + xOffset + (col * pinSpacing);
-                float yPos = pinsOriginPosition.y + (row * pinSpacing);
-                yield return new Vector3(xPos, pinsBaseHeight, yPos);
+                float xPos = _pinsOriginPosition.x + xOffset + (col * _pinSpacing);
+                float yPos = _pinsOriginPosition.y + (row * _pinSpacing);
+                yield return new Vector3(xPos, _pinsBaseHeight, yPos);
             }
         }
     }
@@ -52,11 +52,11 @@ public class PinManager : MonoBehaviour
         }
     }
 
-    public int CountFallenPins() => pins.Count(pin => pin.IsFallen && pin.gameObject.activeSelf);
+    public int CountFallenPins() => _pins.Count(pin => pin.IsFallen && pin.gameObject.activeSelf);
 
     public void RemoveFallenPins()
     {
-        foreach (Pin pin in pins)
+        foreach (Pin pin in _pins)
         {
             if (pin.IsFallen)
             {
@@ -68,7 +68,7 @@ public class PinManager : MonoBehaviour
         }
     }
 
-    public void ResetPins() => pins.ForEach(pin => pin.ResetPin());
+    public void ResetPins() => _pins.ForEach(pin => pin.ResetPin());
 
     public void CheckForPinsToSettle() => StartCoroutine(WaitForPinsToSettle());
 
@@ -76,7 +76,7 @@ public class PinManager : MonoBehaviour
     {
         yield return new WaitForSeconds(PIN_SETTLE_TIME);
 
-        if (pins.All(pin => pin.IsSettled))
+        if (_pins.All(pin => pin.IsSettled))
         {
             OnPinsSettled.Invoke();
         }

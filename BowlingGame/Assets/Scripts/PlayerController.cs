@@ -3,42 +3,42 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private Player player;
-    [SerializeField] private GameManager gameManager;
-    private PlayerInputActions playerInputActions;
-    private bool isCharging = false;
-    private Vector2 movementInput;
+    [SerializeField] private Player _player;
+    [SerializeField] private GameManager _gameManager;
+    private PlayerInputActions _playerInputActions;
+    private bool _isCharging = false;
+    private Vector2 _movementInput;
     
     private void Awake()
     {
-        playerInputActions = new PlayerInputActions();
+        _playerInputActions = new PlayerInputActions();
     }
 
     private void OnEnable()
     {
-        playerInputActions.Player.Enable();
-        playerInputActions.Player.Charge.started += OnPlayerChargeStarted;
-        playerInputActions.Player.Charge.canceled += OnPlayerChargeCanceled;
-        playerInputActions.Player.Move.started += OnPlayerMoveStarted;
-        playerInputActions.Player.Move.canceled += OnPlayerMoveStarted;
+        _playerInputActions.Player.Enable();
+        _playerInputActions.Player.Charge.started += OnPlayerChargeStarted;
+        _playerInputActions.Player.Charge.canceled += OnPlayerChargeCanceled;
+        _playerInputActions.Player.Move.started += OnPlayerMoveStarted;
+        _playerInputActions.Player.Move.canceled += OnPlayerMoveStarted;
     }
 
     private void OnDisable()
     {
-        playerInputActions.Player.Charge.started -= OnPlayerChargeStarted;
-        playerInputActions.Player.Charge.canceled -= OnPlayerChargeCanceled;
-        playerInputActions.Player.Move.started -= OnPlayerMoveStarted;
-        playerInputActions.Player.Move.canceled -= OnPlayerMoveCanceled;
-        playerInputActions.Player.Disable();
+        _playerInputActions.Player.Charge.started -= OnPlayerChargeStarted;
+        _playerInputActions.Player.Charge.canceled -= OnPlayerChargeCanceled;
+        _playerInputActions.Player.Move.started -= OnPlayerMoveStarted;
+        _playerInputActions.Player.Move.canceled -= OnPlayerMoveCanceled;
+        _playerInputActions.Player.Disable();
     }
 
     private void OnPlayerChargeStarted(InputAction.CallbackContext context)
     {
-        if (player != null && gameManager.CanThrow)
+        if (_player != null && _gameManager.CanThrow)
         {
-            player.Charge();
-            isCharging = true;
-            gameManager.StartCharging();
+            _player.Charge();
+            _isCharging = true;
+            _gameManager.StartCharging();
         } 
         else 
         {
@@ -48,10 +48,10 @@ public class PlayerController : MonoBehaviour
 
     private void OnPlayerChargeCanceled(InputAction.CallbackContext context)
     {
-        if (player != null && isCharging)
+        if (_player != null && _isCharging)
         {
-            player.Swing();
-            isCharging = false;
+            _player.Swing();
+            _isCharging = false;
         } 
         else 
         {
@@ -61,12 +61,12 @@ public class PlayerController : MonoBehaviour
 
     private void OnPlayerMoveStarted(InputAction.CallbackContext context)
     {
-        movementInput = context.ReadValue<Vector2>();
-        player.Move(movementInput);
+        _movementInput = context.ReadValue<Vector2>();
+        _player.Move(_movementInput);
     }
 
     private void OnPlayerMoveCanceled(InputAction.CallbackContext context)
     {
-        player.Move(Vector2.zero);
+        _player.Move(Vector2.zero);
     }
 }

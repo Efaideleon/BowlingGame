@@ -49,7 +49,7 @@ public class BowlingGame
             {
                 currentRoll++;
             }
-            else 
+            else
             {
                 MoveToNextFrame();
             }
