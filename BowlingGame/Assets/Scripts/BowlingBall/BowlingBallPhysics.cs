@@ -9,7 +9,7 @@ public class BowlingBallPhysics : MonoBehaviour
     private Rigidbody _rb;
     private float _chargeStartTime;
     private bool _isCharging = false;
-    private Vector3 _throwForce;
+    public Vector3 _throwForce;
     private Vector3 _spinTorque;
 
     public bool IsSettled => _rb.linearVelocity.magnitude < 0.4f;

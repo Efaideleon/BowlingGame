@@ -8,10 +8,11 @@ public class PinManager : MonoBehaviour
 {
     [SerializeField] Pin bowlingPinPrefab;
     private const int NUM_PIN_ROWS = 4;
-    private const float PIN_SETTLE_TIME = 1f;
     private readonly float _pinSpacing = 0.3f;
     private readonly static float _pinsBaseHeight = 1.2f;
     private readonly static Vector2 _pinsOriginPosition = new(0, 22);
+
+    public readonly float pinSettleTime = 1f;
     private readonly List<Pin> _pins = new();
     public event Action OnPinsSettled;
 
@@ -74,7 +75,7 @@ public class PinManager : MonoBehaviour
 
     private IEnumerator WaitForPinsToSettle()
     {
-        yield return new WaitForSeconds(PIN_SETTLE_TIME);
+        yield return new WaitForSeconds(pinSettleTime);
 
         if (_pins.All(pin => pin.IsSettled))
         {

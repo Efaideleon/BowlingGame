@@ -7,7 +7,7 @@ public class BowlingBall: MonoBehaviour
 {
     private StateMachine<BowlingBall> _stateMachine;
 
-    public BowlingBallPhysics BowlingBallPhysics { get; private set;}
+    public BowlingBallPhysics BowlingBallPhysics { get; set;}
     public event Action OnBallThrown;
     public float ChargePercentage => BowlingBallPhysics.ChargePercentage;
 
