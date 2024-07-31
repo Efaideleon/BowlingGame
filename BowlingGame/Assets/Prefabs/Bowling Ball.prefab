@@ -14,12 +14,13 @@ GameObject:
   - component: {fileID: -8141052714570528035}
   - component: {fileID: 2359998049310088643}
   - component: {fileID: -988589569488364343}
+  - component: {fileID: 5558156059827941705}
   m_Layer: 0
   m_Name: Bowling Ball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 1
   m_IsActive: 1
 --- !u!4 &635179449794388669
 Transform:
@@ -29,13 +30,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9109956754985964422}
   serializedVersion: 2
-  m_LocalRotation: {x: -6.123234e-17, y: 1, z: 6.123234e-17, w: -3.7493994e-33}
+  m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
   m_LocalPosition: {x: -0.0049078315, y: 0.2730096, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
 --- !u!33 &4030618078417703761
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -97,7 +98,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9109956754985964422}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 5
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -123,7 +124,7 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9109956754985964422}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: cdb4c671d58474781898b7430a19a9d1, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -149,6 +150,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff53d91879fc749829bf854cef850af7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forceMultiplier: 50
-  spinMultiplier: 10
-  maxChargeTime: 2
+--- !u!114 &5558156059827941705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9109956754985964422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e9119980fc9d4c05bf71031223c20c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _forceMultiplier: 28
+  _spinMultiplier: 10
+  _maxChargeTime: 2
+  _rb: {fileID: -8141052714570528035}
+  _throwForce: {x: 0, y: 0, z: 0}

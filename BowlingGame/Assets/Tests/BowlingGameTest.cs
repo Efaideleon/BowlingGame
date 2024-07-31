@@ -3,6 +3,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 using NSubstitute;
+using UnityEngine.Scripting;
 
 public class BowlingGameTest
 {
