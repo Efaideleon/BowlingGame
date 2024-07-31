@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[RequireComponent(typeof(BowlingBall))]
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(CharacterController))]
 public class Player : MonoBehaviour
