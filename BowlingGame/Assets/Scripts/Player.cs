@@ -1,11 +1,15 @@
 using UnityEngine;
 
+[RequireComponent(typeof(BowlingBall))]
+[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(CharacterController))]
 public class Player : MonoBehaviour
 {
     [SerializeField] private BowlingBall _bowlingBall;
     [SerializeField] private Transform _holdBallPosition; 
     [SerializeField] private Transform _swingBallPosition;
     [SerializeField] private Animator _animator;
+
     private CharacterController _characterController;
     private readonly float _speed = 30;
     private Vector3 _moveDirection = Vector3.zero;

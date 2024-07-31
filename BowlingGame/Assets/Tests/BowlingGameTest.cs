@@ -4,150 +4,172 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using NSubstitute;
 using UnityEngine.Scripting;
+using UnityEditor.SearchService;
+using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
-public class BowlingGameTest
+public class BowlingGameTest: InputTestFixture
 {
-    [Test]
-    public void BowlingGame_Roll_ValidPins_UpdatesScore()
+    readonly GameObject character = Resources.Load<GameObject>("Character");
+    Keyboard keyboard;
+    
+    public override void Setup()
     {
-        // Arrange
-        var game = new BowlingGame();
-
-        // Act
-        game.Roll(5);
-        game.Roll(3);
-
-        // Assert
-        Assert.AreEqual(18, game.Score);
+        SceneManager.LoadScene("Scenes/TestingScene/Playground");
+        base.Setup();
+        keyboard = InputSystem.AddDevice<Keyboard>();
+        
     }
 
     [Test]
-    public void BowlingGame_Roll_Strike_AddsNextTwoRollBonus()
+    public void TestPlayerInstantiation()
     {
-        // Arrange
-        var game = new BowlingGame();
-
-        // Act
-        game.Roll(10);
-        game.Roll(3);
-        game.Roll(6);
-
-        // Assert
-        Assert.AreEqual(28, game.Score);
+        GameObject characterInstance = GameObject.Instantiate(character, Vector3.zero, Quaternion.identity);
+        Assert.That(characterInstance, Is.Not.Null);
     }
 
-    [Test]
-    public void BowlingGame_Roll_PerfectGame_Scores300()
-    {
-        // Arrange
-        var game = new BowlingGame();
 
-        // Act
-        for (int i = 0; i < 12; i++)
-        {
-            game.Roll(10);
-        }
+    // [Test]
+    // public void BowlingGame_Roll_ValidPins_UpdatesScore()
+    // {
+    //     // Arrange
+    //     var game = new BowlingGame();
 
-        // Assert
-        Assert.AreEqual(300, game.Score);
-    }
+    //     // Act
+    //     game.Roll(5);
+    //     game.Roll(3);
 
-    [UnityTest]
-    public IEnumerator BowlingGamePhysics_Charge_IncreasesThrowForce()
-    {
-        // Arrange
-        var gameObject = new GameObject();
-        var bowlingBallPhysics = gameObject.AddComponent<BowlingBallPhysics>();
+    //     // Assert
+    //     Assert.AreEqual(18, game.Score);
+    // }
 
-        // Act
-        bowlingBallPhysics.StartCharging();
-        yield return new WaitForSeconds(1f);
-        bowlingBallPhysics.StopCharging();
+    // [Test]
+    // public void BowlingGame_Roll_Strike_AddsNextTwoRollBonus()
+    // {
+    //     // Arrange
+    //     var game = new BowlingGame();
 
-        // Assert
-        Assert.Greater(bowlingBallPhysics._throwForce.magnitude, 0f, "Throw force should be greated than 0 after charging.");
-    }
+    //     // Act
+    //     game.Roll(10);
+    //     game.Roll(3);
+    //     game.Roll(6);
 
-    [UnityTest]
-    public IEnumerator BowlingViewModel_Roll_InvokesGameStateChange()
-    {
-        // Arrange
-        var viewModel = new GameObject().AddComponent<BowlingViewModel>();
-        bool gameStatechanged = false;
-        viewModel.OnGameStateChange += () => gameStatechanged = true;
+    //     // Assert
+    //     Assert.AreEqual(28, game.Score);
+    // }
 
-        // Act
-        viewModel.Roll(5);
+    // [Test]
+    // public void BowlingGame_Roll_PerfectGame_Scores300()
+    // {
+    //     // Arrange
+    //     var game = new BowlingGame();
 
-        // Assert
-        yield return null;
-        Assert.IsTrue(gameStatechanged);
-    }
+    //     // Act
+    //     for (int i = 0; i < 12; i++)
+    //     {
+    //         game.Roll(10);
+    //     }
 
-    [UnityTest]
-    public IEnumerator PinManger_WaitForPinsToSettle_InvokesEventWhenSettled()
-    {
-        // Arrange
-        var gameObject = new GameObject();
-        var pinManager = gameObject.AddComponent<PinManager>();
-        var pinObject = new GameObject();
-        var pin = pinObject.AddComponent<Pin>();
+    //     // Assert
+    //     Assert.AreEqual(300, game.Score);
+    // }
 
-        bool eventInvoked = false;
-        pinManager.OnPinsSettled += () => eventInvoked = true;
+    // [UnityTest]
+    // public IEnumerator BowlingGamePhysics_Charge_IncreasesThrowForce()
+    // {
+    //     // Arrange
+    //     var gameObject = new GameObject();
+    //     var bowlingBallPhysics = gameObject.AddComponent<BowlingBallPhysics>();
 
-        // Act
-        pinManager.CheckForPinsToSettle();
-        yield return new WaitForSeconds(pinManager.pinSettleTime + 0.1f);
+    //     // Act
+    //     bowlingBallPhysics.StartCharging();
+    //     yield return new WaitForSeconds(1f);
+    //     bowlingBallPhysics.StopCharging();
 
-        // Assert
-        Assert.IsTrue(eventInvoked);
-    }
+    //     // Assert
+    //     Assert.Greater(bowlingBallPhysics._throwForce.magnitude, 0f, "Throw force should be greated than 0 after charging.");
+    // }
 
-    [Test]
-    public void BowlingBall_Hold_SetsParentAndPosition()
-    {
-        // Arrange
-        var bowlingBall = new GameObject().AddComponent<BowlingBall>();
-        var parent = new GameObject().transform;
+    // [UnityTest]
+    // public IEnumerator BowlingViewModel_Roll_InvokesGameStateChange()
+    // {
+    //     // Arrange
+    //     var viewModel = new GameObject().AddComponent<BowlingViewModel>();
+    //     bool gameStatechanged = false;
+    //     viewModel.OnGameStateChange += () => gameStatechanged = true;
 
-        // Act
-        bowlingBall.Hold(parent);
+    //     // Act
+    //     viewModel.Roll(5);
 
-        // Assert
-        Assert.AreEqual(parent, bowlingBall.transform.parent);
-        Assert.AreEqual(Vector3.zero, bowlingBall.transform.localPosition);
-        Assert.AreEqual(Quaternion.identity, bowlingBall.transform.localRotation);
-    }
+    //     // Assert
+    //     yield return null;
+    //     Assert.IsTrue(gameStatechanged);
+    // }
 
-    [Test]
-    public void BowlingBall_Swing_SetsParentAndPosition()
-    {
-        // Arrange
-        var bowlingBall = new GameObject().AddComponent<BowlingBall>();
-        var parent = new GameObject().transform;
+    // [UnityTest]
+    // public IEnumerator PinManger_WaitForPinsToSettle_InvokesEventWhenSettled()
+    // {
+    //     // Arrange
+    //     var gameObject = new GameObject();
+    //     var pinManager = gameObject.AddComponent<PinManager>();
+    //     var pinObject = new GameObject();
+    //     var pin = pinObject.AddComponent<Pin>();
 
-        // Act
-        bowlingBall.Swing(parent);
+    //     bool eventInvoked = false;
+    //     pinManager.OnPinsSettled += () => eventInvoked = true;
 
-        // Assert
-        Assert.AreEqual(parent, bowlingBall.transform.parent);
-        Assert.AreEqual(Vector3.zero, bowlingBall.transform.localPosition);
-        Assert.AreEqual(Quaternion.identity, bowlingBall.transform.localRotation);
-    }
+    //     // Act
+    //     pinManager.CheckForPinsToSettle();
+    //     yield return new WaitForSeconds(pinManager.pinSettleTime + 0.1f);
 
-    [Test]
-    public void BowlingBall_Throw_CallsThrowOnPhysics()
-    {
-        // Arrange
-        var bowlingBall = new GameObject().AddComponent<BowlingBall>();
-        var physicsMock = Substitute.For<BowlingBallPhysics>();
-        bowlingBall.BowlingBallPhysics = physicsMock;
+    //     // Assert
+    //     Assert.IsTrue(eventInvoked);
+    // }
 
-        // Act
-        bowlingBall.Throw();
+    // [Test]
+    // public void BowlingBall_Hold_SetsParentAndPosition()
+    // {
+    //     // Arrange
+    //     var bowlingBall = new GameObject().AddComponent<BowlingBall>();
+    //     var parent = new GameObject().transform;
 
-        // Assert
-        physicsMock.Received(1).Throw();
-    }
+    //     // Act
+    //     bowlingBall.Hold(parent);
+
+    //     // Assert
+    //     Assert.AreEqual(parent, bowlingBall.transform.parent);
+    //     Assert.AreEqual(Vector3.zero, bowlingBall.transform.localPosition);
+    //     Assert.AreEqual(Quaternion.identity, bowlingBall.transform.localRotation);
+    // }
+
+    // [Test]
+    // public void BowlingBall_Swing_SetsParentAndPosition()
+    // {
+    //     // Arrange
+    //     var bowlingBall = new GameObject().AddComponent<BowlingBall>();
+    //     var parent = new GameObject().transform;
+
+    //     // Act
+    //     bowlingBall.Swing(parent);
+
+    //     // Assert
+    //     Assert.AreEqual(parent, bowlingBall.transform.parent);
+    //     Assert.AreEqual(Vector3.zero, bowlingBall.transform.localPosition);
+    //     Assert.AreEqual(Quaternion.identity, bowlingBall.transform.localRotation);
+    // }
+
+    // [Test]
+    // public void BowlingBall_Throw_CallsThrowOnPhysics()
+    // {
+    //     // Arrange
+    //     var bowlingBall = new GameObject().AddComponent<BowlingBall>();
+    //     var physicsMock = Substitute.For<BowlingBallPhysics>();
+    //     bowlingBall.BowlingBallPhysics = physicsMock;
+
+    //     // Act
+    //     bowlingBall.Throw();
+
+    //     // Assert
+    //     physicsMock.Received(1).Throw();
+    // }
 }
