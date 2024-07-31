@@ -3152,12 +3152,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d30a3f65c7708384494c1042983ea2db, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1322735157}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d30a3f65c7708384494c1042983ea2db, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1322735156}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d30a3f65c7708384494c1042983ea2db, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1322735155}
   m_SourcePrefab: {fileID: 100100000, guid: d30a3f65c7708384494c1042983ea2db, type: 3}
 --- !u!1 &1322735148 stripped
 GameObject:
@@ -3251,35 +3245,6 @@ MonoBehaviour:
   _holdBallPosition: {fileID: 956214071}
   _swingBallPosition: {fileID: 25138472}
   _animator: {fileID: 0}
---- !u!114 &1322735155
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1322735148}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff53d91879fc749829bf854cef850af7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1322735156
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1322735148}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e9119980fc9d4c05bf71031223c20c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _forceMultiplier: 20
-  _spinMultiplier: 10
-  _maxChargeTime: 2
-  _rb: {fileID: 0}
-  _throwForce: {x: 0, y: 0, z: 0}
 --- !u!54 &1322735157
 Rigidbody:
   m_ObjectHideFlags: 0
