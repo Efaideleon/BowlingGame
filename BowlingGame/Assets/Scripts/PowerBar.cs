@@ -3,34 +3,34 @@ using UnityEngine.UI;
 
 public class PowerBar : MonoBehaviour
 {
-    [SerializeField] private Image fillImage;
-    [SerializeField] private GameObject powerBarContainer;
-    [SerializeField] private BowlingBall bowlingBall;
+    [SerializeField] private Image _fillImage;
+    [SerializeField] private GameObject _powerBarContainer;
+    [SerializeField] private BowlingBall _bowlingBall;
 
     void Start()
     {
-        powerBarContainer.SetActive(false);
+        _powerBarContainer.SetActive(false);
     }
 
     void Update()
     {
-        if (bowlingBall.ChargePercentage > 0)
+        if (_bowlingBall.ChargePercentage > 0)
         {
             SetPowerBarVisibility(true);
-            fillImage.fillAmount = bowlingBall.ChargePercentage;
+            _fillImage.fillAmount = _bowlingBall.ChargePercentage;
         }
         else 
         {
             SetPowerBarVisibility(false);
-            fillImage.fillAmount = 0;
+            _fillImage.fillAmount = 0;
         }
     }
 
     private void SetPowerBarVisibility(bool isVisible)
     {
-        if (powerBarContainer != null)
+        if (_powerBarContainer != null)
         {
-            powerBarContainer.SetActive(isVisible);
+            _powerBarContainer.SetActive(isVisible);
         } 
         else
         {
