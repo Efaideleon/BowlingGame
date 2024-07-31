@@ -3,6 +3,7 @@ using BowlingBallLib;
 using System;
 using StateMachine;
 
+[RequireComponent(typeof(BowlingBallPhysics))]
 public class BowlingBall: MonoBehaviour
 {
     private StateMachine<BowlingBall> _stateMachine;

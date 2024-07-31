@@ -1,23 +1,19 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class BowlingBallPhysics : MonoBehaviour
 {
     [SerializeField] private float _forceMultiplier = 20f;
     [SerializeField] private float _spinMultiplier = 10f;
     [SerializeField] private float _maxChargeTime = 2;
 
-    private Rigidbody _rb;
+    [SerializeField] Rigidbody _rb;
     private float _chargeStartTime;
     private bool _isCharging = false;
     public Vector3 _throwForce;
     private Vector3 _spinTorque;
 
     public bool IsSettled => _rb.linearVelocity.magnitude < 0.4f;
-
-    void Awake()
-    {
-        _rb = GetComponent<Rigidbody>();
-    }
 
     public void StartCharging()
     {
@@ -38,9 +34,10 @@ public class BowlingBallPhysics : MonoBehaviour
 
     public void OnHold()
     {
-        _rb.isKinematic = true;
+        _rb.isKinematic = false;
         _rb.linearVelocity = Vector3.zero;
         _rb.angularVelocity = Vector3.zero;
+        _rb.isKinematic = true;
     } 
 
     public void Throw()
