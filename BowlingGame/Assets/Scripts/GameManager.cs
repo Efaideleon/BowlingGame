@@ -71,14 +71,14 @@ public class GameManager : MonoBehaviour
             _pinManager.RemoveFallenPins();
         }
         
-        _player.HoldBall();
+        _player.Hold();
     }
 
     private void EndFrame()
     {
         _readyPanel.SetActive(true);
         _pinManager.ResetPins();
-        _player.HoldBall();
+        _player.Hold();
     }
 
     private void HandleGameOver()

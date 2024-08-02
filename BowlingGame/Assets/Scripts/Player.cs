@@ -2,7 +2,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(CharacterController))]
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IPlayer
 {
     [SerializeField] private BowlingBall _bowlingBall;
     [SerializeField] private Transform _holdBallPosition; 
@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
         _characterController = GetComponent<CharacterController>();
     }
 
-    public void HoldBall()
+    public void Hold()
     {
         _animator.SetTrigger("HoldBall");
         _bowlingBall.Hold(_holdBallPosition);
