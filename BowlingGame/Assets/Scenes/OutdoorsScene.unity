@@ -303,6 +303,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bowling Ball
       objectReference: {fileID: 0}
+    - target: {fileID: 9109956754985964422, guid: 967c300fea8dd7d489a8b81eabebe0c8, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
