@@ -12,7 +12,6 @@ public class PlayerAnimationTests
     {
         private PlayerAnimationsTDD playerAnimations;
         private Animator playerAnimator;
-        private PlayerControllerTDD _playerControllerMock;
         
         [SetUp]
         public override void Setup()
@@ -21,11 +20,10 @@ public class PlayerAnimationTests
             var gameObject = new GameObject();
             gameObject.AddComponent<Animator>();
             gameObject.AddComponent<PlayerAnimationsTDD>();
+
             playerAnimations = gameObject.GetComponent<PlayerAnimationsTDD>();
             playerAnimator = gameObject.GetComponent<Animator>();
             playerAnimator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("PlayerAnimatorController");
-
-            _playerControllerMock = Substitute.For<PlayerControllerTDD>();     
         }
 
         [TearDown]
@@ -38,7 +36,6 @@ public class PlayerAnimationTests
         [Test]
         public void Moving_To_Left_Sets_Player_Moving_Left_Animation()
         {
-            
             Assert.IsTrue(playerAnimator.GetBool("IsMovingLeft"));
         }
     }
