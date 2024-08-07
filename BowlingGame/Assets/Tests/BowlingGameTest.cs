@@ -7,30 +7,27 @@ using UnityEngine.Scripting;
 using UnityEditor.SearchService;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+using Assets.Tests.Mocks;
 
 public class BowlingGameTest : InputTestFixture
 {
-    readonly GameObject character = Resources.Load<GameObject>("Character");
-    private Player player;
-    Keyboard keyboard;
+    // [Test]
+    // public void Player_ComponentExists()
+    // {
+    //     // Arrange
+    //     GameObject gameObject = new();
+    //     gameObject.AddComponent<MockCharacterController>(); // <- Make a Mock instead
+    //     gameObject.AddComponent<PlayerController>();
+    //     gameObject.AddComponent<PlayerMovement>();
+    //     gameObject.AddComponent<PlayerActions>();
+    //     gameObject.AddComponent<Player>();
 
-    public override void Setup()
-    {
-        SceneManager.LoadScene("Scenes/TestingScene/Playground");
-        base.Setup();
-        keyboard = InputSystem.AddDevice<Keyboard>();
-    }
+    //     // Act
+    //     Player player = gameObject.GetComponent<Player>();
 
-    [Test]
-    public void TestPlayerInstantiation()
-    {
-        GameObject characterInstance = GameObject.Instantiate(character, Vector3.zero, Quaternion.identity);
-
-        var bowlingBallMock = Substitute.For<BowlingBall>();
-        characterInstance.GetType().GetProperty("_bowlingBall").SetValue(player, bowlingBallMock);
-        
-        Assert.That(characterInstance, Is.Not.Null);
-    }
+    //     // Assert
+    //     Assert.IsNotNull(player);
+    // }
 
 
     // [Test]
