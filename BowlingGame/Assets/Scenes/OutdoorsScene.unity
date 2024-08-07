@@ -6236,7 +6236,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 2100000, guid: e144f26a4d15f514aaeaea92e2c00d90, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.8509804}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -7207,6 +7207,7 @@ MonoBehaviour:
   m_Script: {fileID: 1756132029}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Entries: []
 --- !u!4 &1022870937
 Transform:
   m_ObjectHideFlags: 19
@@ -7866,8 +7867,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.18762854, b: 0, a: 1}
+  m_Material: {fileID: 2100000, guid: d69f16c02a11b5e418df4a97f06c13c4, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -10393,6 +10394,7 @@ MonoBehaviour:
   m_Script: {fileID: 1843483560}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Entries: []
 --- !u!4 &1574223345
 Transform:
   m_ObjectHideFlags: 19
@@ -10677,6 +10679,8 @@ MonoBehaviour:
   _fillImage: {fileID: 1191360200}
   _powerBarContainer: {fileID: 528394100}
   _bowlingBall: {fileID: 1595276640}
+  _material: {fileID: 2100000, guid: d69f16c02a11b5e418df4a97f06c13c4, type: 2}
+  gradientHue: 0
 --- !u!1 &1625537318
 GameObject:
   m_ObjectHideFlags: 0
