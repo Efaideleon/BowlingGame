@@ -24,11 +24,12 @@ public class PowerBar : MonoBehaviour
 
     void Update()
     {
-        _material.SetFloat("_GradientHue", gradientHue);
+        
         if (_bowlingBall.ChargePercentage > 0)
         {
             SetPowerBarVisibility(true);
             _fillImage.fillAmount = _bowlingBall.ChargePercentage;
+            _material.SetFloat("_GradientHue", _bowlingBall.ChargePercentage);
         }
         else 
         {
