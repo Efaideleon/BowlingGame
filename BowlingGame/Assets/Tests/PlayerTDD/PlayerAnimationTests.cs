@@ -39,4 +39,9 @@ public class PlayerAnimationTests
             Assert.IsTrue(playerAnimator.GetBool("IsMovingLeft"));
         }
     }
+
+    public class PlayerActions
+    {
+        public 
+    }
 }
