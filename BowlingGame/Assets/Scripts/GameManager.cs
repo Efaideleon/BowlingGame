@@ -11,7 +11,6 @@ public class GameManager : MonoBehaviour {
     [SerializeField] private GameObject _readyPanel;
     [SerializeField] private PinManager _pinManager;
     [SerializeField] private PlayerController _player;
-    [SerializeField] private ChargedThrowSystem _chargeThrowSystem;
     [SerializeField] private BowlingViewModel _viewModel;
     [SerializeField] private BowlingBall _bowlingBall;
 
@@ -64,13 +63,13 @@ public class GameManager : MonoBehaviour {
             _pinManager.RemoveFallenPins();
         }
 
-        _chargeThrowSystem.Reset();
+        _player.Hold();
     }
 
     private void EndFrame() {
         _readyPanel.SetActive(true);
         _pinManager.ResetPins();
-        _chargeThrowSystem.Reset();
+        _player.Hold();
     }
 
     private void HandleGameOver() {

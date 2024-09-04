@@ -9,8 +9,8 @@ using UnityEngine.InputSystem;
 [CreateAssetMenu(fileName = "InputReader", menuName = "BowlingBall/InputReader")]
 public class InputReader : ScriptableObject, PlayerInputActions.IPlayerActions {
     public event UnityAction<Vector2> Move = delegate { };
-    public event UnityAction<bool> ChargeStarted = delegate { };
-    public event UnityAction<bool> ChargeFinished = delegate { };
+    public event UnityAction ChargeStarted = delegate { };
+    public event UnityAction ChargeFinished = delegate { };
 
     private PlayerInputActions _inputActions;
 
@@ -34,10 +34,10 @@ public class InputReader : ScriptableObject, PlayerInputActions.IPlayerActions {
     public void OnCharge(InputAction.CallbackContext context) {
         switch (context.phase) {
             case InputActionPhase.Started:
-                ChargeStarted.Invoke(true);
+                ChargeStarted.Invoke();
                 break;
             case InputActionPhase.Canceled:
-                ChargeFinished.Invoke(false);
+                ChargeFinished.Invoke();
                 break;
         }
     }

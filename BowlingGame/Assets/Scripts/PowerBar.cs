@@ -6,17 +6,19 @@ public class PowerBar : MonoBehaviour {
     [SerializeField] private Image _fillImage;
     [SerializeField] private GameObject _powerBarContainer;
     [SerializeField] private Material _material; // Ensure this is assigned in the Inspector
-    [SerializeField] ChargedThrowSystem _chargeThrowSystem;
+    [SerializeField] PlayerController _playerController;
+
+    private float ChargePercentage => _playerController.ChargedThrowAction.ChargePercentage;
 
     void Start() {
         _powerBarContainer.SetActive(false);
     }
 
     void Update() {
-        if (_chargeThrowSystem.ChargePercentage > 0) {
+        if (ChargePercentage > 0) {
             SetPowerBarVisibility(true);
-            _fillImage.fillAmount = _chargeThrowSystem.ChargePercentage;
-            _material.SetFloat("_GradientHue", _chargeThrowSystem.ChargePercentage);
+            _fillImage.fillAmount = ChargePercentage;
+            _material.SetFloat("_GradientHue", ChargePercentage);
         }
         else {
             SetPowerBarVisibility(false);
