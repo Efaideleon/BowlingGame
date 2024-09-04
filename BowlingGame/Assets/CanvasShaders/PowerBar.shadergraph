@@ -656,7 +656,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "Time",
     "m_StageCapability": 3,
-    "m_Value": 0.0,
+    "m_Value": 0.8100000023841858,
     "m_DefaultValue": 0.0,
     "m_Labels": []
 }

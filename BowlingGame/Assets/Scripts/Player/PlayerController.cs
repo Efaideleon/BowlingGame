@@ -1,37 +1,89 @@
-using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using state_machine;
+using states;
+using System.Collections.Generic;
 
-public class PlayerController : MonoBehaviour
-{
-    private PlayerInputActions _playerInputActions;
+namespace player {
+    public class PlayerController : MonoBehaviour {
+        [Header("References")]
+        [SerializeField] InputReader _input;
 
-    public delegate void PlayerAction(InputAction.CallbackContext context);
-    public event PlayerAction OnChargeStarted;
-    public event PlayerAction OnChargeCancelled;
-    public event PlayerAction OnMoveStarted;
-    public event PlayerAction OnMoveCancelled;
+        private readonly float _throwDuration = 2f;
 
-    private void Awake()
-    {
-        _playerInputActions = new PlayerInputActions();
-    }
+        Animator _animator;
+        CharacterController _characterController;
+        StateMachine _stateMachine;
+        CountDownTimer _throwTimer;
+        ChargedThrowSystem _chargedThrowSystem;
 
-    private void OnEnable()
-    {
-        _playerInputActions.Player.Enable();
-        _playerInputActions.Player.Charge.started += ctx => OnChargeStarted?.Invoke(ctx);
-        _playerInputActions.Player.Charge.canceled += ctx => OnChargeCancelled?.Invoke(ctx);
-        _playerInputActions.Player.Move.started += ctx => OnMoveStarted?.Invoke(ctx);
-        _playerInputActions.Player.Move.canceled += ctx => OnMoveCancelled?.Invoke(ctx);
-    }
+        List<CountDownTimer> _timers;
 
-    private void OnDisable()
-    {
-        _playerInputActions.Player.Charge.started -= ctx => OnChargeStarted?.Invoke(ctx);
-        _playerInputActions.Player.Charge.canceled -= ctx => OnChargeCancelled?.Invoke(ctx);
-        _playerInputActions.Player.Move.started -= ctx => OnMoveStarted?.Invoke(ctx);
-        _playerInputActions.Player.Move.canceled -= ctx => OnMoveCancelled?.Invoke(ctx);
-        _playerInputActions.Player.Disable();
+        // Player Settings
+        readonly float _speed = 1f;
+
+        // Animation Hashes
+        static readonly int DirectionHash = Animator.StringToHash("Direction");
+
+        void Awake() {
+            _animator = GetComponent<Animator>();
+            _characterController = GetComponent<CharacterController>();
+
+            _chargedThrowSystem = GetComponent<ChargedThrowSystem>();
+            _throwTimer = new CountDownTimer(_throwDuration);
+            _timers = new(1) { _throwTimer };
+
+            SetupStateMachine();
+        }
+
+        void SetupStateMachine() {
+            _stateMachine = new StateMachine();
+
+            // Declare States
+            var holdingState = new HoldingState(this, _animator);
+            var normalState = new NormalState(this, _animator);
+            var throwState = new ThrowState(this, _animator);
+
+            // Transition
+            At(holdingState, throwState, new FuncPredicate(() => _throwTimer.IsRunning));
+            At(throwState, normalState, new FuncPredicate(() => !_throwTimer.IsRunning));
+            At(normalState, holdingState, new FuncPredicate(() => _chargedThrowSystem.IsLoaded));
+
+            // Set inital state
+            _stateMachine.SetState(holdingState);
+        }
+
+        void OnEnable() {
+            _input.ChargeFinished += ctx => _throwTimer.Start();
+        }
+
+        void OnDisable() {
+            _input.ChargeFinished -= ctx => _throwTimer.Start();
+        }
+
+        void Update() {
+            _stateMachine.Update();
+            UpdateAnimator();
+            HandleTimers();
+        }
+
+        void FixedUpdate() {
+            _stateMachine.FixedUpdate();
+        }
+
+        void HandleTimers() {
+            foreach (var timer in _timers)
+                timer.Tick(Time.deltaTime);
+        }
+
+        void UpdateAnimator() => _animator.SetFloat(DirectionHash, _input.Direction.x);
+
+        void At(IState from, IState to, IPredicate condition) => _stateMachine.AddTransition(from, to, condition);
+
+        void Any(IState to, IPredicate condition) => _stateMachine.AddAnyTransition(to, condition);
+
+        #region Public Methods
+        public void HandleMovement() => _characterController.Move(_speed * Time.deltaTime * _input.Direction);
+        #endregion
+
     }
 }

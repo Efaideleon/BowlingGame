@@ -905,7 +905,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 635179449794388669, guid: 967c300fea8dd7d489a8b81eabebe0c8, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.462
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 635179449794388669, guid: 967c300fea8dd7d489a8b81eabebe0c8, type: 3}
       propertyPath: m_LocalRotation.w
@@ -938,10 +938,6 @@ PrefabInstance:
     - target: {fileID: 9109956754985964422, guid: 967c300fea8dd7d489a8b81eabebe0c8, type: 3}
       propertyPath: m_Name
       value: Bowling Ball
-      objectReference: {fileID: 0}
-    - target: {fileID: 9109956754985964422, guid: 967c300fea8dd7d489a8b81eabebe0c8, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1076,6 +1072,40 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!1 &149170974 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5337281127799487162, guid: 30561f94e317845ec9a813d59a896c58, type: 3}
+  m_PrefabInstance: {fileID: 3793757777582075437}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &149170978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149170974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16544b38a79d649edab890b428cbd399, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _input: {fileID: 11400000, guid: f0ad4bd72c9f3461fa7f84b595a127c8, type: 2}
+--- !u!114 &149170982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149170974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a02a1218413e4a9d8a8466cc94599cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _input: {fileID: 11400000, guid: f0ad4bd72c9f3461fa7f84b595a127c8, type: 2}
+  _object: {fileID: 1595276640}
+  _holdPosition: {fileID: 1273894425}
+  _swingPosition: {fileID: 915114661}
 --- !u!1 &157207112
 GameObject:
   m_ObjectHideFlags: 0
@@ -3996,7 +4026,8 @@ MonoBehaviour:
   _scoreText: {fileID: 1976109033}
   _readyPanel: {fileID: 840664258}
   _pinManager: {fileID: 342271559}
-  _player: {fileID: 1322735154}
+  _player: {fileID: 149170978}
+  _chargeThrowSystem: {fileID: 149170982}
   _viewModel: {fileID: 2040904924}
   _bowlingBall: {fileID: 1595276640}
 --- !u!4 &658957444
@@ -4090,11 +4121,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 671305229}
   m_CullTransparentMesh: 1
---- !u!4 &674547743 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1720188905712760140, guid: 30561f94e317845ec9a813d59a896c58, type: 3}
-  m_PrefabInstance: {fileID: 3793757777582075437}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &682638611
 GameObject:
   m_ObjectHideFlags: 0
@@ -4171,11 +4197,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 682638611}
   m_CullTransparentMesh: 1
---- !u!4 &687907727 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5705830986285014896, guid: 30561f94e317845ec9a813d59a896c58, type: 3}
-  m_PrefabInstance: {fileID: 3793757777582075437}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &703759028
 GameObject:
   m_ObjectHideFlags: 0
@@ -6261,11 +6282,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 840664258}
   m_CullTransparentMesh: 1
---- !u!1 &844238215 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5337281127799487162, guid: 30561f94e317845ec9a813d59a896c58, type: 3}
-  m_PrefabInstance: {fileID: 3793757777582075437}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &844614801
 GameObject:
   m_ObjectHideFlags: 0
@@ -6613,6 +6629,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 893712344}
   m_CullTransparentMesh: 1
+--- !u!4 &915114661 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5705830986285014896, guid: 30561f94e317845ec9a813d59a896c58, type: 3}
+  m_PrefabInstance: {fileID: 3793757777582075437}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &915922628
 GameObject:
   m_ObjectHideFlags: 0
@@ -8241,14 +8262,11 @@ MonoBehaviour:
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
---- !u!222 &1241436078
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+--- !u!4 &1273894425 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1720188905712760140, guid: 30561f94e317845ec9a813d59a896c58, type: 3}
+  m_PrefabInstance: {fileID: 3793757777582075437}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1241436073}
-  m_CullTransparentMesh: 1
 --- !u!1 &1313120537
 GameObject:
   m_ObjectHideFlags: 0
@@ -8401,56 +8419,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1320596376}
   m_CullTransparentMesh: 1
---- !u!114 &1322735154 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6889226161146369466, guid: 30561f94e317845ec9a813d59a896c58, type: 3}
-  m_PrefabInstance: {fileID: 3793757777582075437}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 844238215}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2cb30231a33cc4e4b8e985f688d70e80, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1322735159
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 844238215}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9a0387e23ac64ac58abb3634e57ddaa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1322735160
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 844238215}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4abe566c8f444229b9a19858f75ce41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1322735161
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 844238215}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6aed7dab62f8246a78b1a3e27031973f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _bowlingBall: {fileID: 1595276640}
-  _holdBallPosition: {fileID: 674547743}
-  _swingBallPosition: {fileID: 687907727}
 --- !u!1 &1324060722
 GameObject:
   m_ObjectHideFlags: 0
@@ -10667,10 +10635,10 @@ RectTransform:
   - {fileID: 528394101}
   m_Father: {fileID: 1241436076}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 250, y: 0}
-  m_SizeDelta: {x: 500, y: 50}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 188, y: 86}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1623070636
 MonoBehaviour:
@@ -10685,17 +10653,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _fillImage: {fileID: 1191360200}
-  _powerBarContainer: {fileID: 1191360198}
-  _bowlingBall: {fileID: 1595276640}
+  _powerBarContainer: {fileID: 528394100}
   _material: {fileID: 2100000, guid: d69f16c02a11b5e418df4a97f06c13c4, type: 2}
---- !u!222 &1623070637
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1623070634}
-  m_CullTransparentMesh: 1
+  _chargeThrowSystem: {fileID: 149170982}
 --- !u!1 &1625537318
 GameObject:
   m_ObjectHideFlags: 0
@@ -25105,27 +25065,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rob LP v3
       objectReference: {fileID: 0}
-    - target: {fileID: 6889226161146369466, guid: 30561f94e317845ec9a813d59a896c58, type: 3}
+    - target: {fileID: 6257011914455223750, guid: 30561f94e317845ec9a813d59a896c58, type: 3}
       propertyPath: _bowlingBall
       value: 
       objectReference: {fileID: 1595276640}
-    - target: {fileID: 6968131804005542796, guid: 30561f94e317845ec9a813d59a896c58, type: 3}
-      propertyPath: _gameManager
-      value: 
-      objectReference: {fileID: 658957443}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6889226161146369466, guid: 30561f94e317845ec9a813d59a896c58, type: 3}
+    - {fileID: 6968131804005542796, guid: 30561f94e317845ec9a813d59a896c58, type: 3}
+    - {fileID: 6257011914455223750, guid: 30561f94e317845ec9a813d59a896c58, type: 3}
+    - {fileID: 6410821536048339877, guid: 30561f94e317845ec9a813d59a896c58, type: 3}
+    - {fileID: 7657740595936256332, guid: 30561f94e317845ec9a813d59a896c58, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 5337281127799487162, guid: 30561f94e317845ec9a813d59a896c58, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1322735161}
+      addedObject: {fileID: 149170978}
     - targetCorrespondingSourceObject: {fileID: 5337281127799487162, guid: 30561f94e317845ec9a813d59a896c58, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1322735160}
-    - targetCorrespondingSourceObject: {fileID: 5337281127799487162, guid: 30561f94e317845ec9a813d59a896c58, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1322735159}
+      addedObject: {fileID: 149170982}
   m_SourcePrefab: {fileID: 100100000, guid: 30561f94e317845ec9a813d59a896c58, type: 3}
 --- !u!4 &3807215584387347739
 Transform:

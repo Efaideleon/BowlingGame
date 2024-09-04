@@ -1,7 +1,6 @@
 using System;
 
-public class BowlingGame
-{
+public class BowlingGame {
     private const int MAX_FRAMES = 10;
     private const int PINS_PER_FRAME = 10;
 
@@ -16,71 +15,56 @@ public class BowlingGame
 
     public bool IsGameOver => currentFrame > MAX_FRAMES;
 
-    public void Roll(int pinsKnocked)
-    {
+    public void Roll(int pinsKnocked) {
         if (IsGameOver) return;
 
-        if (pinsKnocked < 0 || pinsKnocked > 10)
-        {
+        if (pinsKnocked < 0 || pinsKnocked > 10) {
             throw new ArgumentException("Invalid number of pins knocked down.");
         }
 
         rolls[currentRollIndex++] = pinsKnocked;
 
 
-        if (currentFrame < MAX_FRAMES)
-        {
-            if (currentRoll == 1 && pinsKnocked == PINS_PER_FRAME)
-            {
+        if (currentFrame < MAX_FRAMES) {
+            if (currentRoll == 1 && pinsKnocked == PINS_PER_FRAME) {
                 MoveToNextFrame();
             }
-            else if (currentRoll == 2)
-            {
+            else if (currentRoll == 2) {
                 MoveToNextFrame();
             }
-            else
-            {
+            else {
                 currentRoll++;
             }
         }
-        else
-        {
-            if (currentRoll < 3 && (pinsKnocked == PINS_PER_FRAME || currentRoll == 2))
-            {
+        else {
+            if (currentRoll < 3 && (pinsKnocked == PINS_PER_FRAME || currentRoll == 2)) {
                 currentRoll++;
             }
-            else
-            {
+            else {
                 MoveToNextFrame();
             }
         }
     }
 
-    private void MoveToNextFrame()
-    {
+    private void MoveToNextFrame() {
         currentFrame++;
         currentRoll = 1;
     }
 
-    private int CalculateScore()
-    {
+    private int CalculateScore() {
         int score = 0;
         int rollIndex = 0;
 
-        for (int frame = 1; frame <= MAX_FRAMES; frame++)
-        {
-            if (IsStrike(rollIndex))
-            {
+        for (int frame = 1; frame <= MAX_FRAMES; frame++) {
+            if (IsStrike(rollIndex)) {
                 score += 10 + StrikeBonus(rollIndex);
                 rollIndex++;
             }
-            else if (IsSpare(rollIndex))
-            {
+            else if (IsSpare(rollIndex)) {
                 score += 10 + SpareBonus(rollIndex);
                 rollIndex += 2;
             }
-            else
-            {
+            else {
                 score += SumOfBallInFrame(rollIndex);
                 rollIndex += 2;
             }

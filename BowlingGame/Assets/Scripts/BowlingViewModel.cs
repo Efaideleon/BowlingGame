@@ -1,8 +1,7 @@
 using System;
 using UnityEngine;
 
-public class BowlingViewModel : MonoBehaviour
-{
+public class BowlingViewModel : MonoBehaviour {
     private BowlingGame _game;
 
     public event Action OnGameStateChange;
@@ -13,29 +12,24 @@ public class BowlingViewModel : MonoBehaviour
     public int Score => _game.Score;
     public bool IsGameOver => _game.IsGameOver;
 
-    private void Awake()
-    {
+    private void Awake() {
         _game = new BowlingGame();
     }
 
-    public void Roll(int pinsKnocked)
-    {
+    public void Roll(int pinsKnocked) {
         _game.Roll(pinsKnocked);
         OnGameStateChange?.Invoke();
 
-        if (_game.IsGameOver)
-        {
+        if (_game.IsGameOver) {
             OnGameOver.Invoke();
         }
     }
 
-    public bool ShouldResetPins()
-    {
+    public bool ShouldResetPins() {
         return _game.CurrentRoll == 1 || (_game.CurrentFrame == 10 && _game.CurrentRoll == 3);
     }
 
-    public bool ShouldRemoveFallenPins()
-    {
+    public bool ShouldRemoveFallenPins() {
         return !ShouldResetPins() && !_game.IsGameOver;
     }
 }

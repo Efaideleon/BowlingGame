@@ -1,20 +1,21 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
+using player;
+using bowling_ball;
 
-public class GameManager : MonoBehaviour
-{
+public class GameManager : MonoBehaviour {
     [SerializeField] private TextMeshProUGUI _currentFrameText;
     [SerializeField] private TextMeshProUGUI _currentRollText;
     [SerializeField] private TextMeshProUGUI _scoreText;
     [SerializeField] private GameObject _readyPanel;
     [SerializeField] private PinManager _pinManager;
-    [SerializeField] private Player _player;
+    [SerializeField] private PlayerController _player;
+    [SerializeField] private ChargedThrowSystem _chargeThrowSystem;
     [SerializeField] private BowlingViewModel _viewModel;
     [SerializeField] private BowlingBall _bowlingBall;
 
-    private void Start()
-    {
+    private void Start() {
         _viewModel.OnGameStateChange += UpdateGUI;
         _viewModel.OnGameOver += HandleGameOver;
         _pinManager.OnPinsSettled += HandlePinSettled;
@@ -22,8 +23,7 @@ public class GameManager : MonoBehaviour
         UpdateGUI();
     }
 
-    private void OnDestroy()
-    {
+    private void OnDestroy() {
         _viewModel.OnGameStateChange -= UpdateGUI;
         _viewModel.OnGameOver -= HandleGameOver;
         _pinManager.OnPinsSettled -= HandlePinSettled;
@@ -34,55 +34,46 @@ public class GameManager : MonoBehaviour
 
     public void StartCharging() => _readyPanel.SetActive(false);
 
-    private void UpdateGUI()
-    {
+    private void UpdateGUI() {
         _currentFrameText.text = "Frame: " + _viewModel.CurrentFrame;
         _scoreText.text = "Score: " + _viewModel.Score;
         _currentRollText.text = "Roll: " + _viewModel.CurrentRoll;
     }
 
-    public void HandleBallThrown()
-    {
+    public void HandleBallThrown() {
         StartCoroutine(WaitAndCountPins());
-    } 
+    }
 
-    private IEnumerator WaitAndCountPins()
-    {
+    private IEnumerator WaitAndCountPins() {
         yield return new WaitForSeconds(8f);
         _pinManager.CheckForPinsToSettle();
     }
 
-    private void HandlePinSettled()
-    {
-        Debug.Log("Pins have settled");   
+    private void HandlePinSettled() {
+        Debug.Log("Pins have settled");
         UpdateGameState(_pinManager.CountFallenPins());
     }
 
-    private void UpdateGameState(int pinsKnocked)
-    {
+    private void UpdateGameState(int pinsKnocked) {
         _viewModel.Roll(pinsKnocked);
 
-        if (_viewModel.ShouldResetPins())
-        {
+        if (_viewModel.ShouldResetPins()) {
             EndFrame();
         }
-        else if (_viewModel.ShouldRemoveFallenPins())
-        {
+        else if (_viewModel.ShouldRemoveFallenPins()) {
             _pinManager.RemoveFallenPins();
         }
-        
-        _player.Actions.Hold();
+
+        _chargeThrowSystem.Reset();
     }
 
-    private void EndFrame()
-    {
+    private void EndFrame() {
         _readyPanel.SetActive(true);
         _pinManager.ResetPins();
-        _player.Actions.Hold();
+        _chargeThrowSystem.Reset();
     }
 
-    private void HandleGameOver()
-    {
+    private void HandleGameOver() {
         Debug.Log("Game Over! Final Score: " + _viewModel.Score);
     }
 }
