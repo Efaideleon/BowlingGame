@@ -39,7 +39,7 @@ Material:
     m_Floats:
     - _ColorMask: 15
     - _Float: 0
-    - _GradientHue: 0.94632757
+    - _GradientHue: 0.65773094
     - _Stencil: 0
     - _StencilComp: 8
     - _StencilOp: 0
