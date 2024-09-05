@@ -5,40 +5,31 @@ namespace player {
     public class ChargedThrowAction : ChargedAction {
         readonly ThrowActionConfig _throwActionConfig;
         readonly CountDownTimer _countDownTimer;
-
-        private readonly Throwable _item;
-        private readonly Transform _holdPosition;
-        private readonly Transform _swingPosition;
+        readonly Player _player;
 
         public bool IsReady { get; private set; }
 
-        public ChargedThrowAction(
-            ThrowActionConfig throwActionConfig,
-            Throwable item,
-            Transform holdPosition,
-            Transform swingPosition) {
+        public ChargedThrowAction(ThrowActionConfig throwActionConfig, Player player) {
             _throwActionConfig = throwActionConfig;
             _countDownTimer = new CountDownTimer(_throwActionConfig.ThrowDuration);
-            _item = item;
-            _holdPosition = holdPosition;
-            _swingPosition = swingPosition;
+            _player = player;
         }
 
         public void OnChargeStarted() => Start();
 
         public void OnChargeFinished() {
             Stop();
-            _item.Swing(_swingPosition);
+            _player.Item.Swing(_player.SwingPosition);
             _countDownTimer.Start();
         }
 
         public void Hold() {
-            _item.Hold(_holdPosition);
+            _player.Item.Hold(_player.HoldPosition);
             IsReady = true;
         }
 
         public void Throw() {
-            _item.Throw(ChargePercentage);
+            _player.Item.Throw(ChargePercentage);
             IsReady = false;
         }
 

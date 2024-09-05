@@ -136,6 +136,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d30a3f65c7708384494c1042983ea2db, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7429042036186543460}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d30a3f65c7708384494c1042983ea2db, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 261908193348316986}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d30a3f65c7708384494c1042983ea2db, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8408824181981521795}
   m_SourcePrefab: {fileID: 100100000, guid: d30a3f65c7708384494c1042983ea2db, type: 3}
 --- !u!4 &4709081053733724160 stripped
 Transform:
@@ -207,10 +213,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _input: {fileID: 11400000, guid: f0ad4bd72c9f3461fa7f84b595a127c8, type: 2}
-  _object: {fileID: 0}
-  _holdPosition: {fileID: 1720188905712760140}
-  _swingPosition: {fileID: 5705830986285014896}
-  _throwActionConfig: {fileID: 11400000, guid: 02330c86d633f4c63a8fba3cd2bfbf6e, type: 2}
   _movementSpeed: 1
 --- !u!114 &7429042036186543460
 MonoBehaviour:
@@ -224,6 +226,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d43e11605744641088cf711bf24b9f9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &261908193348316986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5337281127799487162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 585103fa8eb1d48d9b52f595680a8a32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _throwActionConfig: {fileID: 11400000, guid: 02330c86d633f4c63a8fba3cd2bfbf6e, type: 2}
+--- !u!114 &8408824181981521795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5337281127799487162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c4070e56c54f4d90b5dfffcd4b6aac0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _input: {fileID: 11400000, guid: f0ad4bd72c9f3461fa7f84b595a127c8, type: 2}
+  _object: {fileID: 0}
+  _holdPosition: {fileID: 1720188905712760140}
+  _swingPosition: {fileID: 5705830986285014896}
 --- !u!4 &9027577778270798255 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4928948924000647612, guid: d30a3f65c7708384494c1042983ea2db, type: 3}
