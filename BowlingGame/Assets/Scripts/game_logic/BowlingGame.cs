@@ -1,22 +1,24 @@
 using System;
+using UnityEngine.Apple;
 
 public class BowlingGame {
     private const int MAX_FRAMES = 10;
     private const int PINS_PER_FRAME = 10;
 
-    private int currentFrame = 1;
-    private int currentRoll = 1;
+    private int _currentFrame = 1;
+    private int _currentRoll = 1;
     private readonly int[] rolls = new int[21];
     private int currentRollIndex = 0;
 
-    public int CurrentFrame => currentFrame;
-    public int CurrentRoll => currentRoll;
     public int Score => CalculateScore();
+    public bool IsGameOver => _currentFrame > MAX_FRAMES;
 
-    public bool IsGameOver => currentFrame > MAX_FRAMES;
+    public event Action<int, int, int> OnGameStateUpdate = delegate { };
+    public event Action<bool> OnRollEnded = delegate { };
+    public event Action OnGameOver = delegate { };
 
     public void Roll(int pinsKnocked) {
-        if (IsGameOver) return;
+        if (IsGameOver) OnGameOver.Invoke();
 
         if (pinsKnocked < 0 || pinsKnocked > 10) {
             throw new ArgumentException("Invalid number of pins knocked down.");
@@ -25,30 +27,33 @@ public class BowlingGame {
         rolls[currentRollIndex++] = pinsKnocked;
 
 
-        if (currentFrame < MAX_FRAMES) {
-            if (currentRoll == 1 && pinsKnocked == PINS_PER_FRAME) {
+        if (_currentFrame < MAX_FRAMES) {
+            if (_currentRoll == 1 && pinsKnocked == PINS_PER_FRAME) {
                 MoveToNextFrame();
             }
-            else if (currentRoll == 2) {
+            else if (_currentRoll == 2) {
                 MoveToNextFrame();
             }
             else {
-                currentRoll++;
+                _currentRoll++;
             }
         }
         else {
-            if (currentRoll < 3 && (pinsKnocked == PINS_PER_FRAME || currentRoll == 2)) {
-                currentRoll++;
+            if (_currentRoll < 3 && (pinsKnocked == PINS_PER_FRAME || _currentRoll == 2)) {
+                _currentRoll++;
             }
             else {
                 MoveToNextFrame();
             }
         }
+
+        OnGameStateUpdate.Invoke(_currentFrame, _currentRoll, Score);
+        OnRollEnded.Invoke(IsLastRoll());
     }
 
     private void MoveToNextFrame() {
-        currentFrame++;
-        currentRoll = 1;
+        _currentFrame++;
+        _currentRoll = 1;
     }
 
     private int CalculateScore() {
@@ -71,6 +76,10 @@ public class BowlingGame {
         }
 
         return score;
+    }
+
+    public bool IsLastRoll() {
+        return _currentRoll == 1 || (_currentFrame == 10 && _currentRoll == 3);
     }
 
     private bool IsStrike(int rollIndex) => rolls[rollIndex] == PINS_PER_FRAME;

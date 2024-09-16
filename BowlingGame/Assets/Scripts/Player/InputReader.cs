@@ -11,6 +11,7 @@ public class InputReader : ScriptableObject, PlayerInputActions.IPlayerActions {
     public event UnityAction<Vector2> Move = delegate { };
     public event UnityAction ChargeStarted = delegate { };
     public event UnityAction ChargeFinished = delegate { };
+    public event UnityAction ActionPerformed = delegate { };
 
     private PlayerInputActions _inputActions;
 
@@ -40,9 +41,11 @@ public class InputReader : ScriptableObject, PlayerInputActions.IPlayerActions {
                 ChargeFinished.Invoke();
                 break;
         }
+        ActionPerformed.Invoke();
     }
 
     public void OnMove(InputAction.CallbackContext context) {
         Move.Invoke(context.ReadValue<Vector2>());
+        ActionPerformed.Invoke();
     }
 }

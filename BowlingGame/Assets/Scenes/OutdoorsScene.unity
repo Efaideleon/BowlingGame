@@ -1565,7 +1565,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Frame
+  m_text: 'Frame: 1'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2224,6 +2224,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bowlingPinPrefab: {fileID: 2190577886608129977, guid: 6343adfd46424f14b999a61d3a0c703d, type: 3}
+  pinSettleTime: 9
 --- !u!4 &342271560
 Transform:
   m_ObjectHideFlags: 0
@@ -3998,14 +3999,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c72e8a98cfbe9403da5a185d3b30289a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _currentFrameText: {fileID: 265309019}
-  _currentRollText: {fileID: 2011042760}
-  _scoreText: {fileID: 1976109033}
-  _readyPanel: {fileID: 840664258}
-  _pinManager: {fileID: 342271559}
-  _player: {fileID: 149170978}
-  _viewModel: {fileID: 2040904924}
-  _bowlingBall: {fileID: 1595276640}
 --- !u!4 &658957444
 Transform:
   m_ObjectHideFlags: 0
@@ -8597,6 +8590,57 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1336482294}
   m_CullTransparentMesh: 1
+--- !u!1 &1349831111
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1349831113}
+  - component: {fileID: 1349831112}
+  m_Layer: 0
+  m_Name: UIManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1349831112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1349831111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7687bea59319d4d6ca4da4cbb3b214da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _currentFrameText: {fileID: 265309019}
+  _currentRollText: {fileID: 2011042760}
+  _scoreText: {fileID: 1976109033}
+  _readyPanel: {fileID: 840664258}
+  _scoreTable: {fileID: 1374129153}
+  _bowlingViewModel: {fileID: 2040904924}
+  _input: {fileID: 11400000, guid: f0ad4bd72c9f3461fa7f84b595a127c8, type: 2}
+--- !u!4 &1349831113
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1349831111}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1373344248
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14466,7 +14510,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Score
+  m_text: 'Score: 0'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -14887,7 +14931,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Roll
+  m_text: 'Roll: 1'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -15102,7 +15146,7 @@ GameObject:
   - component: {fileID: 2040904925}
   - component: {fileID: 2040904924}
   m_Layer: 0
-  m_Name: ViewModel
+  m_Name: GameController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15120,6 +15164,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51ec36617be3f486a8c347960376cc51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _pinManager: {fileID: 342271559}
+  _playerController: {fileID: 149170978}
+  _bowlingBall: {fileID: 1595276640}
+  _uiManager: {fileID: 1349831112}
 --- !u!4 &2040904925
 Transform:
   m_ObjectHideFlags: 0
@@ -37701,3 +37749,4 @@ SceneRoots:
   - {fileID: 1718434980}
   - {fileID: 32677600}
   - {fileID: 1638946168}
+  - {fileID: 1349831113}

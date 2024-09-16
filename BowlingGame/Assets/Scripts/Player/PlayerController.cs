@@ -32,7 +32,6 @@ namespace player {
         #region Public Methods
         public void HandleMovement() => _characterController.Move(_movementSpeed * Time.deltaTime * _input.Direction);
         public void Hold() => ChargedThrowAction.Hold();
-        public void Throw() => ChargedThrowAction.Throw();
         #endregion
     }
 }

@@ -25,6 +25,7 @@ namespace bowling_ball {
         }
 
         public override void Throw(float power) {
+            Debug.Log("Ball Thrown");
             BowlingBallPhysics.Throw(power);
             transform.parent = null;
             OnBallThrown?.Invoke();

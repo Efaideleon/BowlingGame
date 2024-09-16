@@ -5,15 +5,19 @@ using UnityEngine;
 using System.Linq;
 
 public class PinManager : MonoBehaviour {
+    [Header("References")]
     [SerializeField] Pin bowlingPinPrefab;
+
+    [Header("Settings")]
+    [SerializeField] float pinSettleTime = 9f;
+
     private const int NUM_PIN_ROWS = 4;
     private readonly float _pinSpacing = 0.3f;
     private readonly static float _pinsBaseHeight = 1.2f;
     private readonly static Vector2 _pinsOriginPosition = new(0, 22);
 
-    public readonly float pinSettleTime = 1f;
     private readonly List<Pin> _pins = new();
-    public event Action OnPinsSettled;
+    public event Action<int> OnPinsSettled;
 
     void Start() {
         LoadPins();
@@ -44,9 +48,9 @@ public class PinManager : MonoBehaviour {
         }
     }
 
-    public int CountFallenPins() => _pins.Count(pin => pin.IsFallen && pin.gameObject.activeSelf);
+    int CountFallenPins() => _pins.Count(pin => pin.IsFallen && pin.gameObject.activeSelf);
 
-    public void RemoveFallenPins() {
+    void RemoveFallenPins() {
         foreach (Pin pin in _pins) {
             if (pin.IsFallen) {
                 pin.gameObject.SetActive(false);
@@ -57,7 +61,14 @@ public class PinManager : MonoBehaviour {
         }
     }
 
-    public void ResetPins() => _pins.ForEach(pin => pin.ResetPin());
+    public void ResetPins(bool all) {
+        if (all) {
+            _pins.ForEach(pin => pin.ResetPin());
+        }
+        else {
+            RemoveFallenPins();
+        }
+    }
 
     public void CheckForPinsToSettle() => StartCoroutine(WaitForPinsToSettle());
 
@@ -65,7 +76,7 @@ public class PinManager : MonoBehaviour {
         yield return new WaitForSeconds(pinSettleTime);
 
         if (_pins.All(pin => pin.IsSettled)) {
-            OnPinsSettled.Invoke();
+            OnPinsSettled.Invoke(CountFallenPins());
         }
         else {
             StartCoroutine(WaitForPinsToSettle());
