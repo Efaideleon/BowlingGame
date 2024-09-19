@@ -5,7 +5,7 @@ public class BowlingFrame {
     public int FirstRollScore; 
     public int SecondRollScore;
     public int ThirdRollScore;
-    public int TotalScore;
+    public int Score;
 
 
     public BowlingFrame(int frame) {

@@ -5,8 +5,12 @@ public class BowlingGame {
     private const int MAX_FRAMES = 10;
     private const int PINS_PER_FRAME = 10;
 
+    private const int FIRST_ROLL = 1;
+    private const int SECOND_ROLL = 2;
+    private const int THIRD_ROLL = 3;
+
     private int _currentFrameIndex = 1;
-    private int _currentRoll = 1;
+    private int _currentRoll = FIRST_ROLL;
     private int _totalScore = 0;
     private List<BowlingFrame> _frames = new();
 
@@ -34,25 +38,11 @@ public class BowlingGame {
         var frame = _frames[_currentFrameIndex - 1];
         frame.UpdateScore(_currentRoll, pinsKnocked);
 
-        // Calculates if we should move to the next frame or just increase the roll count
         if (_currentFrameIndex < MAX_FRAMES) {
-            if (_currentRoll == 1 && pinsKnocked == PINS_PER_FRAME) {
-                MoveToNextFrame();
-            }
-            else if (_currentRoll == 2) {
-                MoveToNextFrame();
-            }
-            else {
-                _currentRoll++;
-            }
+            HandleRegularFrameRoll(pinsKnocked);
         }
         else {
-            if (_currentRoll < 3 && (pinsKnocked == PINS_PER_FRAME || _currentRoll == 2)) {
-                _currentRoll++;
-            }
-            else {
-                MoveToNextFrame();
-            }
+            HandleFinalFrameRoll(pinsKnocked);
         }
 
         CalculateFrameScores();
@@ -61,12 +51,32 @@ public class BowlingGame {
         OnRollEnded.Invoke(IsLastRoll());
     }
 
-    private void MoveToNextFrame() {
-        _currentFrameIndex++;
-        _currentRoll = 1;
+    private void HandleRegularFrameRoll(int pinsKnocked) {
+        if (_currentRoll == FIRST_ROLL && pinsKnocked == PINS_PER_FRAME) {
+            MoveToNextFrame();
+        }
+        else if (_currentRoll == SECOND_ROLL) {
+            MoveToNextFrame();
+        }
+        else {
+            _currentRoll++;
+        }
     }
 
-    // Find a way to calculate the frame scores
+    private void HandleFinalFrameRoll(int pinsKnocked) {
+        if (_currentRoll < THIRD_ROLL && (pinsKnocked == PINS_PER_FRAME || _currentRoll == SECOND_ROLL)) {
+            _currentRoll++;
+        }
+        else {
+            MoveToNextFrame();
+        }
+    }
+
+    private void MoveToNextFrame() {
+        _currentFrameIndex++;
+        _currentRoll = FIRST_ROLL;
+    }
+
     private void CalculateFrameScores() {
         int score = 0;
         _totalScore = 0;
@@ -85,13 +95,13 @@ public class BowlingGame {
             }
 
             _totalScore += score;
-            _frames[i].TotalScore = TotalScore;
+            frame.Score = TotalScore;
             score = 0;
         }
     }
 
     public bool IsLastRoll() {
-        return _currentRoll == 1 || (_currentFrameIndex == 10 && _currentRoll == 3);
+        return _currentRoll == FIRST_ROLL || (_currentFrameIndex == MAX_FRAMES && _currentRoll == THIRD_ROLL);
     }
 
     private int StrikeBonus(int frameIndex) => _frames[frameIndex + 1].FirstRollScore + _frames[frameIndex + 1].SecondRollScore;
@@ -100,9 +110,8 @@ public class BowlingGame {
 
     private int SumOfBallInFrame(int frameIndex) {
         int score = 0;
-        if (frameIndex == 9) {
-            score += _frames[frameIndex].ThirdRollScore;
-        }
+        if (frameIndex == 9) score += _frames[frameIndex].ThirdRollScore;
+
         score += _frames[frameIndex].FirstRollScore + _frames[frameIndex].SecondRollScore;
         return score;
     }

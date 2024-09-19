@@ -12,7 +12,7 @@ namespace ui {
             scorePanel.Frame.text = frame.FrameNumber.ToString();
             scorePanel.FirstScore.text = frame.FirstRollScore.ToString();
             scorePanel.SecondScore.text = frame.SecondRollScore.ToString();
-            scorePanel.TotalScore.text = frame.TotalScore.ToString();
+            scorePanel.TotalScore.text = frame.Score.ToString();
         }
     }
 }
