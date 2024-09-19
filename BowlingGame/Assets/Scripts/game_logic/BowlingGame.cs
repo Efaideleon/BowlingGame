@@ -91,7 +91,7 @@ public class BowlingGame {
                 score += 10 + SpareBonus(i);
             }
             else {
-                score += SumOfBallInFrame(i);
+                score += SumOfRollScores(i);
             }
 
             _totalScore += score;
@@ -100,15 +100,13 @@ public class BowlingGame {
         }
     }
 
-    public bool IsLastRoll() {
-        return _currentRoll == FIRST_ROLL || (_currentFrameIndex == MAX_FRAMES && _currentRoll == THIRD_ROLL);
-    }
+    public bool IsLastRoll() => _currentRoll == FIRST_ROLL || (_currentFrameIndex == MAX_FRAMES && _currentRoll == THIRD_ROLL);
 
     private int StrikeBonus(int frameIndex) => _frames[frameIndex + 1].FirstRollScore + _frames[frameIndex + 1].SecondRollScore;
 
     private int SpareBonus(int frameIndex) => _frames[frameIndex + 1].FirstRollScore;
 
-    private int SumOfBallInFrame(int frameIndex) {
+    private int SumOfRollScores(int frameIndex) {
         int score = 0;
         if (frameIndex == 9) score += _frames[frameIndex].ThirdRollScore;
 
