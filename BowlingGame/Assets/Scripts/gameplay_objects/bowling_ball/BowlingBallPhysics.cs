@@ -2,7 +2,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class BowlingBallPhysics : MonoBehaviour {
-    [SerializeField] private float _forceMultiplier = 20f;
+    [SerializeField] private float _forceMultiplier = 40f;
     [SerializeField] private float _spinMultiplier = 10f;
 
     [SerializeField] Rigidbody _rb;

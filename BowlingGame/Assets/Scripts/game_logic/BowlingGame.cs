@@ -1,21 +1,28 @@
 using System;
-using UnityEngine.Apple;
+using System.Collections.Generic;
 
 public class BowlingGame {
     private const int MAX_FRAMES = 10;
     private const int PINS_PER_FRAME = 10;
 
-    private int _currentFrame = 1;
+    private int _currentFrameIndex = 1;
     private int _currentRoll = 1;
-    private readonly int[] rolls = new int[21];
-    private int currentRollIndex = 0;
+    private int _totalScore = 0;
+    private List<BowlingFrame> _frames = new();
 
-    public int Score => CalculateScore();
-    public bool IsGameOver => _currentFrame > MAX_FRAMES;
+    public int TotalScore => _totalScore;
+    public bool IsGameOver => _currentFrameIndex > MAX_FRAMES;
 
     public event Action<int, int, int> OnGameStateUpdate = delegate { };
+    public event Action<List<BowlingFrame>> OnUpdateScoreBoard = delegate { };
     public event Action<bool> OnRollEnded = delegate { };
     public event Action OnGameOver = delegate { };
+
+    public BowlingGame() {
+        for (int i = 1; i <= MAX_FRAMES; i++) {
+            _frames.Add(new BowlingFrame(i));
+        }
+    }
 
     public void Roll(int pinsKnocked) {
         if (IsGameOver) OnGameOver.Invoke();
@@ -24,10 +31,11 @@ public class BowlingGame {
             throw new ArgumentException("Invalid number of pins knocked down.");
         }
 
-        rolls[currentRollIndex++] = pinsKnocked;
+        var frame = _frames[_currentFrameIndex - 1];
+        frame.UpdateScore(_currentRoll, pinsKnocked);
 
-
-        if (_currentFrame < MAX_FRAMES) {
+        // Calculates if we should move to the next frame or just increase the roll count
+        if (_currentFrameIndex < MAX_FRAMES) {
             if (_currentRoll == 1 && pinsKnocked == PINS_PER_FRAME) {
                 MoveToNextFrame();
             }
@@ -47,48 +55,55 @@ public class BowlingGame {
             }
         }
 
-        OnGameStateUpdate.Invoke(_currentFrame, _currentRoll, Score);
+        CalculateFrameScores();
+        OnUpdateScoreBoard.Invoke(_frames);
+        OnGameStateUpdate.Invoke(_currentFrameIndex, _currentRoll, TotalScore);
         OnRollEnded.Invoke(IsLastRoll());
     }
 
     private void MoveToNextFrame() {
-        _currentFrame++;
+        _currentFrameIndex++;
         _currentRoll = 1;
     }
 
-    private int CalculateScore() {
+    // Find a way to calculate the frame scores
+    private void CalculateFrameScores() {
         int score = 0;
-        int rollIndex = 0;
+        _totalScore = 0;
 
-        for (int frame = 1; frame <= MAX_FRAMES; frame++) {
-            if (IsStrike(rollIndex)) {
-                score += 10 + StrikeBonus(rollIndex);
-                rollIndex++;
+        for (int i = 0; i < MAX_FRAMES; i++) {
+            var frame = _frames[i];
+
+            if (frame.IsStrike() && i < MAX_FRAMES - 1) {
+                score += 10 + StrikeBonus(i);
             }
-            else if (IsSpare(rollIndex)) {
-                score += 10 + SpareBonus(rollIndex);
-                rollIndex += 2;
+            else if (frame.IsSpare() && i < MAX_FRAMES - 1) {
+                score += 10 + SpareBonus(i);
             }
             else {
-                score += SumOfBallInFrame(rollIndex);
-                rollIndex += 2;
+                score += SumOfBallInFrame(i);
             }
-        }
 
-        return score;
+            _totalScore += score;
+            _frames[i].TotalScore = TotalScore;
+            score = 0;
+        }
     }
 
     public bool IsLastRoll() {
-        return _currentRoll == 1 || (_currentFrame == 10 && _currentRoll == 3);
+        return _currentRoll == 1 || (_currentFrameIndex == 10 && _currentRoll == 3);
     }
 
-    private bool IsStrike(int rollIndex) => rolls[rollIndex] == PINS_PER_FRAME;
+    private int StrikeBonus(int frameIndex) => _frames[frameIndex + 1].FirstRollScore + _frames[frameIndex + 1].SecondRollScore;
 
-    private bool IsSpare(int rollIndex) => rolls[rollIndex] + rolls[rollIndex + 1] == PINS_PER_FRAME;
+    private int SpareBonus(int frameIndex) => _frames[frameIndex + 1].FirstRollScore;
 
-    private int StrikeBonus(int rollIndex) => rolls[rollIndex + 1] + rolls[rollIndex + 2];
-
-    private int SpareBonus(int rollIndex) => rolls[rollIndex + 2];
-
-    private int SumOfBallInFrame(int rollIndex) => rolls[rollIndex] + rolls[rollIndex + 1];
+    private int SumOfBallInFrame(int frameIndex) {
+        int score = 0;
+        if (frameIndex == 9) {
+            score += _frames[frameIndex].ThirdRollScore;
+        }
+        score += _frames[frameIndex].FirstRollScore + _frames[frameIndex].SecondRollScore;
+        return score;
+    }
 }
