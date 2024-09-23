@@ -8318,6 +8318,7 @@ MonoBehaviour:
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
+  m_ScrollDeltaPerTick: 6
 --- !u!1 &1313120537
 GameObject:
   m_ObjectHideFlags: 0
@@ -8942,6 +8943,7 @@ MonoBehaviour:
   - {fileID: 922537530}
   - {fileID: 2012885769}
   - {fileID: 328269924}
+  _inputReader: {fileID: 11400000, guid: f0ad4bd72c9f3461fa7f84b595a127c8, type: 2}
 --- !u!1 &1387013652
 GameObject:
   m_ObjectHideFlags: 0

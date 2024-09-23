@@ -85,13 +85,13 @@ public class BowlingGame {
             var frame = _frames[i];
 
             if (frame.IsStrike() && i < MAX_FRAMES - 1) {
-                score += 10 + StrikeBonus(i);
+                score += 10 + _frames[i + 1].FrameScore;
             }
             else if (frame.IsSpare() && i < MAX_FRAMES - 1) {
-                score += 10 + SpareBonus(i);
+                score += 10 + (_frames[i + 1].FirstRollScore ?? 0);
             }
             else {
-                score += SumOfRollScores(i);
+                score += frame.GetSumOfRollScores(i);
             }
 
             _totalScore += score;
@@ -101,16 +101,4 @@ public class BowlingGame {
     }
 
     public bool IsLastRoll() => _currentRoll == FIRST_ROLL || (_currentFrameIndex == MAX_FRAMES && _currentRoll == THIRD_ROLL);
-
-    private int StrikeBonus(int frameIndex) => _frames[frameIndex + 1].FirstRollScore + _frames[frameIndex + 1].SecondRollScore;
-
-    private int SpareBonus(int frameIndex) => _frames[frameIndex + 1].FirstRollScore;
-
-    private int SumOfRollScores(int frameIndex) {
-        int score = 0;
-        if (frameIndex == 9) score += _frames[frameIndex].ThirdRollScore;
-
-        score += _frames[frameIndex].FirstRollScore + _frames[frameIndex].SecondRollScore;
-        return score;
-    }
 }

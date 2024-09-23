@@ -12,6 +12,8 @@ public class InputReader : ScriptableObject, PlayerInputActions.IPlayerActions {
     public event UnityAction ChargeStarted = delegate { };
     public event UnityAction ChargeFinished = delegate { };
     public event UnityAction ActionPerformed = delegate { };
+    public event UnityAction OnMenuOpen = delegate { };
+    public event UnityAction OnMenuClosed = delegate { };
 
     private PlayerInputActions _inputActions;
 
@@ -47,5 +49,16 @@ public class InputReader : ScriptableObject, PlayerInputActions.IPlayerActions {
     public void OnMove(InputAction.CallbackContext context) {
         Move.Invoke(context.ReadValue<Vector2>());
         ActionPerformed.Invoke();
+    }
+
+    public void OnMenu(InputAction.CallbackContext context) {
+        switch (context.phase) {
+            case InputActionPhase.Started:
+                OnMenuOpen.Invoke();
+                break;
+            case InputActionPhase.Canceled:
+                OnMenuClosed.Invoke();
+                break;
+        }
     }
 }

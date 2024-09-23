@@ -30,8 +30,7 @@ public class GameController : MonoBehaviour {
 
     void HandleUpdateScoreBoard(List<BowlingFrame> frames) {
         foreach (BowlingFrame frame in frames) {
-            Debug.Log(frame.FrameNumber + " " + frame.FirstRollScore + " " + frame.SecondRollScore);
-            _scoreTable.UpdateScore(frame);
+            _scoreTable.UpdatePanelForFrame(frame);
         }
     }
     
