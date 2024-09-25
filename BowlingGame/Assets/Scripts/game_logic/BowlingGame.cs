@@ -36,7 +36,7 @@ public class BowlingGame {
         }
 
         var frame = _frames[_currentFrameIndex - 1];
-        frame.UpdateScore(_currentRoll, pinsKnocked);
+        frame.UpdateFrame(_currentRoll, pinsKnocked);
 
         if (_currentFrameIndex < MAX_FRAMES) {
             HandleRegularFrameRoll(pinsKnocked);
@@ -51,7 +51,7 @@ public class BowlingGame {
         OnRollEnded.Invoke(IsLastRoll());
     }
 
-    private void HandleRegularFrameRoll(int pinsKnocked) {
+    void HandleRegularFrameRoll(int pinsKnocked) {
         if (_currentRoll == FIRST_ROLL && pinsKnocked == PINS_PER_FRAME) {
             MoveToNextFrame();
         }
@@ -63,7 +63,7 @@ public class BowlingGame {
         }
     }
 
-    private void HandleFinalFrameRoll(int pinsKnocked) {
+    void HandleFinalFrameRoll(int pinsKnocked) {
         if (_currentRoll < THIRD_ROLL && (pinsKnocked == PINS_PER_FRAME || _currentRoll == SECOND_ROLL)) {
             _currentRoll++;
         }
@@ -72,31 +72,25 @@ public class BowlingGame {
         }
     }
 
-    private void MoveToNextFrame() {
+    void MoveToNextFrame() {
         _currentFrameIndex++;
         _currentRoll = FIRST_ROLL;
     }
 
-    private void CalculateFrameScores() {
-        int score = 0;
+    void CalculateFrameScores() {
         _totalScore = 0;
 
         for (int i = 0; i < MAX_FRAMES; i++) {
             var frame = _frames[i];
 
             if (frame.IsStrike() && i < MAX_FRAMES - 1) {
-                score += 10 + _frames[i + 1].FrameScore;
+                frame.SetBonus((_frames[i + 1].FirstRollScore ?? 0) + (_frames[i + 1].SecondRollScore ?? 0));
             }
             else if (frame.IsSpare() && i < MAX_FRAMES - 1) {
-                score += 10 + (_frames[i + 1].FirstRollScore ?? 0);
-            }
-            else {
-                score += frame.GetSumOfRollScores(i);
+                frame.SetBonus(_frames[i + 1].FirstRollScore ?? 0);
             }
 
-            _totalScore += score;
-            frame.Score = TotalScore;
-            score = 0;
+            _totalScore += frame.Score;
         }
     }
 

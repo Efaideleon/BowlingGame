@@ -1,28 +1,34 @@
+using System;
+
 public class BowlingFrame {
     const int PINS_PER_FRAME = 10;
 
-    public int FrameNumber;
-    public int? FirstRollScore;
-    public int? SecondRollScore;
-    public int? ThirdRollScore;
-    public int Score;
-    public bool IsLastFrame = false;
+    public int FrameNumber => _frameNumber;
+    public int? FirstRollScore => _firstRollScore;
+    public int? SecondRollScore => _secondRollScore;
+    public int? ThirdRollScore => _thirdRollScore;
+    public int Score => (FirstRollScore ?? 0) + (SecondRollScore ?? 0) + (ThirdRollScore ?? 0) + _bonus;
+    public bool IsLastFrame => _isLastFrame;
+    private int? _firstRollScore;
+    private int? _secondRollScore;
+    private int? _thirdRollScore;
+    private bool _isLastFrame = false;
+    private readonly int _frameNumber;
+    private int _bonus = 0;
 
-    public BowlingFrame(int frame) {
-        FrameNumber = frame;
-    }
+    public BowlingFrame(int frame) => _frameNumber = frame;
 
-    public void UpdateScore(int currentRoll, int pinsKnocked) {
+    public void UpdateFrame(int currentRoll, int pinsKnocked) {
         switch (currentRoll) {
             case 1:
-                FirstRollScore = pinsKnocked;
+                _firstRollScore = pinsKnocked;
                 break;
             case 2:
-                SecondRollScore = pinsKnocked;
+                _secondRollScore = pinsKnocked;
                 break;
             case 3:
-                ThirdRollScore = pinsKnocked;
-                IsLastFrame = true;
+                _thirdRollScore = pinsKnocked;
+                _isLastFrame = true;
                 break;
             default:
                 break;
@@ -33,20 +39,5 @@ public class BowlingFrame {
 
     public bool IsSpare() => !IsStrike() && (FirstRollScore ?? 0) + (SecondRollScore ?? 0) == PINS_PER_FRAME;
 
-    public int FrameScore => (FirstRollScore ?? 0) + (SecondRollScore ?? 0);
-
-    public int GetFirstRollScore() {
-        if (FirstRollScore.HasValue)
-            return FirstRollScore.Value;
-        return 0;
-    }
-
-    public int GetSumOfRollScores(int frameIndex) {
-        int score = 0;
-        if (frameIndex == 9 && ThirdRollScore.HasValue)
-            score += ThirdRollScore.Value;
-
-        score += FrameScore;
-        return score;
-    }
+    public void SetBonus(int bonus) => _bonus = bonus;
 };
