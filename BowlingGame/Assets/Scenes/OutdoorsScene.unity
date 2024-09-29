@@ -4024,7 +4024,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 658957444}
-  - component: {fileID: 658957443}
+  - component: {fileID: 658957445}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -4032,18 +4032,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &658957443
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 658957442}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c72e8a98cfbe9403da5a185d3b30289a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &658957444
 Transform:
   m_ObjectHideFlags: 0
@@ -4059,6 +4047,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &658957445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 658957442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01ec5b4479bd04b63b6f9f15f25bbe9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _config: {fileID: 11400000, guid: 60f66b92aa8724d3f8ae83eac21bd7af, type: 2}
+  _pinManager: {fileID: 342271559}
+  _ball: {fileID: 1595276640}
+  _playerController: {fileID: 149170978}
 --- !u!1 &671305229
 GameObject:
   m_ObjectHideFlags: 0
@@ -8694,7 +8698,7 @@ GameObject:
   - component: {fileID: 1349831113}
   - component: {fileID: 1349831112}
   m_Layer: 0
-  m_Name: UIManager
+  m_Name: ScoreBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8717,7 +8721,6 @@ MonoBehaviour:
   _scoreText: {fileID: 1976109033}
   _readyPanel: {fileID: 840664258}
   _scoreTable: {fileID: 1374129153}
-  _bowlingViewModel: {fileID: 2040904924}
   _input: {fileID: 11400000, guid: f0ad4bd72c9f3461fa7f84b595a127c8, type: 2}
 --- !u!4 &1349831113
 Transform:
@@ -15307,7 +15310,7 @@ GameObject:
   - component: {fileID: 2040904925}
   - component: {fileID: 2040904924}
   m_Layer: 0
-  m_Name: GameController
+  m_Name: UIController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15325,11 +15328,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51ec36617be3f486a8c347960376cc51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pinManager: {fileID: 342271559}
-  _playerController: {fileID: 149170978}
-  _bowlingBall: {fileID: 1595276640}
   _uiManager: {fileID: 1349831112}
   _scoreTable: {fileID: 1374129158}
+  _gameManager: {fileID: 658957445}
 --- !u!4 &2040904925
 Transform:
   m_ObjectHideFlags: 0

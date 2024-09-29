@@ -1,4 +1,5 @@
 using System.Collections;
+using NSubstitute;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -9,7 +10,11 @@ public class BowlingBallTest
     [Test]
     public void BowlingBall_TotalScore_Test()
     {
-        var bowlingGame = new BowlingGame();
+        var mockConfig = Substitute.For<IBowlingGameConfig>();
+        mockConfig.MaxFrames.Returns(10);
+        mockConfig.MaxPins.Returns(10);
+
+        var bowlingGame = new BowlingGame(mockConfig);
 
         // Frame 1
         bowlingGame.Roll(5);

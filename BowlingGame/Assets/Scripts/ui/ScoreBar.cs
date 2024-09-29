@@ -1,7 +1,8 @@
 using UnityEngine;
 using TMPro;
+using BowlingGameEnums;
 
-public class UIManager : MonoBehaviour {
+public class ScoreBar : MonoBehaviour {
     [Header("UI Text")]
     [SerializeField] TextMeshProUGUI _currentFrameText;
     [SerializeField] TextMeshProUGUI _currentRollText;
@@ -12,14 +13,13 @@ public class UIManager : MonoBehaviour {
     [SerializeField] GameObject _scoreTable;
 
     [Header("References")]
-    [SerializeField] GameController _bowlingViewModel;
     [SerializeField] InputReader _input;
 
     void Awake() {
         _input.ActionPerformed += DisablePanels;
     }
 
-    public void UpdateUI(int frame, int roll, int score) {
+    public void UpdateUI(int frame, RollNumber roll, int score) {
         _currentRollText.text = "Roll: " + roll;
         _scoreText.text = "Score: " + score;
         _currentFrameText.text = "Frame: " + frame;
