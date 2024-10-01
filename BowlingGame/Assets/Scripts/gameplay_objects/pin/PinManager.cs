@@ -4,30 +4,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class PinManager : MonoBehaviour {
+public class PinManager : MonoBehaviour, IPinManager {
     [Header("References")]
     [SerializeField] Pin bowlingPinPrefab;
 
     [Header("Settings")]
     [SerializeField] float pinSettleTime = 9f;
 
-    private const int NUM_PIN_ROWS = 4;
-    private readonly float _pinSpacing = 0.3f;
-    private readonly static float _pinsBaseHeight = 1.2f;
-    private readonly static Vector2 _pinsOriginPosition = new(0, 22);
+    const int NUM_PIN_ROWS = 4;
+    readonly float _pinSpacing = 0.3f;
+    readonly static float _pinsBaseHeight = 1.2f;
+    readonly static Vector2 _pinsOriginPosition = new(0, 22);
 
-    private readonly List<Pin> _pins = new();
+    readonly List<Pin> _pins = new();
     public event Action<int> OnPinsSettled;
 
     void Start() {
         LoadPins();
     }
 
-    private void InstantiatePins(IEnumerable<Vector3> pinPositions) {
+    void InstantiatePins(IEnumerable<Vector3> pinPositions) {
         _pins.AddRange(pinPositions.Select(position => Instantiate(bowlingPinPrefab, position, Quaternion.identity)));
     }
 
-    private IEnumerable<Vector3> CalculatePositions() {
+    IEnumerable<Vector3> CalculatePositions() {
         for (int row = 0; row < NUM_PIN_ROWS; row++) {
             float xOffset = -(row * _pinSpacing) / 2f;
 

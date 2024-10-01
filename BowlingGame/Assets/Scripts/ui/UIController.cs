@@ -1,44 +1,26 @@
-using bowling_ball;
-using player;
+using System;
 using System.Collections.Generic;
-using ui;
 using UnityEngine;
 
 /// <summary>
-/// The Controller in the MVC architecture between the model (BowlingBall) and Views.
+/// The Controller in the MVP architecture between the model (BowlingBall) and Views.
 /// </summary>
 public class UIController : MonoBehaviour {
-    [Header("References")]
-    [SerializeField] ScoreBar _uiManager;
-    [SerializeField] ScoreTable _scoreTable;
-    [SerializeField] GameManager _gameManager;
+    [SerializeField] List<UIElement> m_UIElements;
+    // The model in the MVP pattern
+    [SerializeField] BowlingGame m_Game;
 
-    void OnEnable() {
-        _gameManager.Game.OnRollCompleted += HandleRollCompleted;
+    void Awake() {
+        m_Game.OnRollCompleted += UpdateUI;
     }
 
-    void OnDisable() {
-        _gameManager.Game.OnRollCompleted -= HandleRollCompleted;
-    }
-
-    void HandleRollCompleted() {
-        var isLastRoll = _gameManager.Game.IsLastRoll();
-        if (isLastRoll) _uiManager.ActivatePanels();
-        UpdateUI();
+    void OnDestroy() {
+        m_Game.OnRollCompleted -= UpdateUI;
     }
 
     void UpdateUI() {
-        _uiManager.UpdateUI(
-            _gameManager.Game.CurrentFrameIndex,
-            _gameManager.Game.CurrentRoll,
-            _gameManager.Game.TotalScore
-        );
-        UpdateScoreBoard(_gameManager.Game.Frames);
-    }
-
-    void UpdateScoreBoard(List<BowlingFrame> frames) {
-        foreach (BowlingFrame frame in frames) {
-            _scoreTable.UpdatePanelForFrame(frame);
+        foreach (var uiElement in m_UIElements) {
+            uiElement.UpdateUI(m_Game);
         }
     }
 }

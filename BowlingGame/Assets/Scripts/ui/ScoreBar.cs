@@ -2,7 +2,7 @@ using UnityEngine;
 using TMPro;
 using BowlingGameEnums;
 
-public class ScoreBar : MonoBehaviour {
+public class ScoreBar : UIElement {
     [Header("UI Text")]
     [SerializeField] TextMeshProUGUI _currentFrameText;
     [SerializeField] TextMeshProUGUI _currentRollText;
@@ -19,7 +19,18 @@ public class ScoreBar : MonoBehaviour {
         _input.ActionPerformed += DisablePanels;
     }
 
-    public void UpdateUI(int frame, RollNumber roll, int score) {
+    public override void UpdateUI(IBowlingGame bowlingGame) {
+        var isLastRoll = bowlingGame.IsLastRoll();
+        if (isLastRoll) ActivatePanels();
+
+        UpdateText(
+            bowlingGame.CurrentFrameIndex,
+            bowlingGame.CurrentRoll,
+            bowlingGame.TotalScore
+        );
+    }
+
+    void UpdateText(int frame, RollNumber roll, int score) {
         _currentRollText.text = "Roll: " + roll;
         _scoreText.text = "Score: " + score;
         _currentFrameText.text = "Frame: " + frame;

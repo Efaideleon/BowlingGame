@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace ui {
-    public class ScoreTable : MonoBehaviour {
+    public class ScoreTable : UIElement {
         [SerializeField] List<ScorePanel> ScorePanels = new(10);
         [SerializeField] InputReader _inputReader;
 
@@ -10,8 +10,10 @@ namespace ui {
             _inputReader.OnMenuOpen += ToggleScoreBoard;
         }
 
-        public void UpdatePanelForFrame(BowlingFrame frame) {
-            ScorePanels[frame.FrameNumber - 1].UpdateUI(frame);
+        public override void UpdateUI(IBowlingGame bowlingGame) {
+            foreach (BowlingFrame frame in bowlingGame.Frames) {
+                ScorePanels[frame.FrameNumber - 1].UpdateUI(frame);
+            }
         }
         void OnDestroy() {
             _inputReader.OnMenuOpen -= ToggleScoreBoard;

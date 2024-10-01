@@ -10,11 +10,15 @@ public class BowlingBallTest
     [Test]
     public void BowlingBall_TotalScore_Test()
     {
-        var mockConfig = Substitute.For<IBowlingGameConfig>();
-        mockConfig.MaxFrames.Returns(10);
-        mockConfig.MaxPins.Returns(10);
 
-        var bowlingGame = new BowlingGame(mockConfig);
+        BowlingGameConfig _config = ScriptableObject.CreateInstance<BowlingGameConfig>(); // Or use a mocking framework
+        _config.MaxFrames = 10;
+        _config.MaxPins = 10;
+
+
+        BowlingGame bowlingGame = ScriptableObject.CreateInstance<BowlingGame>();
+        bowlingGame.Config = _config;
+        bowlingGame.OnValidate();
 
         // Frame 1
         bowlingGame.Roll(5);

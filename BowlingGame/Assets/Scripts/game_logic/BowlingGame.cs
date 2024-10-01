@@ -1,12 +1,20 @@
 using BowlingGameEnums;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
-public class BowlingGame {
-    readonly IBowlingGameConfig _config;
+[CreateAssetMenu(fileName = "BowlingGame", menuName = "BowlingBall/BowlingGame")]
+public class BowlingGame : ScriptableObject, IBowlingGame {
+    [SerializeField] BowlingGameConfig _config;
+
+    public BowlingGameConfig Config {
+        get { return _config; }
+        set { _config = value; }
+    }
+
     List<BowlingFrame> _frames = new();
-
     public List<BowlingFrame> Frames => _frames;
+
     public int TotalScore { get; private set; } = 0;
     public int CurrentFrameIndex { get; private set; } = 1;
     public RollNumber CurrentRoll { get; private set; } = RollNumber.First;
@@ -15,11 +23,13 @@ public class BowlingGame {
     public event Action OnRollCompleted = delegate { };
     public event Action OnGameOver = delegate { };
 
-    public BowlingGame(IBowlingGameConfig config) {
-        _config = config;
+    public void OnValidate() => InitializeFrames();
 
-        for (int i = 1; i <= _config.MaxFrames; i++) {
-            _frames.Add(new BowlingFrame(i, config));
+    void InitializeFrames() {
+        if (_frames.Count == 0) {
+            for (int i = 1; i <= _config.MaxFrames; i++) {
+                _frames.Add(new BowlingFrame(i, _config));
+            }
         }
     }
 
@@ -33,7 +43,7 @@ public class BowlingGame {
             throw new ArgumentException("Invalid number of pins knocked down.");
         }
 
-        var frame = _frames[CurrentFrameIndex - 1];
+        var frame = Frames[CurrentFrameIndex - 1];
         frame.RecordRollScore(CurrentRoll, pinsKnocked);
 
         if (CurrentFrameIndex < _config.MaxFrames) {
@@ -78,7 +88,7 @@ public class BowlingGame {
         TotalScore = 0;
 
         for (int i = 0; i < _config.MaxFrames; i++) {
-            var frame = _frames[i];
+            var frame = Frames[i];
             frame.Bonus = CalculateBonus(i);
             TotalScore += frame.Score;
         }
@@ -87,8 +97,8 @@ public class BowlingGame {
     int CalculateBonus(int currentFrameIndex) {
         if (currentFrameIndex >= _config.MaxFrames - 1) return 0;
 
-        var frame = _frames[currentFrameIndex];
-        var nextFrame = _frames[currentFrameIndex + 1];
+        var frame = Frames[currentFrameIndex];
+        var nextFrame = Frames[currentFrameIndex + 1];
 
         return frame.IsStrike()
                 ? (nextFrame.FirstRollScore ?? 0) + (nextFrame.SecondRollScore ?? 0)
@@ -98,4 +108,10 @@ public class BowlingGame {
     }
 
     public bool IsLastRoll() => CurrentRoll == RollNumber.First || (CurrentFrameIndex == _config.MaxFrames && CurrentRoll == RollNumber.Third);
+
+    public void Reset() {
+        TotalScore = 0;
+        CurrentFrameIndex = 1;
+        CurrentRoll = RollNumber.First;
+    }
 }
