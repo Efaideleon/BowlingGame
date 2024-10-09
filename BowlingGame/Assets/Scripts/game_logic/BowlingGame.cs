@@ -5,113 +5,61 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "BowlingGame", menuName = "BowlingBall/BowlingGame")]
 public class BowlingGame : ScriptableObject, IBowlingGame {
-    [SerializeField] BowlingGameConfig _config;
+    [SerializeField] BowlingGameConfig m_GameConfig;
+    private RollTracker m_RollProgressTracker;
 
     public BowlingGameConfig Config {
-        get { return _config; }
-        set { _config = value; }
+        get { return m_GameConfig; }
+        set { m_GameConfig = value; }
     }
 
-    List<BowlingFrame> _frames = new();
-    public List<BowlingFrame> Frames => _frames;
+    public List<BowlingFrame> Frames { get; } = new();
+    public int TotalScore {
+        get {
+            int sum = 0;
+            foreach (var frame in Frames)
+                sum += frame.Score;
+            return sum;
+        }
+    }
 
-    public int TotalScore { get; private set; } = 0;
-    public int CurrentFrameIndex { get; private set; } = 1;
-    public RollNumber CurrentRoll { get; private set; } = RollNumber.First;
-    public bool IsGameOver => CurrentFrameIndex > _config.MaxFrames;
+    public RollNumber CurrentRoll => m_RollProgressTracker.CurrentRoll; 
+    public int CurrentFrameIndex => m_RollProgressTracker.CurrentFrameIndex;
+    public bool HasGameEnded => CurrentFrameIndex >= m_GameConfig.MaxFrames;
 
     public event Action OnRollCompleted = delegate { };
     public event Action OnGameOver = delegate { };
 
-    public void OnValidate() => InitializeFrames();
+    public void OnValidate() {
+        InitializeFrames();
+        m_RollProgressTracker = new RollTracker(Config);
+    }
 
     void InitializeFrames() {
-        if (_frames.Count == 0) {
-            for (int i = 1; i <= _config.MaxFrames; i++) {
-                _frames.Add(new BowlingFrame(i, _config));
+        if (Frames.Count == 0) {
+            for (int frameNumber = 1; frameNumber <= m_GameConfig.MaxFrames; frameNumber++) {
+                Frames.Add(new BowlingFrame(frameNumber, m_GameConfig, Frames));
             }
         }
     }
 
-    public void Roll(int pinsKnocked) {
-        if (IsGameOver) {
+    public void ProcessRoll(int pinsKnocked) {
+        if (HasGameEnded) {
             OnGameOver.Invoke();
             return;
         }
 
-        if (pinsKnocked < 0 || pinsKnocked > _config.MaxPins) {
+        if (pinsKnocked < 0 || pinsKnocked > m_GameConfig.MaxPins) {
             throw new ArgumentException("Invalid number of pins knocked down.");
         }
 
-        var frame = Frames[CurrentFrameIndex - 1];
+        var frame = Frames[CurrentFrameIndex];
         frame.RecordRollScore(CurrentRoll, pinsKnocked);
 
-        if (CurrentFrameIndex < _config.MaxFrames) {
-            HandleRegularFrameRoll(pinsKnocked);
-        }
-        else {
-            HandleFinalFrameRoll(pinsKnocked);
-        }
-
-        CalculateFrameScores();
+        m_RollProgressTracker.ProceedToNextRoll(pinsKnocked);
         OnRollCompleted.Invoke();
     }
 
-
-    void HandleRegularFrameRoll(int pinsKnocked) {
-        if (CurrentRoll == RollNumber.First && pinsKnocked == _config.MaxPins) {
-            MoveToNextFrame();
-        }
-        else if (CurrentRoll == RollNumber.Second) {
-            MoveToNextFrame();
-        }
-        else {
-            CurrentRoll++;
-        }
-    }
-
-    void HandleFinalFrameRoll(int pinsKnocked) {
-        if (CurrentRoll == RollNumber.First || CurrentRoll == RollNumber.Second) {
-            CurrentRoll++;
-        }
-        else {
-            MoveToNextFrame();
-        }
-    }
-
-    void MoveToNextFrame() {
-        CurrentFrameIndex++;
-        CurrentRoll = RollNumber.First;
-    }
-
-    void CalculateFrameScores() {
-        TotalScore = 0;
-
-        for (int i = 0; i < _config.MaxFrames; i++) {
-            var frame = Frames[i];
-            frame.Bonus = CalculateBonus(i);
-            TotalScore += frame.Score;
-        }
-    }
-
-    int CalculateBonus(int currentFrameIndex) {
-        if (currentFrameIndex >= _config.MaxFrames - 1) return 0;
-
-        var frame = Frames[currentFrameIndex];
-        var nextFrame = Frames[currentFrameIndex + 1];
-
-        return frame.IsStrike()
-                ? (nextFrame.FirstRollScore ?? 0) + (nextFrame.SecondRollScore ?? 0)
-                : frame.IsSpare()
-                    ? nextFrame.FirstRollScore ?? 0
-                    : 0;
-    }
-
-    public bool IsLastRoll() => CurrentRoll == RollNumber.First || (CurrentFrameIndex == _config.MaxFrames && CurrentRoll == RollNumber.Third);
-
-    public void Reset() {
-        TotalScore = 0;
-        CurrentFrameIndex = 1;
-        CurrentRoll = RollNumber.First;
-    }
+    public bool IsLastRoll() => m_RollProgressTracker.IsLastRoll();
+    public void Reset() => m_RollProgressTracker.Reset();
 }

@@ -15,9 +15,9 @@ public class PinManager : MonoBehaviour, IPinManager {
     readonly float _pinSpacing = 0.3f;
     readonly static float _pinsBaseHeight = 1.2f;
     readonly static Vector2 _pinsOriginPosition = new(0, 22);
-
     readonly List<Pin> _pins = new();
-    public event Action<int> OnPinsSettled;
+
+    public bool AreAllPinsSettled => _pins.All(pin => pin.IsSettled);
 
     void Start() {
         LoadPins();
@@ -48,8 +48,6 @@ public class PinManager : MonoBehaviour, IPinManager {
         }
     }
 
-    int CountFallenPins() => _pins.Count(pin => pin.IsFallen && pin.gameObject.activeSelf);
-
     void RemoveFallenPins() {
         foreach (Pin pin in _pins) {
             if (pin.IsFallen) {
@@ -70,16 +68,5 @@ public class PinManager : MonoBehaviour, IPinManager {
         }
     }
 
-    public void CheckForPinsToSettle() => StartCoroutine(WaitForPinsToSettle());
-
-    private IEnumerator WaitForPinsToSettle() {
-        yield return new WaitForSeconds(pinSettleTime);
-
-        if (_pins.All(pin => pin.IsSettled)) {
-            OnPinsSettled.Invoke(CountFallenPins());
-        }
-        else {
-            StartCoroutine(WaitForPinsToSettle());
-        }
-    }
+    public int CountFallenPins() => _pins.Count(pin => pin.IsFallen && pin.gameObject.activeSelf);
 }

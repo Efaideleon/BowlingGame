@@ -21,32 +21,32 @@ public class BowlingBallTest
         bowlingGame.OnValidate();
 
         // Frame 1
-        bowlingGame.Roll(5);
-        bowlingGame.Roll(5);
+        bowlingGame.ProcessRoll(5);
+        bowlingGame.ProcessRoll(5);
         // Frame 2
-        bowlingGame.Roll(4);
-        bowlingGame.Roll(5);
+        bowlingGame.ProcessRoll(4);
+        bowlingGame.ProcessRoll(5);
         // Frame 3
-        bowlingGame.Roll(8);
-        bowlingGame.Roll(2);
+        bowlingGame.ProcessRoll(8);
+        bowlingGame.ProcessRoll(2);
         // Frame 4
-        bowlingGame.Roll(10);
+        bowlingGame.ProcessRoll(10);
         // Frame 5
-        bowlingGame.Roll(0);
-        bowlingGame.Roll(10);
+        bowlingGame.ProcessRoll(0);
+        bowlingGame.ProcessRoll(10);
         // Frame 6
-        bowlingGame.Roll(10);
+        bowlingGame.ProcessRoll(10);
         // Frame 7
-        bowlingGame.Roll(6);
-        bowlingGame.Roll(2);
+        bowlingGame.ProcessRoll(6);
+        bowlingGame.ProcessRoll(2);
         // Frame 8
-        bowlingGame.Roll(10);
+        bowlingGame.ProcessRoll(10);
         // Frame 9
-        bowlingGame.Roll(4);
-        bowlingGame.Roll(6);
+        bowlingGame.ProcessRoll(4);
+        bowlingGame.ProcessRoll(6);
         // Frame 10
-        bowlingGame.Roll(10);
-        bowlingGame.Roll(10);
+        bowlingGame.ProcessRoll(10);
+        bowlingGame.ProcessRoll(10);
 
         Assert.AreEqual(169, bowlingGame.TotalScore);
     }

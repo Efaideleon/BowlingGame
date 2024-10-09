@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using BowlingGameEnums;
 
 public class BowlingFrame {
@@ -7,7 +8,7 @@ public class BowlingFrame {
     private int? _secondRollScore;
     private int? _thirdRollScore;
     private int _frameNumber;
-    private int _bonus;
+    private List<BowlingFrame> m_frames;
 
     public int FrameNumber {
         get { return _frameNumber; }
@@ -34,17 +35,24 @@ public class BowlingFrame {
         private set { _thirdRollScore = value < 0 ? null : value; }
     }
 
-    public int Bonus {
-        get { return _bonus; }
-        set { _bonus = Math.Max(0, value); }
+    public int Bonus() {
+        if (FrameNumber >= m_frames.Count) return 0;
+        var nextFrame = m_frames[FrameNumber];
+
+        return IsStrike()
+                ? (nextFrame.FirstRollScore ?? 0) + (nextFrame.SecondRollScore ?? 0)
+                : IsSpare()
+                    ? nextFrame.FirstRollScore ?? 0
+                    : 0;
     }
 
-    public int Score => (FirstRollScore ?? 0) + (SecondRollScore ?? 0) + (ThirdRollScore ?? 0) + Bonus;
+    public int Score => (FirstRollScore ?? 0) + (SecondRollScore ?? 0) + (ThirdRollScore ?? 0) + Bonus();
     public bool IsLastFrame => FrameNumber == _config.MaxFrames;
 
-    public BowlingFrame(int frame, IBowlingGameConfig config) {
+    public BowlingFrame(int frame, IBowlingGameConfig config, List<BowlingFrame> frames) {
         FrameNumber = frame;
         _config = config;
+        m_frames = frames;
     } 
 
     public void RecordRollScore(RollNumber rollNumber, int pinsKnocked) {

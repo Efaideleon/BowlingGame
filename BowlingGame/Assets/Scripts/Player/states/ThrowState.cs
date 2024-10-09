@@ -9,7 +9,6 @@ namespace states
 
         public override void OnEnter()
         {
-            Debug.Log("Throw State");
             _animator.CrossFade(ThrowHash, _crossFadeDuration);
         }
     }

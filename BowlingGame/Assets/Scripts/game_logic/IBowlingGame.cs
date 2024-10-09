@@ -8,11 +8,11 @@ public interface IBowlingGame {
     public int TotalScore { get; }
     public int CurrentFrameIndex { get; }
     public RollNumber CurrentRoll { get; }
-    public bool IsGameOver { get; }
+    public bool HasGameEnded { get; }
 
     public event Action OnRollCompleted;
     public event Action OnGameOver;
 
-    public void Roll(int pinsKnocked);
+    public void ProcessRoll(int pinsKnocked);
     public bool IsLastRoll();
 }

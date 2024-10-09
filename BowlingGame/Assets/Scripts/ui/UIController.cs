@@ -6,11 +6,18 @@ using UnityEngine;
 /// The Controller in the MVP architecture between the model (BowlingBall) and Views.
 /// </summary>
 public class UIController : MonoBehaviour {
+    [Header("UI Elements")]
+    [Tooltip("UI Elements that implement the IUIElement interface")]
     [SerializeField] List<UIElement> m_UIElements;
-    // The model in the MVP pattern
+
+    [Header("Data Model")]
+    [Tooltip("Store the Bowling Game data")]
     [SerializeField] BowlingGame m_Game;
 
     void Awake() {
+        if (m_Game == null) {
+            throw new NullReferenceException("m_Game is not initialized");
+        }
         m_Game.OnRollCompleted += UpdateUI;
     }
 
@@ -18,6 +25,9 @@ public class UIController : MonoBehaviour {
         m_Game.OnRollCompleted -= UpdateUI;
     }
 
+    /// <summary>
+    /// Updates the data for each UI Element.
+    /// </summary>
     void UpdateUI() {
         foreach (var uiElement in m_UIElements) {
             uiElement.UpdateUI(m_Game);
