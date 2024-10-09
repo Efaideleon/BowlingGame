@@ -17,9 +17,9 @@ public class Bonus {
         var frame = m_frames[currentFrameIndex];
         var nextFrame = m_frames[currentFrameIndex + 1];
 
-        return frame.IsStrike()
+        return frame.IsStrike
                 ? (nextFrame.FirstRollScore ?? 0) + (nextFrame.SecondRollScore ?? 0)
-                : frame.IsSpare()
+                : frame.IsSpare
                     ? nextFrame.FirstRollScore ?? 0
                     : 0;
     }

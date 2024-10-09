@@ -1,29 +1,30 @@
 using BowlingGameEnums;
+using game_logic;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using game_logic;
 
 [CreateAssetMenu(fileName = "BowlingGame", menuName = "BowlingBall/BowlingGame")]
 public class BowlingGame : ScriptableObject, IBowlingGame {
     [SerializeField] BowlingGameConfig m_GameConfig;
+    private BonusCalculator _bonusCalculator;
 
     public BowlingGameConfig Config {
         get { return m_GameConfig; }
         set { m_GameConfig = value; }
     }
 
-    public List<BowlingFrame> Frames { get; } = new();
+    public List<BowlingFrame> AllFrames { get; } = new();
     public int TotalScore {
         get {
             int sum = 0;
-            foreach (var frame in Frames)
+            foreach (var frame in AllFrames)
                 sum += frame.Score;
             return sum;
         }
     }
 
-    public RollNumber CurrentRoll => Frames[CurrentFrameIndex].CurrentRoll;
+    public BowlingFrame CurrentFrame => AllFrames[CurrentFrameIndex];
     public int CurrentFrameIndex { get; private set; } = 0;
     public bool HasGameEnded => CurrentFrameIndex >= m_GameConfig.MaxFrames;
 
@@ -32,12 +33,13 @@ public class BowlingGame : ScriptableObject, IBowlingGame {
 
     public void OnValidate() {
         InitializeFrames();
+        _bonusCalculator = new BonusCalculator(AllFrames);
     }
 
     void InitializeFrames() {
-        if (Frames.Count == 0) {
+        if (AllFrames.Count == 0) {
             for (int frameNumber = 1; frameNumber <= m_GameConfig.MaxFrames; frameNumber++) {
-                Frames.Add(new BowlingFrame(frameNumber, m_GameConfig, Frames));
+                AllFrames.Add(new BowlingFrame(frameNumber, m_GameConfig, AllFrames));
             }
         }
     }
@@ -52,16 +54,22 @@ public class BowlingGame : ScriptableObject, IBowlingGame {
             throw new ArgumentException("Invalid number of pins knocked down.");
         }
 
-        var frame = Frames[CurrentFrameIndex];
-        frame.Update(pinsKnocked);
+        CurrentFrame.UpdateRollScore(pinsKnocked);
+        UpdateAllFramesBonus();
 
-        if (frame.IsFinished) {
+        if (CurrentFrame.IsFinished) {
             CurrentFrameIndex++;
         }
 
         OnRollCompleted.Invoke();
     }
 
-    public bool IsLastRoll() => Frames[CurrentFrameIndex].IsLastRoll(); 
+    private void UpdateAllFramesBonus() {
+        for (int frameIndex = 0; frameIndex < AllFrames.Count; frameIndex++) {
+            AllFrames[frameIndex].UpdateBonus(_bonusCalculator.GetBonus(frameIndex));
+        }
+    }
+
+    public bool IsLastRoll() => CurrentFrame.IsLastRoll; 
     public void Reset() => CurrentFrameIndex = 0;
 }

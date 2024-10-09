@@ -43,7 +43,7 @@ namespace ui
                 SecondScore.text = frame.SecondRollScore.ToString();
             }
 
-            if (frame.IsSpare()) {
+            if (frame.IsSpare) {
                 SecondScore.text = "/";
             }
         }

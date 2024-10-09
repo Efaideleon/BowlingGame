@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using BowlingGameEnums;
+using UnityEngine;
 
 public class BowlingFrame {
     readonly IBowlingGameConfig _gameConfig;
@@ -9,6 +11,7 @@ public class BowlingFrame {
     private int? _thirdRollScore;
     private int _frameNumber;
     private List<BowlingFrame> _frames;
+    private int _bonus = 0;
 
     public RollNumber CurrentRoll { get; private set; } = RollNumber.First;
     public bool IsFinished { get; private set; } = false;
@@ -39,19 +42,7 @@ public class BowlingFrame {
         private set { _thirdRollScore = value < 0 ? null : value; }
     }
 
-    public int Bonus() {
-        if (FrameNumber >= _frames.Count) return 0;
-        var nextFrame = _frames[FrameNumber];
-
-        return IsStrike()
-                ? (nextFrame.FirstRollScore ?? 0) + (nextFrame.SecondRollScore ?? 0)
-                : IsSpare()
-                    ? nextFrame.FirstRollScore ?? 0
-                    : 0;
-    }
-
-    public int Score => (FirstRollScore ?? 0) + (SecondRollScore ?? 0) + (ThirdRollScore ?? 0) + Bonus();
-    public bool IsLastFrame => FrameNumber == _gameConfig.MaxFrames;
+    public int Score => (FirstRollScore ?? 0) + (SecondRollScore ?? 0) + (ThirdRollScore ?? 0) + _bonus;
 
     public BowlingFrame(int frame, IBowlingGameConfig config, List<BowlingFrame> frames) {
         FrameNumber = frame;
@@ -59,7 +50,7 @@ public class BowlingFrame {
         _frames = frames;
     }
 
-    public void Update(int pinsKnocked) {
+    public void UpdateRollScore(int pinsKnocked) {
         if (pinsKnocked < 0 || pinsKnocked > _gameConfig.MaxPins) {
             throw new ArgumentOutOfRangeException(
                 nameof(pinsKnocked), "pinsKnocked must be between 0 and " + _gameConfig.MaxPins
@@ -68,7 +59,7 @@ public class BowlingFrame {
         switch (CurrentRoll) {
             case RollNumber.First:
                 FirstRollScore = pinsKnocked;
-                if (IsStrike() && !IsLastFrame) EndFrame();
+                if (IsStrike && !IsLastFrame) EndFrame();
                 break;
             case RollNumber.Second:
                 SecondRollScore = pinsKnocked;
@@ -88,11 +79,10 @@ public class BowlingFrame {
     }
 
     private void EndFrame() => IsFinished = true;
-    public bool IsStrike() => (FirstRollScore ?? 0) == _gameConfig.MaxPins;
-    public bool IsSpare() => !IsStrike() && (FirstRollScore ?? 0) + (SecondRollScore ?? 0) == _gameConfig.MaxPins;
+    public void UpdateBonus(int bonus) => _bonus = bonus;
 
-    public bool IsLastRoll() {
-        return CurrentRoll == RollNumber.First ||
-                (IsLastFrame && CurrentRoll == RollNumber.Third);
-    }
-};
+    public bool IsStrike => (FirstRollScore ?? 0) == _gameConfig.MaxPins;
+    public bool IsSpare => !IsStrike && (FirstRollScore ?? 0) + (SecondRollScore ?? 0) == _gameConfig.MaxPins;
+    public bool IsLastRoll => CurrentRoll == RollNumber.First || (IsLastFrame && CurrentRoll == RollNumber.Third);
+    public bool IsLastFrame => FrameNumber == _gameConfig.MaxFrames;
+}

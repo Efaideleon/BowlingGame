@@ -25,7 +25,7 @@ public class ScoreBar : UIElement {
 
         UpdateText(
             bowlingGame.CurrentFrameIndex,
-            bowlingGame.CurrentRoll,
+            bowlingGame.CurrentFrame.CurrentRoll,
             bowlingGame.TotalScore
         );
     }

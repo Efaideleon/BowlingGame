@@ -11,7 +11,7 @@ namespace ui {
         }
 
         public override void UpdateUI(IBowlingGame bowlingGame) {
-            foreach (BowlingFrame frame in bowlingGame.Frames) {
+            foreach (BowlingFrame frame in bowlingGame.AllFrames) {
                 ScorePanels[frame.FrameNumber - 1].UpdateUI(frame);
             }
         }
