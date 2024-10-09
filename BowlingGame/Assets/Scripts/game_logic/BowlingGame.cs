@@ -2,11 +2,11 @@ using BowlingGameEnums;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using game_logic;
 
 [CreateAssetMenu(fileName = "BowlingGame", menuName = "BowlingBall/BowlingGame")]
 public class BowlingGame : ScriptableObject, IBowlingGame {
     [SerializeField] BowlingGameConfig m_GameConfig;
-    private RollTracker m_RollProgressTracker;
 
     public BowlingGameConfig Config {
         get { return m_GameConfig; }
@@ -23,8 +23,8 @@ public class BowlingGame : ScriptableObject, IBowlingGame {
         }
     }
 
-    public RollNumber CurrentRoll => m_RollProgressTracker.CurrentRoll; 
-    public int CurrentFrameIndex => m_RollProgressTracker.CurrentFrameIndex;
+    public RollNumber CurrentRoll => Frames[CurrentFrameIndex].CurrentRoll;
+    public int CurrentFrameIndex { get; private set; } = 0;
     public bool HasGameEnded => CurrentFrameIndex >= m_GameConfig.MaxFrames;
 
     public event Action OnRollCompleted = delegate { };
@@ -32,7 +32,6 @@ public class BowlingGame : ScriptableObject, IBowlingGame {
 
     public void OnValidate() {
         InitializeFrames();
-        m_RollProgressTracker = new RollTracker(Config);
     }
 
     void InitializeFrames() {
@@ -54,12 +53,15 @@ public class BowlingGame : ScriptableObject, IBowlingGame {
         }
 
         var frame = Frames[CurrentFrameIndex];
-        frame.RecordRollScore(CurrentRoll, pinsKnocked);
+        frame.Update(pinsKnocked);
 
-        m_RollProgressTracker.ProceedToNextRoll(pinsKnocked);
+        if (frame.IsFinished) {
+            CurrentFrameIndex++;
+        }
+
         OnRollCompleted.Invoke();
     }
 
-    public bool IsLastRoll() => m_RollProgressTracker.IsLastRoll();
-    public void Reset() => m_RollProgressTracker.Reset();
+    public bool IsLastRoll() => Frames[CurrentFrameIndex].IsLastRoll(); 
+    public void Reset() => CurrentFrameIndex = 0;
 }
