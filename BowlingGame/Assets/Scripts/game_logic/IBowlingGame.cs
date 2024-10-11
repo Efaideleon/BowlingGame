@@ -1,6 +1,7 @@
 using BowlingGameEnums;
 using System;
 using System.Collections.Generic;
+using game_logic;
 
 public interface IBowlingGame {
 
@@ -14,5 +15,4 @@ public interface IBowlingGame {
     public event Action OnGameOver;
 
     public void ProcessRoll(int pinsKnocked);
-    public bool IsLastRoll();
 }

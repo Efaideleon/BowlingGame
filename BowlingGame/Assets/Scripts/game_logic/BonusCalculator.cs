@@ -13,7 +13,7 @@ namespace game_logic {
             var currentFrame = _allFrames[currentFrameIndex];
             var nextFrame = _allFrames[currentFrameIndex + 1];
 
-            return currentFrame.IsStrike
+            return currentFrame.HasStrike
                     ? (nextFrame.FirstRollScore ?? 0) + (nextFrame.SecondRollScore ?? 0)
                     : currentFrame.IsSpare
                         ? nextFrame.FirstRollScore ?? 0

@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using game_logic;
 
 namespace ui
 {

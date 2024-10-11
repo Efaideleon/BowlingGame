@@ -20,12 +20,12 @@ public class ScoreBar : UIElement {
     }
 
     public override void UpdateUI(IBowlingGame bowlingGame) {
-        var isLastRoll = bowlingGame.IsLastRoll();
+        var isLastRoll = bowlingGame.CurrentFrame.IsFinished; //bogus: CurrentFrame is the next one.
         if (isLastRoll) ActivatePanels();
 
         UpdateText(
             bowlingGame.CurrentFrameIndex,
-            bowlingGame.CurrentFrame.CurrentRoll,
+            bowlingGame.CurrentFrame.CurrentRollNumber,
             bowlingGame.TotalScore
         );
     }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using game_logic;
 
 namespace ui {
     public class ScoreTable : UIElement {

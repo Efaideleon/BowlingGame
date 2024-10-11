@@ -39,7 +39,7 @@ public class BowlingGame : ScriptableObject, IBowlingGame {
     void InitializeFrames() {
         if (AllFrames.Count == 0) {
             for (int frameNumber = 1; frameNumber <= m_GameConfig.MaxFrames; frameNumber++) {
-                AllFrames.Add(new BowlingFrame(frameNumber, m_GameConfig, AllFrames));
+                AllFrames.Add(new BowlingFrame(frameNumber, m_GameConfig));
             }
         }
     }
@@ -50,26 +50,23 @@ public class BowlingGame : ScriptableObject, IBowlingGame {
             return;
         }
 
-        if (pinsKnocked < 0 || pinsKnocked > m_GameConfig.MaxPins) {
-            throw new ArgumentException("Invalid number of pins knocked down.");
-        }
-
-        CurrentFrame.UpdateRollScore(pinsKnocked);
-        UpdateAllFramesBonus();
+        CurrentFrame.SetCurrentRollPinsKnocked(pinsKnocked);
 
         if (CurrentFrame.IsFinished) {
             CurrentFrameIndex++;
+        } else {
+            CurrentFrame.MoveToNextRoll();
         }
 
         OnRollCompleted.Invoke();
+        SetAllFramesBonus();
     }
 
-    private void UpdateAllFramesBonus() {
+    private void SetAllFramesBonus() {
         for (int frameIndex = 0; frameIndex < AllFrames.Count; frameIndex++) {
-            AllFrames[frameIndex].UpdateBonus(_bonusCalculator.GetBonus(frameIndex));
+            AllFrames[frameIndex].SetBonus(_bonusCalculator.GetBonus(frameIndex));
         }
     }
 
-    public bool IsLastRoll() => CurrentFrame.IsLastRoll; 
     public void Reset() => CurrentFrameIndex = 0;
 }

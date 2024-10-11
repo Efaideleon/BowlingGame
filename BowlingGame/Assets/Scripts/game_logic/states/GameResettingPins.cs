@@ -15,8 +15,10 @@ namespace game_logic.states {
 
         public void OnEnter() {
             Debug.Log("Game Resetting Pins State");
+            var CurrentFrame = m_GameManager.BowlingGame.CurrentFrame;
             m_GameManager.BowlingGame.ProcessRoll(m_GameManager.PinManager.CountFallenPins());
-            m_GameManager.PinManager.ResetPins(m_GameManager.BowlingGame.IsLastRoll());
+            m_GameManager.PinManager.ResetPins(CurrentFrame.IsFinished);
+            // m_GameManager.BowlingGame.HandleFrameAndRollState();
         }
 
         public void OnExit() {
