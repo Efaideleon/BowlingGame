@@ -46,14 +46,33 @@ namespace game_logic {
             };
         }
 
+        /// <summary>
+        /// Determines if all the rolls have been performed in the frame.
+        /// </summary>
         public bool IsFinished => (CurrentRoll.IsStrike && !IsLastFrame)
                                  || (CurrentRollNumber == RollNumber.Second && !IsLastFrame)
                                  || CurrentRollNumber == RollNumber.Third;
 
+        /// <summary>
+        /// Updating the bonus for the frame. Bonus is calcuated after the frame is finished.
+        /// This functions may need to be called after all the scores are recorded.
+        /// </summary>
+        /// <param name="bonus"></param>
         public void SetBonus(int bonus) => _bonus = bonus;
 
+        /// <summary>
+        /// Checks if the frame contains a strike.
+        /// </summary>
         public bool HasStrike => _firstRoll.IsStrike || _secondRoll.IsStrike;
+
+        /// <summary>
+        /// Checks if the frame is a spare.
+        /// </summary>
         public bool IsSpare => !HasStrike && _firstRoll.NumberOfPinsKnockedOrZero + _secondRoll.NumberOfPinsKnockedOrZero == _gameConfig.MaxPins;
+
+        /// <summary>
+        /// Checks if this frame is the last in the game.
+        /// </summary>
         public bool IsLastFrame => FrameNumber == _gameConfig.MaxFrames;
     }
 }

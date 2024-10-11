@@ -9,7 +9,7 @@ namespace game_logic
         private readonly int _maxPins;
 
         public int? NumOfPinsKnocked {
-            get { return _numOfPinsKnocked; }
+            get => _numOfPinsKnocked; 
             private set { _numOfPinsKnocked = value < 0 ? null : value; }
         }
 
