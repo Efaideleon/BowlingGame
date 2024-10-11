@@ -2,36 +2,6 @@ using BowlingGameEnums;
 using System;
 
 namespace game_logic {
-    public class Roll {
-        private readonly RollNumber _rollNumber;
-        private int? _numOfPinsKnocked;
-        private readonly int _maxPins;
-
-        public int? NumOfPinsKnocked {
-            get { return _numOfPinsKnocked; }
-            private set { _numOfPinsKnocked = value < 0 ? null : value; }
-        }
-
-        public int NumberOfPinsKnockedOrZero => NumOfPinsKnocked ?? 0;
-        public RollNumber RollNumber => _rollNumber;
-
-        public Roll(RollNumber rollNumber, int maxPins) {
-            _rollNumber = rollNumber;
-            _maxPins = maxPins;
-        }
-
-        public void SetNumOfPinsKnocked(int numOfPinsKnocked) {
-            if (numOfPinsKnocked < 0 || numOfPinsKnocked > _maxPins) {
-                throw new ArgumentOutOfRangeException(
-                    nameof(numOfPinsKnocked), "pinsKnocked must be between 0 and " + _maxPins
-                );
-            }
-            _numOfPinsKnocked = numOfPinsKnocked;
-        }
-
-        public bool IsStrike => NumberOfPinsKnockedOrZero == _maxPins;
-    }
-
     public class BowlingFrame {
         readonly IBowlingGameConfig _gameConfig;
         private int _frameNumber;
@@ -39,15 +9,15 @@ namespace game_logic {
         private readonly Roll _firstRoll;
         private readonly Roll _secondRoll;
         private readonly Roll _thirdRoll;
-        private Roll CurrentRoll; 
+        private Roll CurrentRoll;
 
         public RollNumber CurrentRollNumber => CurrentRoll.RollNumber;
 
         // Starts from 1.
         public int FrameNumber {
             get => _frameNumber;
-            private set => _frameNumber = value < 0 
-                    ?  throw new ArgumentOutOfRangeException(nameof(value), "frame number must be greater or equal to 0.")
+            private set => _frameNumber = value < 0
+                    ? throw new ArgumentOutOfRangeException(nameof(value), "frame number must be greater or equal to 0.")
                     : value;
         }
 
@@ -61,7 +31,7 @@ namespace game_logic {
             _gameConfig = config;
             _firstRoll = new(RollNumber.First, _gameConfig.MaxPins);
             _secondRoll = new(RollNumber.Second, _gameConfig.MaxPins);
-            _thirdRoll = new(RollNumber.Second, _gameConfig.MaxPins);
+            _thirdRoll = new(RollNumber.Third, _gameConfig.MaxPins);
             CurrentRoll = _firstRoll;
             FrameNumber = frame;
         }
@@ -76,7 +46,7 @@ namespace game_logic {
             };
         }
 
-        public bool IsFinished =>(CurrentRoll.IsStrike && !IsLastFrame)
+        public bool IsFinished => (CurrentRoll.IsStrike && !IsLastFrame)
                                  || (CurrentRollNumber == RollNumber.Second && !IsLastFrame)
                                  || CurrentRollNumber == RollNumber.Third;
 
