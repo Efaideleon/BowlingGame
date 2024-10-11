@@ -36,7 +36,7 @@ namespace game_logic {
             FrameNumber = frame;
         }
 
-        public void SetCurrentRollPinsKnocked(int numOfPinsKnocked) => CurrentRoll.SetNumOfPinsKnocked(numOfPinsKnocked);
+        public void SetNumOfPinsKnocked(int numOfPinsKnocked) => CurrentRoll.SetNumOfPinsKnocked(numOfPinsKnocked);
 
         public void MoveToNextRoll() {
             CurrentRoll = CurrentRollNumber switch {

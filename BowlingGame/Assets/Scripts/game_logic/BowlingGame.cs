@@ -50,7 +50,7 @@ public class BowlingGame : ScriptableObject, IBowlingGame {
             return;
         }
 
-        CurrentFrame.SetCurrentRollPinsKnocked(pinsKnocked);
+        CurrentFrame.SetNumOfPinsKnocked(pinsKnocked);
 
         if (CurrentFrame.IsFinished) {
             CurrentFrameIndex++;
