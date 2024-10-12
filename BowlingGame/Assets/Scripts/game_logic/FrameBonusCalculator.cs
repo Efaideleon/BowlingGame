@@ -1,3 +1,4 @@
+using BowlingGameEnums;
 using System.Collections.Generic;
 
 namespace game_logic {
@@ -20,9 +21,9 @@ namespace game_logic {
             var nextFrame = _allFrames[currentFrameIndex + 1];
 
             return currentFrame.HasStrike
-                    ? (nextFrame.FirstRollScore ?? 0) + (nextFrame.SecondRollScore ?? 0)
+                    ? (nextFrame.GetRollScore(RollNumber.First) ?? 0) + (nextFrame.GetRollScore(RollNumber.Second) ?? 0)
                     : currentFrame.IsSpare
-                        ? nextFrame.FirstRollScore ?? 0
+                        ? nextFrame.GetRollScore(RollNumber.First) ?? 0
                         : 0;
         }
     }

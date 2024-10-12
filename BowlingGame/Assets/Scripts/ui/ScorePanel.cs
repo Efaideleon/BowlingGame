@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using game_logic;
+using BowlingGameEnums;
 
 namespace ui
 {
@@ -21,27 +22,27 @@ namespace ui
         void UpdateFrameNumber(BowlingFrame frame) => Frame.text = frame.FrameNumber.ToString();
 
         void UpdateTotalScoreBox(BowlingFrame frame) {
-            if (frame.FirstRollScore != null) {
+            if (frame.GetRollScore(RollNumber.First) != null) {
                 TotalScore.text = frame.Score.ToString();
             }
         }
 
         void UpdateFirstScoreBox(BowlingFrame frame) {
-            if (frame.FirstRollScore == 10 && !frame.IsLastFrame) {
+            if (frame.GetRollScore(RollNumber.First) == 10 && !frame.IsLastFrame) {
                 FirstScore.text = "X";
                 SecondScore.text = "";
             }
             else {
-                FirstScore.text = frame.FirstRollScore.ToString();
+                FirstScore.text = frame.GetRollScore(RollNumber.First).ToString();
             }
         }
 
         void UpdateSecondScoreBox(BowlingFrame frame) {
-            if (frame.SecondRollScore == 10) {
+            if (frame.GetRollScore(RollNumber.Second) == 10) {
                 SecondScore.text = "X";
             }
             else {
-                SecondScore.text = frame.SecondRollScore.ToString();
+                SecondScore.text = frame.GetRollScore(RollNumber.Second).ToString();
             }
 
             if (frame.IsSpare) {

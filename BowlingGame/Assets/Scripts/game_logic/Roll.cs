@@ -8,6 +8,8 @@ namespace game_logic
         private int? _numOfPinsKnocked;
         private readonly int _maxPins;
 
+        public bool IsFinished => NumOfPinsKnocked != null;
+
         public int? NumOfPinsKnocked {
             get => _numOfPinsKnocked; 
             private set { _numOfPinsKnocked = value < 0 ? null : value; }

@@ -32,9 +32,11 @@ public class BowlingGame : ScriptableObject, IBowlingGame {
 
     void InitializeFrames() {
         if (AllFrames.Count == 0) {
-            for (int frameNumber = 1; frameNumber <= _gameConfig.MaxFrames; frameNumber++) {
-                AllFrames.Add(new BowlingFrame(frameNumber, _gameConfig));
+            for (int frameNumber = 1; frameNumber <= _gameConfig.MaxFrames - 1; frameNumber++) {
+                AllFrames.Add(new BowlingFrame(frameNumber, _gameConfig, 2));
             }
+            // The last frames has 3 rolls. The frame number is the total number of frames.
+            AllFrames.Add(new BowlingFrame(_gameConfig.MaxFrames, _gameConfig, 3));
         }
     }
 
