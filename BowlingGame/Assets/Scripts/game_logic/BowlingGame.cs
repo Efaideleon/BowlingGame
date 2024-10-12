@@ -2,44 +2,38 @@ using BowlingGameEnums;
 using game_logic;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "BowlingGame", menuName = "BowlingBall/BowlingGame")]
 public class BowlingGame : ScriptableObject, IBowlingGame {
-    [SerializeField] BowlingGameConfig m_GameConfig;
-    private BonusCalculator _bonusCalculator;
+    [SerializeField] BowlingGameConfig _gameConfig;
+    private FrameBonusCalculator _frameBonusCalculator;
 
     public BowlingGameConfig Config {
-        get { return m_GameConfig; }
-        set { m_GameConfig = value; }
+        get { return _gameConfig; }
+        set { _gameConfig = value; }
     }
 
     public List<BowlingFrame> AllFrames { get; } = new();
-    public int TotalScore {
-        get {
-            int sum = 0;
-            foreach (var frame in AllFrames)
-                sum += frame.Score;
-            return sum;
-        }
-    }
+    public int TotalScore => AllFrames.Sum(frame => frame.Score);
 
     public BowlingFrame CurrentFrame => AllFrames[CurrentFrameIndex];
     public int CurrentFrameIndex { get; private set; } = 0;
-    public bool HasGameEnded => CurrentFrameIndex >= m_GameConfig.MaxFrames;
+    public bool HasGameEnded => CurrentFrameIndex >= _gameConfig.MaxFrames;
 
     public event Action OnRollCompleted = delegate { };
     public event Action OnGameOver = delegate { };
 
     public void OnValidate() {
         InitializeFrames();
-        _bonusCalculator = new BonusCalculator(AllFrames);
+        _frameBonusCalculator = new FrameBonusCalculator(AllFrames);
     }
 
     void InitializeFrames() {
         if (AllFrames.Count == 0) {
-            for (int frameNumber = 1; frameNumber <= m_GameConfig.MaxFrames; frameNumber++) {
-                AllFrames.Add(new BowlingFrame(frameNumber, m_GameConfig));
+            for (int frameNumber = 1; frameNumber <= _gameConfig.MaxFrames; frameNumber++) {
+                AllFrames.Add(new BowlingFrame(frameNumber, _gameConfig));
             }
         }
     }
@@ -51,22 +45,23 @@ public class BowlingGame : ScriptableObject, IBowlingGame {
         }
 
         CurrentFrame.SetNumOfPinsKnocked(pinsKnocked);
+        _frameBonusCalculator.CalculateBonus();
 
         if (CurrentFrame.IsFinished) {
-            CurrentFrameIndex++;
+            AdvanceToNextFrame();
         } else {
-            CurrentFrame.MoveToNextRoll();
+            MoveToNextRollInCurrentFrame();
         }
 
         OnRollCompleted.Invoke();
-        SetAllFramesBonus();
     }
 
-    private void SetAllFramesBonus() {
-        for (int frameIndex = 0; frameIndex < AllFrames.Count; frameIndex++) {
-            AllFrames[frameIndex].SetBonus(_bonusCalculator.GetBonus(frameIndex));
+    private void AdvanceToNextFrame() {
+        if (CurrentFrameIndex < _gameConfig.MaxFrames) {
+            CurrentFrameIndex++;
         }
     }
 
+    private void MoveToNextRollInCurrentFrame() => CurrentFrame.MoveToNextRoll();
     public void Reset() => CurrentFrameIndex = 0;
 }

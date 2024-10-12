@@ -1,14 +1,20 @@
 using System.Collections.Generic;
 
 namespace game_logic {
-    public class BonusCalculator {
+    public class FrameBonusCalculator {
         private List<BowlingFrame> _allFrames;
 
-        public BonusCalculator(List<BowlingFrame> allFrames) {
+        public FrameBonusCalculator(List<BowlingFrame> allFrames) {
             _allFrames = allFrames;
         }
 
-        public int GetBonus(int currentFrameIndex) {
+        public void CalculateBonus() {
+            for (int i = 0; i < _allFrames.Count; i++) {
+                _allFrames[i].SetBonus(GetBonus(i));
+            }
+        }
+
+        private int GetBonus(int currentFrameIndex) {
             if (currentFrameIndex >= _allFrames.Count - 1) return 0;
             var currentFrame = _allFrames[currentFrameIndex];
             var nextFrame = _allFrames[currentFrameIndex + 1];

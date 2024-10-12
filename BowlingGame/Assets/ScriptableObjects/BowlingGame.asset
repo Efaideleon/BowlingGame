@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e058a9fbfa1249ab9dc818661817f1c, type: 3}
   m_Name: BowlingGame
   m_EditorClassIdentifier: 
-  m_GameConfig: {fileID: 11400000, guid: 60f66b92aa8724d3f8ae83eac21bd7af, type: 2}
+  _gameConfig: {fileID: 11400000, guid: 60f66b92aa8724d3f8ae83eac21bd7af, type: 2}
