@@ -15,7 +15,7 @@ public class BowlingGame : ScriptableObject, IBowlingGame {
         set { _gameConfig = value; }
     }
 
-    public List<BowlingFrame> AllFrames { get; } = new();
+    public List<BowlingFrame> AllFrames { get; private set; }
     public int TotalScore => AllFrames.Sum(frame => frame.Score);
 
     public BowlingFrame CurrentFrame => AllFrames[CurrentFrameIndex];
@@ -31,13 +31,10 @@ public class BowlingGame : ScriptableObject, IBowlingGame {
     }
 
     void InitializeFrames() {
-        if (AllFrames.Count == 0) {
-            for (int frameNumber = 1; frameNumber <= _gameConfig.MaxFrames - 1; frameNumber++) {
-                AllFrames.Add(new BowlingFrame(frameNumber, _gameConfig, 2));
-            }
-            // The last frames has 3 rolls. The frame number is the total number of frames.
-            AllFrames.Add(new BowlingFrame(_gameConfig.MaxFrames, _gameConfig, 3));
-        }
+        AllFrames = Enumerable.Range(1, _gameConfig.MaxFrames)
+                        .Select(frameNumber => new BowlingFrame(frameNumber, _gameConfig))
+                        .Concat(new[] { new BowlingFrame(_gameConfig.MaxFrames, _gameConfig) })
+                        .ToList();
     }
 
     public void ProcessRoll(int pinsKnocked) {
@@ -51,8 +48,6 @@ public class BowlingGame : ScriptableObject, IBowlingGame {
 
         if (CurrentFrame.IsFinished) {
             AdvanceToNextFrame();
-        } else {
-            MoveToNextRollInCurrentFrame();
         }
 
         OnRollCompleted.Invoke();
@@ -64,6 +59,5 @@ public class BowlingGame : ScriptableObject, IBowlingGame {
         }
     }
 
-    private void MoveToNextRollInCurrentFrame() => CurrentFrame.MoveToNextRoll();
     public void Reset() => CurrentFrameIndex = 0;
 }

@@ -1,5 +1,6 @@
 using BowlingGameEnums;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace game_logic {
     public class FrameBonusCalculator {
@@ -10,19 +11,18 @@ namespace game_logic {
         }
 
         public void CalculateBonus() {
-            for (int i = 0; i < _allFrames.Count; i++) {
-                _allFrames[i].SetBonus(GetBonus(i));
+            foreach (var frame in _allFrames) {
+                frame.SetBonus(GetBonus(frame));
             }
         }
 
-        private int GetBonus(int currentFrameIndex) {
+        private int GetBonus(BowlingFrame currentFrame) {
+            int currentFrameIndex = _allFrames.IndexOf(currentFrame);
             if (currentFrameIndex >= _allFrames.Count - 1) return 0;
-            var currentFrame = _allFrames[currentFrameIndex];
             var nextFrame = _allFrames[currentFrameIndex + 1];
 
             return currentFrame.HasStrike
-                    ? (nextFrame.GetRollScore(RollNumber.First) ?? 0) + (nextFrame.GetRollScore(RollNumber.Second) ?? 0)
-                    : currentFrame.IsSpare
+                    ? nextFrame.TotalPinsKnocked : currentFrame.IsSpare
                         ? nextFrame.GetRollScore(RollNumber.First) ?? 0
                         : 0;
         }
