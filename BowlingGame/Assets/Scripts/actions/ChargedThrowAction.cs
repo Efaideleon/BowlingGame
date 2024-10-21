@@ -3,21 +3,26 @@ using UnityEngine;
 
 namespace player {
     public class ChargedThrowAction : ChargedAction {
-        readonly ThrowActionConfig _throwActionConfig;
-        readonly CountDownTimer _countDownTimer;
-        readonly Player _player;
+        private readonly ThrowActionConfig _throwActionConfig;
+        private readonly CountDownTimer _countDownTimer;
+        private readonly Player _player;
 
         public bool IsReady { get; private set; }
+        public bool IsRunning => _countDownTimer.IsRunning;
 
         public ChargedThrowAction(ThrowActionConfig throwActionConfig, Player player) {
             _throwActionConfig = throwActionConfig;
-            _countDownTimer = new CountDownTimer(_throwActionConfig.ThrowDuration);
             _player = player;
+            _countDownTimer = new CountDownTimer(_throwActionConfig.ThrowDuration);
         }
 
-        public void OnChargeStarted() => Start();
+        public void OnChargeStarted() { 
+            if (!IsReady) { return; }
+            Start();
+        }
 
         public void OnChargeFinished() {
+            if (!IsReady) { return; }
             Stop();
             _player.Item.Swing(_player.SwingPosition);
             _countDownTimer.Start();
@@ -36,7 +41,5 @@ namespace player {
         public void Update() {
             _countDownTimer.Tick(Time.deltaTime);
         }
-
-        public bool IsRunning => _countDownTimer.IsRunning;
     }
 }

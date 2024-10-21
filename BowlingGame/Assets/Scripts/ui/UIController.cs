@@ -18,6 +18,7 @@ public class UIController : MonoBehaviour {
         if (m_Game == null) {
             throw new NullReferenceException("m_Game is not initialized");
         }
+        UpdateUI();
         m_Game.OnRollCompleted += UpdateUI;
     }
 

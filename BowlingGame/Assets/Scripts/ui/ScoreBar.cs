@@ -33,7 +33,7 @@ public class ScoreBar : UIElement {
     void UpdateText(int frame, RollNumber roll, int score) {
         _currentRollText.text = "Roll: " + roll;
         _scoreText.text = "Score: " + score;
-        _currentFrameText.text = "Frame: " + frame + 1;
+        _currentFrameText.text = "Frame: " + (int)(frame + 1);
     }
 
     public void ActivatePanels() {

@@ -7,40 +7,37 @@ namespace game_logic {
     public class BowlingFrame {
         private readonly List<Roll> _rolls = new();
         private readonly IBowlingGameConfig _gameConfig;
+        private Roll _currentRoll;
         private int _bonus = 0;
         private int _frameNumber;
-        public int TotalPinsKnocked => _rolls.Sum(roll => roll.NumOfPinsKnocked);
-
-        // Starts from 1.
-        public int FrameNumber {
-            get => _frameNumber;
-            private set => _frameNumber = value <= 0
-                    ? throw new ArgumentOutOfRangeException(nameof(value), "frame number must be greater than 0.")
-                    : value;
-        }
 
         /// <summary>
         /// The Rollnumber that identifies the CurrentRoll
         /// </summary>
-        public RollNumber CurrentRollNumber => _rolls.Any() ? _rolls.Last().RollNumber : RollNumber.None;
+        public RollNumber CurrentRollNumber => _currentRoll.RollNumber;
+
+        /// <summary>
+        /// How many pins were knocked during each roll
+        /// </summary>
+        /// <returns>The sum of all the pins knocked during each roll.</returns>
+        public int TotalPinsKnocked => _rolls.Sum(roll => roll.NumOfPinsKnocked);
 
         /// <summary>
         /// Returns the sum of the score for all roles plus the bonus
         /// </summary>
         public int Score => TotalPinsKnocked + _bonus;
 
-        /// <summary>
-        /// The number of pins knocked down for each role
-        /// </summary>
-        /// <param name="rollNumber">Rollnumber Enum that identifies each roll.</param>
-        /// <returns> The number of pins knocked for the specified roll</returns>
-        public int? GetRollScore(RollNumber rollNumber) {
-            return _rolls.Find((roll) => roll.RollNumber == rollNumber).NumOfPinsKnocked;
+        public int FrameNumber {
+            get => _frameNumber;
+            private set => _frameNumber = value <= 0
+                    ? throw new ArgumentOutOfRangeException(nameof(value), "frame number must be greater than 0.")
+                    : value;
         }
-
+        
         public BowlingFrame(int frame, IBowlingGameConfig config) {
-            _gameConfig = config;
             FrameNumber = frame;
+            _gameConfig = config;
+            _currentRoll = CreateNewRoll();
         }
 
         /// <summary>
@@ -48,12 +45,29 @@ namespace game_logic {
         /// </summary>
         /// <param name="numOfPinsKnocked">Pins knocked down by the bowling ball for a roll</param>
         public void SetNumOfPinsKnocked(int numOfPinsKnocked) {
-            RollNumber rollNumber = CurrentRollNumber + 1;
-            _rolls.Add(new Roll(
-                rollNumber: rollNumber,
-                maxPins: _gameConfig.MaxPins,
-                numOfPinsKnocked: numOfPinsKnocked
-            ));
+            _currentRoll.SetNumOfPinsKnocked(numOfPinsKnocked);
+            if (!IsFinished) _currentRoll = CreateNewRoll();
+        }
+
+        private Roll CreateNewRoll() {
+            Roll roll;
+            if (!_rolls.Any()) {
+                roll = new Roll(RollNumber.First, _gameConfig.MaxPins);
+            } 
+            else {
+                roll = new Roll(_currentRoll.RollNumber + 1, _gameConfig.MaxPins);
+            }
+            _rolls.Add(roll);
+            return roll;
+        }
+
+        /// <summary>
+        /// The number of pins knocked down for each role
+        /// </summary>
+        /// <param name="rollNumber">Rollnumber Enum that identifies each roll.</param>
+        /// <returns> The number of pins knocked for the specified roll</returns>
+        public int? GetRollScore(RollNumber rollNumber) {
+            return _rolls.Find((roll) => roll.RollNumber == rollNumber)?.NumOfPinsKnocked;
         }
 
         /// <summary>
@@ -65,9 +79,10 @@ namespace game_logic {
         /// <summary>
         /// Determines if all the rolls have been performed in the frame.
         /// </summary>
-        public bool IsFinished => !IsLastFrame && CurrentRollNumber == RollNumber.Second ||
-                                  CurrentRollNumber == RollNumber.Third ||
-                                  !IsLastFrame && HasStrike;
+        public bool IsFinished => !IsLastFrame && (IsSecondRollFinished || this.HasStrike) || IsThirdRollFinished; 
+
+        private bool IsSecondRollFinished => CurrentRollNumber == RollNumber.Second && _currentRoll.HasScoreRecorded;
+        private bool IsThirdRollFinished => CurrentRollNumber == RollNumber.Third && _currentRoll.HasScoreRecorded;
 
         /// <summary>
         /// Checks if any of the rolls in the frame is a strike

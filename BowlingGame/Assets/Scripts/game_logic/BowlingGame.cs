@@ -1,4 +1,3 @@
-using BowlingGameEnums;
 using game_logic;
 using System;
 using System.Collections.Generic;
@@ -30,13 +29,18 @@ public class BowlingGame : ScriptableObject, IBowlingGame {
         _frameBonusCalculator = new FrameBonusCalculator(AllFrames);
     }
 
-    void InitializeFrames() {
+    private void InitializeFrames() {
         AllFrames = Enumerable.Range(1, _gameConfig.MaxFrames)
                         .Select(frameNumber => new BowlingFrame(frameNumber, _gameConfig))
                         .Concat(new[] { new BowlingFrame(_gameConfig.MaxFrames, _gameConfig) })
                         .ToList();
     }
 
+    /// <summary>
+    /// Records the number of pins knocked after the roll, advances to the next roll.
+    /// Triggers the OnRollCompleted event, and advances to the next frame if the frame is finsished.
+    /// <summary>
+    /// <param name="pinsKnocked">Pins knocked down by the bowling ball after a roll</param>
     public void ProcessRoll(int pinsKnocked) {
         if (HasGameEnded) {
             OnGameOver.Invoke();
@@ -58,6 +62,9 @@ public class BowlingGame : ScriptableObject, IBowlingGame {
             CurrentFrameIndex++;
         }
     }
-
+    
+    /// <summary>
+    /// Resets the data in the scriptableobject.
+    /// <summary>
     public void Reset() => CurrentFrameIndex = 0;
 }

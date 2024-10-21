@@ -4,7 +4,7 @@ namespace player {
     public class ChargedThrowActionPlayer : MonoBehaviour {
         [Header("Throw Action")]
         [SerializeField] ThrowActionConfig _throwActionConfig;
-        Player _player;
+        private Player _player;
 
         public ChargedThrowAction ChargedThrowAction { get; private set; }
 
@@ -27,10 +27,18 @@ namespace player {
             ChargedThrowAction.Update();
         }
 
-        private void OnChargeStarted() => ChargedThrowAction.OnChargeStarted();
-        private void OnChargeFinished() => ChargedThrowAction.OnChargeFinished();
+        private void OnChargeStarted() { 
+            ChargedThrowAction.OnChargeStarted();
+        }
 
-        public void Hold() => ChargedThrowAction.Hold();
+        private void OnChargeFinished() { 
+            ChargedThrowAction.OnChargeFinished();
+        }
+
+        public void Hold() { 
+            ChargedThrowAction.Hold();
+        }
+
         public void Throw() => ChargedThrowAction.Throw();
     }
 }
