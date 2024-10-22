@@ -8,8 +8,9 @@ namespace game_logic
         private int _numOfPinsKnocked;
         private int _maxPins;
 
-        public int NumOfPinsKnocked => _numOfPinsKnocked;
         public RollNumber RollNumber => _rollNumber;
+        public int NumOfPinsKnocked => _numOfPinsKnocked;
+        public bool IsStrike => NumOfPinsKnocked == _maxPins;
         public bool HasScoreRecorded { get; private set; } = false;
 
         public Roll(RollNumber rollNumber, int maxPins) {
@@ -27,9 +28,5 @@ namespace game_logic
             _numOfPinsKnocked = numOfPinsKnocked;
             HasScoreRecorded = true;
         }
-
-
-
-        public bool IsStrike => NumOfPinsKnocked == _maxPins;
     }
 }

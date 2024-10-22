@@ -23,6 +23,7 @@ public class BowlingGame : ScriptableObject, IBowlingGame {
 
     public event Action OnRollCompleted = delegate { };
     public event Action OnGameOver = delegate { };
+    public event Action OnReset = delegate { };
 
     public void OnValidate() {
         InitializeFrames();
@@ -66,5 +67,11 @@ public class BowlingGame : ScriptableObject, IBowlingGame {
     /// <summary>
     /// Resets the data in the scriptableobject.
     /// <summary>
-    public void Reset() => CurrentFrameIndex = 0;
+    public void Reset() { 
+        CurrentFrameIndex = 0;
+        foreach(var frame in AllFrames) {
+            frame.ClearRolls();
+        }
+        OnReset.Invoke();
+    }
 }

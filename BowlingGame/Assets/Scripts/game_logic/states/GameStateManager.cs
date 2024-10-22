@@ -13,6 +13,7 @@ namespace game_logic {
             if (m_GameManager == null) {
                 throw new NullReferenceException("GameManager is not initialized");
             }
+
             m_StateMachine = new StateMachine();
 
             var idle = new GameIdle(m_GameManager);
@@ -21,12 +22,20 @@ namespace game_logic {
 
             // Transitions
             m_StateMachine.AddTransition(idle, ballThrown, new FuncPredicate(() => m_GameManager.Ball.IsRolling));
-            m_StateMachine.AddTransition(ballThrown, resettingPins, new FuncPredicate(() => m_GameManager.Ball.IsSettled && 
-                                                                                            m_GameManager.PinManager.AreAllPinsSettled));
+            m_StateMachine.AddTransition(ballThrown, resettingPins, new FuncPredicate(() => BallAndPinsAreSettled));
             m_StateMachine.AddTransition(resettingPins, idle, new FuncPredicate(() => m_GameManager.PinManager.CountFallenPins() == 0));
 
             // Setting initial state
             m_StateMachine.SetState(idle);
+        }
+
+        private bool BallAndPinsAreSettled => m_GameManager.Ball.IsSettled && m_GameManager.PinManager.AreAllPinsSettled;
+
+        public void Reset() {
+            m_GameManager.PinManager.ResetPins(true);
+            m_GameManager.PlayerController.Hold();
+            m_StateMachine.Update();
+            m_GameManager.BowlingGame.Reset();
         }
 
         void Update() {

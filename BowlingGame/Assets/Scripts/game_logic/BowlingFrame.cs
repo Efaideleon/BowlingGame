@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace game_logic {
     public class BowlingFrame {
-        private readonly List<Roll> _rolls = new();
+        private List<Roll> _rolls = new();
         private readonly IBowlingGameConfig _gameConfig;
         private Roll _currentRoll;
         private int _bonus = 0;
@@ -37,7 +37,9 @@ namespace game_logic {
         public BowlingFrame(int frame, IBowlingGameConfig config) {
             FrameNumber = frame;
             _gameConfig = config;
-            _currentRoll = CreateNewRoll();
+            if (!_rolls.Any()) {
+                _currentRoll = CreateNewRoll();
+            }
         }
 
         /// <summary>
@@ -98,5 +100,17 @@ namespace game_logic {
         /// Checks if this is the last frame in the game.
         /// </summary>
         public bool IsLastFrame => FrameNumber == _gameConfig.MaxFrames;
+
+        /// <summary>
+        /// When the game resets the roll list is emptied.
+        /// Current roll resets to the first roll and is added to the list.
+        /// </summary>
+        public void ClearRolls() {
+            _rolls.Clear();
+            _rolls = new List<Roll>();
+            _currentRoll = null;
+            _currentRoll = CreateNewRoll();
+            _bonus = 0;
+        }
     }
 }

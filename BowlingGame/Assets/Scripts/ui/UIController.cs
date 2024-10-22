@@ -20,10 +20,12 @@ public class UIController : MonoBehaviour {
         }
         UpdateUI();
         m_Game.OnRollCompleted += UpdateUI;
+        m_Game.OnReset += UpdateUI;
     }
 
     void OnDestroy() {
         m_Game.OnRollCompleted -= UpdateUI;
+        m_Game.OnReset -= UpdateUI;
     }
 
     /// <summary>
