@@ -1,8 +1,10 @@
 using UnityEngine;
 using state_machine;
 
-namespace player {
-    public class PlayerController : MonoBehaviour {
+namespace player
+{
+    public class PlayerController : MonoBehaviour
+    {
         [Header("References")]
         [SerializeField] private InputReader _input;
         [SerializeField] private float _movementSpeed = 1f;
@@ -15,7 +17,8 @@ namespace player {
         public ChargedThrowAction ChargedThrowAction => _chargedThrowActionPlayer.ChargedThrowAction;
         public Vector3 GetDirection() => _input.Direction;
 
-        void Awake() {
+        void Awake()
+        {
             _animator = GetComponent<Animator>();
             _characterController = GetComponent<CharacterController>();
             _stateMachine = StateMachineBuilder.Build(this, _animator);

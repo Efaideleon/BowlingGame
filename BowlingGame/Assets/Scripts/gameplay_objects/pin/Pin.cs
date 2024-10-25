@@ -16,10 +16,15 @@ namespace pin
             get => _rb.linearVelocity.magnitude < PinConfig.MinimumLinearVelocity &&
                    _rb.angularVelocity.magnitude < PinConfig.MinimumAngularVelocity;
         }
+        
         void Start()
         {
             _initialPosition = transform.position;
             _rb = GetComponent<Rigidbody>();
+            if (_rb == null)
+            {
+                Debug.LogError("Rigidbody needs to be added to the Pin", this);
+            }
         }
 
         public void ResetPin()
