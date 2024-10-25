@@ -2,29 +2,39 @@ using UnityEngine;
 using System;
 using player;
 
-namespace bowling_ball {
+namespace bowling_ball
+{
     [RequireComponent(typeof(BowlingBall))]
-    public class BowlingBallManager : Throwable {
+    public class BowlingBallManager : Throwable
+    {
         BowlingBall BowlingBall { get; set; }
 
-        void Awake() {
+        void Awake()
+        {
             BowlingBall = GetComponent<BowlingBall>();
+            if (BowlingBall == null)
+            {
+                Debug.LogError("BowlingBall needs to be added to the BowlingBallManager", this);
+            }
         }
 
         public event Action OnBallThrown;
 
-        public override void Hold(Transform parent) {
+        public override void Hold(Transform parent)
+        {
             transform.parent = parent;
             transform.SetLocalPositionAndRotation(new Vector3(0f, 0f, 0f), Quaternion.identity);
             BowlingBall.OnHold();
         }
 
-        public override void Swing(Transform parent) {
+        public override void Swing(Transform parent)
+        {
             transform.parent = parent;
             transform.SetLocalPositionAndRotation(new Vector3(0f, 0f, 0f), Quaternion.identity);
         }
 
-        public override void Throw(float power) {
+        public override void Throw(float power)
+        {
             BowlingBall.Throw(power);
             transform.parent = null;
             OnBallThrown?.Invoke();
