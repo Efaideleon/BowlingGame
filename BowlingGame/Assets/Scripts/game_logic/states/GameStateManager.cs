@@ -6,44 +6,44 @@ using UnityEngine;
 namespace game_logic {
     public class GameStateManager : MonoBehaviour {
         [SerializeField]
-        private GameManager m_GameManager;
-        private StateMachine m_StateMachine;
+        private GameManager _gameManager;
+        private StateMachine _stateMachine;
 
         void Start() {
-            if (m_GameManager == null) {
+            if (_gameManager == null) {
                 throw new NullReferenceException("GameManager is not initialized");
             }
 
-            m_StateMachine = new StateMachine();
+            _stateMachine = new StateMachine();
 
-            var idle = new GameIdle(m_GameManager);
-            var ballThrown = new GameBallThrown(m_GameManager);
-            var resettingPins = new GameResettingPins(m_GameManager);
+            var idle = new GameIdle(_gameManager);
+            var ballThrown = new GameBallThrown(_gameManager);
+            var resettingPins = new GameResettingPins(_gameManager);
 
             // Transitions
-            m_StateMachine.AddTransition(idle, ballThrown, new FuncPredicate(() => m_GameManager.Ball.IsRolling));
-            m_StateMachine.AddTransition(ballThrown, resettingPins, new FuncPredicate(() => BallAndPinsAreSettled));
-            m_StateMachine.AddTransition(resettingPins, idle, new FuncPredicate(() => m_GameManager.PinManager.CountFallenPins() == 0));
+            _stateMachine.AddTransition(idle, ballThrown, new FuncPredicate(() => _gameManager.Ball.IsRolling));
+            _stateMachine.AddTransition(ballThrown, resettingPins, new FuncPredicate(() => BallAndPinsAreSettled));
+            _stateMachine.AddTransition(resettingPins, idle, new FuncPredicate(() => _gameManager.PinManager.CountFallenPins() == 0));
 
             // Setting initial state
-            m_StateMachine.SetState(idle);
+            _stateMachine.SetState(idle);
         }
 
-        private bool BallAndPinsAreSettled => m_GameManager.Ball.IsSettled && m_GameManager.PinManager.AreAllPinsSettled;
+        private bool BallAndPinsAreSettled => _gameManager.Ball.IsSettled && _gameManager.PinManager.AreAllPinsSettled;
 
         public void Reset() {
-            m_GameManager.PinManager.ResetPins(true);
-            m_GameManager.PlayerController.Hold();
-            m_StateMachine.Update();
-            m_GameManager.BowlingGame.Reset();
+            _gameManager.PinManager.ResetPins(true);
+            _gameManager.PlayerController.Hold();
+            _stateMachine.Update();
+            _gameManager.BowlingGame.Reset();
         }
 
         void Update() {
-            m_StateMachine.Update();
+            _stateMachine.Update();
         }
 
         void FixedUpdate() {
-            m_StateMachine.FixedUpdate();
+            _stateMachine.FixedUpdate();
         }
     }
 }

@@ -3,8 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace game_logic {
-    public class BowlingFrame {
+namespace game_logic
+{
+    public class BowlingFrame
+    {
         private List<Roll> _rolls = new();
         private readonly IBowlingGameConfig _gameConfig;
         private Roll _currentRoll;
@@ -27,17 +29,19 @@ namespace game_logic {
         /// </summary>
         public int Score => TotalPinsKnocked + _bonus;
 
-        public int FrameNumber {
+        public int FrameNumber
+        {
             get => _frameNumber;
             private set => _frameNumber = value <= 0
                     ? throw new ArgumentOutOfRangeException(nameof(value), "frame number must be greater than 0.")
                     : value;
         }
-        
-        public BowlingFrame(int frame, IBowlingGameConfig config) {
+        public BowlingFrame(int frame, IBowlingGameConfig config)
+        {
             FrameNumber = frame;
             _gameConfig = config;
-            if (!_rolls.Any()) {
+            if (!_rolls.Any())
+            {
                 _currentRoll = CreateNewRoll();
             }
         }
@@ -46,17 +50,21 @@ namespace game_logic {
         /// After the player rolls the ball, the frame records the score for that roll.
         /// </summary>
         /// <param name="numOfPinsKnocked">Pins knocked down by the bowling ball for a roll</param>
-        public void SetNumOfPinsKnocked(int numOfPinsKnocked) {
+        public void SetNumOfPinsKnocked(int numOfPinsKnocked)
+        {
             _currentRoll.SetNumOfPinsKnocked(numOfPinsKnocked);
             if (!IsFinished) _currentRoll = CreateNewRoll();
         }
 
-        private Roll CreateNewRoll() {
+        private Roll CreateNewRoll()
+        {
             Roll roll;
-            if (!_rolls.Any()) {
+            if (!_rolls.Any())
+            {
                 roll = new Roll(RollNumber.First, _gameConfig.MaxPins);
-            } 
-            else {
+            }
+            else
+            {
                 roll = new Roll(_currentRoll.RollNumber + 1, _gameConfig.MaxPins);
             }
             _rolls.Add(roll);
@@ -68,7 +76,8 @@ namespace game_logic {
         /// </summary>
         /// <param name="rollNumber">Rollnumber Enum that identifies each roll.</param>
         /// <returns> The number of pins knocked for the specified roll</returns>
-        public int? GetRollScore(RollNumber rollNumber) {
+        public int? GetRollScore(RollNumber rollNumber)
+        {
             return _rolls.Find((roll) => roll.RollNumber == rollNumber)?.NumOfPinsKnocked;
         }
 
@@ -81,8 +90,7 @@ namespace game_logic {
         /// <summary>
         /// Determines if all the rolls have been performed in the frame.
         /// </summary>
-        public bool IsFinished => !IsLastFrame && (IsSecondRollFinished || this.HasStrike) || IsThirdRollFinished; 
-
+        public bool IsFinished => !IsLastFrame && (IsSecondRollFinished || this.HasStrike) || IsThirdRollFinished;
         private bool IsSecondRollFinished => CurrentRollNumber == RollNumber.Second && _currentRoll.HasScoreRecorded;
         private bool IsThirdRollFinished => CurrentRollNumber == RollNumber.Third && _currentRoll.HasScoreRecorded;
 
@@ -105,7 +113,8 @@ namespace game_logic {
         /// When the game resets the roll list is emptied.
         /// Current roll resets to the first roll and is added to the list.
         /// </summary>
-        public void ClearRolls() {
+        public void ClearRolls()
+        {
             _rolls.Clear();
             _rolls = new List<Roll>();
             _currentRoll = null;

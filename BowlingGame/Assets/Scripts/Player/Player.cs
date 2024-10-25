@@ -1,7 +1,9 @@
 using UnityEngine;
 
-namespace player {
-    public class Player : MonoBehaviour {
+namespace player
+{
+    public class Player : MonoBehaviour
+    {
         [Header("References")]
         [SerializeField] private InputReader _input;
 

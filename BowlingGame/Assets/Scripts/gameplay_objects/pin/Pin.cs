@@ -1,20 +1,33 @@
 using UnityEngine;
 
-public class Pin : MonoBehaviour {
-    private Vector3 _initialPosition;
-    private Rigidbody _rb;
-    public bool IsFallen => transform.up.y < 0.5f;
-    public bool IsSettled => _rb.linearVelocity.magnitude < 0.5;
+namespace pin
+{
+    public class Pin : MonoBehaviour
+    {
+        [SerializeField] private PinConfig _config;
+        public PinConfig PinConfig { get => _config; set => _config = value; }
 
-    void Start() {
-        _initialPosition = transform.position;
-        _rb = GetComponent<Rigidbody>();
-    }
+        private Vector3 _initialPosition;
+        private Rigidbody _rb;
 
-    public void ResetPin() {
-        _rb.linearVelocity = Vector3.zero;
-        _rb.angularVelocity = Vector3.zero;
-        transform.SetPositionAndRotation(_initialPosition, Quaternion.identity);
-        gameObject.SetActive(true);
+        public bool IsFallen => transform.up.y < PinConfig.FallThreshold;
+        public bool IsSettled
+        {
+            get => _rb.linearVelocity.magnitude < PinConfig.MinimumLinearVelocity &&
+                   _rb.angularVelocity.magnitude < PinConfig.MinimumAngularVelocity;
+        }
+        void Start()
+        {
+            _initialPosition = transform.position;
+            _rb = GetComponent<Rigidbody>();
+        }
+
+        public void ResetPin()
+        {
+            _rb.linearVelocity = Vector3.zero;
+            _rb.angularVelocity = Vector3.zero;
+            transform.SetPositionAndRotation(_initialPosition, Quaternion.identity);
+            gameObject.SetActive(true);
+        }
     }
 }

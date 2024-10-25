@@ -28,5 +28,7 @@ namespace actions {
                 return _chargeAmount;
             }
         }
+
+        public void Reset() => _chargeAmount = 0;
     }
 }

@@ -31,7 +31,7 @@ public class ScoreBar : UIElement {
     }
 
     void UpdateText(int frame, RollNumber roll, int score) {
-        _currentRollText.text = "Roll: " + roll;
+        _currentRollText.text = "Roll: " + (int)roll;
         _scoreText.text = "Score: " + score;
         _currentFrameText.text = "Frame: " + (int)(frame + 1);
     }

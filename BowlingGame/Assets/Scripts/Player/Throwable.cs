@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Android;
 
 namespace player {
     public abstract class Throwable : MonoBehaviour {
