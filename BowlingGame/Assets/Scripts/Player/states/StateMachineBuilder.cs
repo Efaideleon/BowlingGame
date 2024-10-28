@@ -2,9 +2,12 @@ using state_machine;
 using states;
 using UnityEngine;
 
-namespace player {
-    public class StateMachineBuilder {
-        public static StateMachine Build(PlayerController playerController, Animator animator) {
+namespace player
+{
+    public class StateMachineBuilder
+    {
+        public static StateMachine Build(PlayerController playerController, Animator animator)
+        {
             var stateMachine = new StateMachine();
 
             // Declare States
@@ -13,11 +16,15 @@ namespace player {
             var throwState = new ThrowState(playerController, animator);
 
             // Transitions
-            stateMachine.AddTransition(holdingState, throwState, new FuncPredicate(() => playerController.ChargedThrowAction.IsRunning));
-            
-            stateMachine.AddTransition(throwState, normalState, new FuncPredicate(() => !playerController.ChargedThrowAction.IsRunning));
+            stateMachine.AddTransition(holdingState, throwState,
+                    new FuncPredicate(() => playerController.ChargedThrowAction.IsRunning));                           
 
-            stateMachine.AddTransition(normalState, holdingState, new FuncPredicate(() => playerController.ChargedThrowAction.IsReady));
+            stateMachine.AddTransition(throwState, normalState,
+                    new FuncPredicate(() => !playerController.ChargedThrowAction.IsRunning));
+
+            stateMachine.AddTransition(normalState, holdingState,
+                    new FuncPredicate(() => playerController.ChargedThrowAction.IsReady));
+
 
             // Set inital state
             stateMachine.SetState(holdingState);
