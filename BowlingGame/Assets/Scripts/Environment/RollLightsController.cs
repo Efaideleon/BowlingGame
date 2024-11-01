@@ -3,15 +3,8 @@ using System.Collections.Generic;
 
 namespace environment
 {
-    [System.Serializable]
-    public class Lights 
-    {
-        [Tooltip("Lights for a lane")]
-        [SerializeField] public GameObject[] lights;
-    }
     public class RollLightsController : MonoBehaviour
     {
-        [SerializeField] private List<Lights[]> _tests;
         [Tooltip("The current lane the player is in.")]
         [SerializeField] private int _currentLaneIndex = 0;
 
