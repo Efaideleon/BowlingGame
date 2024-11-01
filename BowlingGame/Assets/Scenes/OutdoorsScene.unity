@@ -20017,35 +20017,35 @@ MonoBehaviour:
   _currentLaneIndex: 0
   _bowlingGame: {fileID: 11400000, guid: f6823c2f9f15c496d8cd7625b515074e, type: 2}
   emissionIntensity: 1500
-  _laneOneLights:
+  _laneLights1:
   - {fileID: 6666389146099599892}
   - {fileID: 5080768536576919}
   - {fileID: 1244313459}
-  _laneTwoLights:
+  _laneLights2:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  _laneThreeLights:
+  _laneLights3:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  _laneFourLights:
+  _laneLights4:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  _laneFiveLights:
+  _laneLights5:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  _laneSixLights:
+  _laneLights6:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  _laneSevenLights:
+  _laneLights7:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  _laneEightLights:
+  _laneLights8:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
