@@ -32,12 +32,12 @@ namespace environment
 
         void OnEnable()
         {
-            _bowlingGame.OnRollCompleted += HandleLights;
+            _bowlingGame.OnRollCompleted += UpdateLights;
         }
 
         void OnDisable()
         {
-            _bowlingGame.OnRollCompleted -= HandleLights;
+            _bowlingGame.OnRollCompleted -= UpdateLights;
         }
 
         void Start()
@@ -51,10 +51,10 @@ namespace environment
             _lights.Add(_laneSevenLights);
             _lights.Add(_laneEightLights);
             _initialColor = _lights[0][0].GetComponent<MeshRenderer>().materials[1].color;
-            HandleLights();
+            UpdateLights();
         }
 
-        private void HandleLights()
+        private void UpdateLights()
         {
             if (_currentRollIndex < 1)
             {
