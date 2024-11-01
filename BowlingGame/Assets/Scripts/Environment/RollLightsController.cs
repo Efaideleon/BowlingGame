@@ -6,24 +6,35 @@ namespace environment
     public class RollLightsController : MonoBehaviour
     {
         [Tooltip("The current lane the player is in.")]
-        [SerializeField] private int _currentLaneIndex = 0;
+        [SerializeField] 
+        private int _currentLaneIndex = 0;
 
         [Header("Model")]
         [Tooltip("Reference to the BowlingGame Model")]
-        [SerializeField] private BowlingGame _bowlingGame;
+        [SerializeField] 
+        private BowlingGame _bowlingGame;
 
         [Header("Configuration")]
-        [SerializeField] private float emissionIntensity = 1500;
+        [SerializeField] 
+        private float emissionIntensity = 1500;
 
         [Header("Roll Lights")]
-        [SerializeField] private GameObject[] _laneLights1 = new GameObject[3];
-        [SerializeField] private GameObject[] _laneLights2 = new GameObject[3];
-        [SerializeField] private GameObject[] _laneLights3 = new GameObject[3];
-        [SerializeField] private GameObject[] _laneLights4 = new GameObject[3];
-        [SerializeField] private GameObject[] _laneLights5 = new GameObject[3];
-        [SerializeField] private GameObject[] _laneLights6 = new GameObject[3];
-        [SerializeField] private GameObject[] _laneLights7 = new GameObject[3];
-        [SerializeField] private GameObject[] _laneLights8 = new GameObject[3];
+        [SerializeField] 
+        private GameObject[] _laneLights1 = new GameObject[3];
+        [SerializeField] 
+        private GameObject[] _laneLights2 = new GameObject[3];
+        [SerializeField] 
+        private GameObject[] _laneLights3 = new GameObject[3];
+        [SerializeField] 
+        private GameObject[] _laneLights4 = new GameObject[3];
+        [SerializeField] 
+        private GameObject[] _laneLights5 = new GameObject[3];
+        [SerializeField] 
+        private GameObject[] _laneLights6 = new GameObject[3];
+        [SerializeField] 
+        private GameObject[] _laneLights7 = new GameObject[3];
+        [SerializeField] 
+        private GameObject[] _laneLights8 = new GameObject[3];
 
         private List<GameObject[]> _lights = new(8);
         private Color _initialColor;
@@ -50,7 +61,8 @@ namespace environment
             _lights.Add(_laneLights6);
             _lights.Add(_laneLights7);
             _lights.Add(_laneLights8);
-            _initialColor = _lights[0][0].GetComponent<MeshRenderer>().materials[1].color;
+            var laneLightFirstLightMaterial = _lights[0][0].GetComponent<MeshRenderer>().materials[1];
+            _initialColor = laneLightFirstLightMaterial.color;
             UpdateLights();
         }
 
