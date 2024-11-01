@@ -16,14 +16,14 @@ namespace environment
         [SerializeField] private float emissionIntensity = 1500;
 
         [Header("Roll Lights")]
-        [SerializeField] private GameObject[] _laneOneLights = new GameObject[3];
-        [SerializeField] private GameObject[] _laneTwoLights = new GameObject[3];
-        [SerializeField] private GameObject[] _laneThreeLights = new GameObject[3];
-        [SerializeField] private GameObject[] _laneFourLights = new GameObject[3];
-        [SerializeField] private GameObject[] _laneFiveLights = new GameObject[3];
-        [SerializeField] private GameObject[] _laneSixLights = new GameObject[3];
-        [SerializeField] private GameObject[] _laneSevenLights = new GameObject[3];
-        [SerializeField] private GameObject[] _laneEightLights = new GameObject[3];
+        [SerializeField] private GameObject[] _laneLights1 = new GameObject[3];
+        [SerializeField] private GameObject[] _laneLights2 = new GameObject[3];
+        [SerializeField] private GameObject[] _laneLights3 = new GameObject[3];
+        [SerializeField] private GameObject[] _laneLights4 = new GameObject[3];
+        [SerializeField] private GameObject[] _laneLights5 = new GameObject[3];
+        [SerializeField] private GameObject[] _laneLights6 = new GameObject[3];
+        [SerializeField] private GameObject[] _laneLights7 = new GameObject[3];
+        [SerializeField] private GameObject[] _laneLights8 = new GameObject[3];
 
         private List<GameObject[]> _lights = new(8);
         private Color _initialColor;
@@ -42,14 +42,14 @@ namespace environment
 
         void Start()
         {
-            _lights.Add(_laneOneLights);
-            _lights.Add(_laneTwoLights);
-            _lights.Add(_laneThreeLights);
-            _lights.Add(_laneFourLights);
-            _lights.Add(_laneFiveLights);
-            _lights.Add(_laneSixLights);
-            _lights.Add(_laneSevenLights);
-            _lights.Add(_laneEightLights);
+            _lights.Add(_laneLights1);
+            _lights.Add(_laneLights2);
+            _lights.Add(_laneLights3);
+            _lights.Add(_laneLights4);
+            _lights.Add(_laneLights5);
+            _lights.Add(_laneLights6);
+            _lights.Add(_laneLights7);
+            _lights.Add(_laneLights8);
             _initialColor = _lights[0][0].GetComponent<MeshRenderer>().materials[1].color;
             UpdateLights();
         }
@@ -66,7 +66,7 @@ namespace environment
 
         private void ResetLights()
         {
-            foreach(GameObject light in _lights[_currentLaneIndex])
+            foreach (GameObject light in _lights[_currentLaneIndex])
             {
                 Material lightMaterial = light.GetComponent<MeshRenderer>().materials[1];
                 ChangeMaterialBaseAndEmssiveColor(lightMaterial, _initialColor, _initialColor);
