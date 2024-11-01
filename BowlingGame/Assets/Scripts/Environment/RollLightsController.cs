@@ -53,7 +53,6 @@ namespace environment
 
         void Start()
         {
-            // adding lights
             _lights.Add(_laneLights1);
             _lights.Add(_laneLights2);
             _lights.Add(_laneLights3);
