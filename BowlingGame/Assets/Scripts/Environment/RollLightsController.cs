@@ -28,7 +28,7 @@ namespace environment
         private List<GameObject[]> _lights = new(8);
         private Color _initialColor;
         private int _currentRollIndex => (int)_bowlingGame.CurrentFrame.CurrentRollNumber - 1;
-        private Material CurrentLight => GetCurrentLightMaterial();
+        private Material CurrentLightMaterial => GetCurrentLightMaterial();
 
         void OnEnable()
         {
@@ -75,7 +75,7 @@ namespace environment
 
         private void TurnOnCurrentLight()
         {
-            ChangeMaterialBaseAndEmssiveColor(CurrentLight, Color.green, Color.green);
+            ChangeMaterialBaseAndEmssiveColor(CurrentLightMaterial, Color.green, Color.green);
         }
 
         private void ChangeMaterialBaseAndEmssiveColor(Material material, Color emmisiveColor, Color baseColor)
