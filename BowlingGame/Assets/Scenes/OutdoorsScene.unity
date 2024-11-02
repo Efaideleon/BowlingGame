@@ -20016,7 +20016,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _currentLaneIndex: 0
   _bowlingGame: {fileID: 11400000, guid: f6823c2f9f15c496d8cd7625b515074e, type: 2}
-  emissionIntensity: 1500
+  emissionIntensity: 1499
   _laneLights1:
   - {fileID: 6666389146099599892}
   - {fileID: 5080768536576919}
