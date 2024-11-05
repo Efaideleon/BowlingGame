@@ -18,6 +18,7 @@ public class InputReader : ScriptableObject, PlayerInputActions.IPlayerActions {
 
     public Vector2 Direction => _inputActions.Player.Move.ReadValue<Vector2>();
 
+    private int instanceCount = 0;
     void OnEnable() {
         if (_inputActions == null) {
             _inputActions = new PlayerInputActions();
@@ -25,9 +26,11 @@ public class InputReader : ScriptableObject, PlayerInputActions.IPlayerActions {
         }
         _inputActions.Enable();
         _inputActions.Player.Enable();
+        Debug.Log($"InputReader enabled. Instance count: {instanceCount++}");
     }
 
     void OnDisable() {
+        Debug.Log($"InputReader destroyed. Instance count: {instanceCount--}");
         _inputActions.Player.RemoveCallbacks(this);
         _inputActions.Player.Disable();
         _inputActions.Disable();

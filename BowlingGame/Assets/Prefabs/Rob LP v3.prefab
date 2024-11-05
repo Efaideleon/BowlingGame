@@ -114,6 +114,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rob LP v3
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d30a3f65c7708384494c1042983ea2db, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -132,13 +136,13 @@ PrefabInstance:
       addedObject: {fileID: 5708917892118012595}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d30a3f65c7708384494c1042983ea2db, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 3725747660703888941}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d30a3f65c7708384494c1042983ea2db, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 3102697274601523284}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d30a3f65c7708384494c1042983ea2db, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7429042036186543460}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d30a3f65c7708384494c1042983ea2db, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 261908193348316986}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d30a3f65c7708384494c1042983ea2db, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8408824181981521795}
@@ -200,6 +204,19 @@ CharacterController:
   m_SkinWidth: 0.02
   m_MinMoveDistance: 0
   m_Center: {x: 0, y: 0.81, z: 0}
+--- !u!114 &3725747660703888941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5337281127799487162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 585103fa8eb1d48d9b52f595680a8a32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _throwActionConfig: {fileID: 11400000, guid: 02330c86d633f4c63a8fba3cd2bfbf6e, type: 2}
 --- !u!114 &3102697274601523284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,19 +243,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d43e11605744641088cf711bf24b9f9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &261908193348316986
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5337281127799487162}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 585103fa8eb1d48d9b52f595680a8a32, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _throwActionConfig: {fileID: 11400000, guid: 02330c86d633f4c63a8fba3cd2bfbf6e, type: 2}
 --- !u!114 &8408824181981521795
 MonoBehaviour:
   m_ObjectHideFlags: 0

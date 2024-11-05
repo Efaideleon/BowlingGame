@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace actions {
+namespace Actions {
     public class ChargedAction {
         float _maxChargeTime = 2f;
         float _chargeStartTime;

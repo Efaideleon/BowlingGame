@@ -29,6 +29,9 @@ namespace game_logic
         /// </summary>
         public int Score => TotalPinsKnocked + _bonus;
 
+        /// <summary>
+        /// The number for the current frame, starting from 1.
+        /// </summary>
         public int FrameNumber
         {
             get => _frameNumber;
@@ -36,10 +39,12 @@ namespace game_logic
                     ? throw new ArgumentOutOfRangeException(nameof(value), "frame number must be greater than 0.")
                     : value;
         }
+
         public BowlingFrame(int frame, IBowlingGameConfig config)
         {
             FrameNumber = frame;
             _gameConfig = config;
+
             if (!_rolls.Any())
             {
                 _currentRoll = CreateNewRoll();
@@ -58,17 +63,11 @@ namespace game_logic
 
         private Roll CreateNewRoll()
         {
-            Roll roll;
-            if (!_rolls.Any())
-            {
-                roll = new Roll(RollNumber.First, _gameConfig.MaxPins);
-            }
-            else
-            {
-                roll = new Roll(_currentRoll.RollNumber + 1, _gameConfig.MaxPins);
-            }
-            _rolls.Add(roll);
-            return roll;
+            RollNumber nextRollNumber = _rolls.Count == 0 ? RollNumber.First : _currentRoll.RollNumber + 1;
+
+            var newRoll = new Roll(nextRollNumber, _gameConfig.MaxPins);
+            _rolls.Add(newRoll);
+            return newRoll;
         }
 
         /// <summary>

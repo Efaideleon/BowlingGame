@@ -1,4 +1,4 @@
-using actions;
+using Actions;
 using UnityEngine;
 
 namespace player
