@@ -46,9 +46,7 @@ namespace game_logic
             _gameConfig = config;
 
             if (!_rolls.Any())
-            {
                 _currentRoll = CreateNewRoll();
-            }
         }
 
         /// <summary>
@@ -58,7 +56,9 @@ namespace game_logic
         public void SetNumOfPinsKnocked(int numOfPinsKnocked)
         {
             _currentRoll.SetNumOfPinsKnocked(numOfPinsKnocked);
-            if (!IsFinished) _currentRoll = CreateNewRoll();
+
+            if (!IsFinished) 
+                _currentRoll = CreateNewRoll();
         }
 
         private Roll CreateNewRoll()
@@ -67,6 +67,7 @@ namespace game_logic
 
             var newRoll = new Roll(nextRollNumber, _gameConfig.MaxPins);
             _rolls.Add(newRoll);
+
             return newRoll;
         }
 
