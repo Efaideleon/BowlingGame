@@ -7,7 +7,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "BowlingGame", menuName = "BowlingBall/BowlingGame")]
 public class BowlingGame : ScriptableObject, IBowlingGame
 {
-    [SerializeField] BowlingGameConfig _gameConfig;
+    [SerializeField] 
+    private BowlingGameConfig _gameConfig;
     private FrameBonusCalculator _frameBonusCalculator;
 
     public BowlingGameConfig Config
@@ -18,7 +19,6 @@ public class BowlingGame : ScriptableObject, IBowlingGame
 
     public List<BowlingFrame> AllFrames { get; private set; }
     public int TotalScore => AllFrames.Sum(frame => frame.Score);
-
     public BowlingFrame CurrentFrame => AllFrames[CurrentFrameIndex];
     public int CurrentFrameIndex { get; private set; } = 0;
     public bool HasGameEnded => CurrentFrameIndex >= _gameConfig.MaxFrames;
@@ -78,10 +78,12 @@ public class BowlingGame : ScriptableObject, IBowlingGame
     public void Reset()
     {
         CurrentFrameIndex = 0;
+
         foreach (var frame in AllFrames)
         {
             frame.ClearRolls();
         }
+
         OnReset.Invoke();
     }
 }

@@ -1480,6 +1480,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5558156059827941705, guid: 967c300fea8dd7d489a8b81eabebe0c8, type: 3}
+      propertyPath: _spinMultiplier
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5558156059827941705, guid: 967c300fea8dd7d489a8b81eabebe0c8, type: 3}
+      propertyPath: _forceMultiplier
+      value: 70
+      objectReference: {fileID: 0}
     - target: {fileID: 9109956754985964422, guid: 967c300fea8dd7d489a8b81eabebe0c8, type: 3}
       propertyPath: m_Name
       value: Bowling Ball
@@ -11738,6 +11746,7 @@ MonoBehaviour:
   m_Script: {fileID: 1756132029}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Entries: []
 --- !u!4 &1022870937
 Transform:
   m_ObjectHideFlags: 19
@@ -13607,7 +13616,7 @@ GameObject:
   - component: {fileID: 1244313460}
   - component: {fileID: 1244313462}
   - component: {fileID: 1244313461}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Lane 1 Light 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17399,6 +17408,7 @@ MonoBehaviour:
   m_Script: {fileID: 1843483560}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Entries: []
 --- !u!4 &1574223345
 Transform:
   m_ObjectHideFlags: 19
@@ -26187,7 +26197,7 @@ GameObject:
   - component: {fileID: 5737309858085797026}
   - component: {fileID: 3490874810667944865}
   - component: {fileID: 7726362131639842256}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Lane 1 Light 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26975,7 +26985,7 @@ GameObject:
   - component: {fileID: 4498490987210953927}
   - component: {fileID: 7446696704757165182}
   - component: {fileID: 7446696704757165183}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Lane Ball Catcher R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27551,7 +27561,7 @@ GameObject:
   - component: {fileID: 4846137317820119462}
   - component: {fileID: 9051746214737825001}
   - component: {fileID: 1806170708545347178}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Bowling Lane Stopper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29966,7 +29976,7 @@ GameObject:
   - component: {fileID: 7738795601761590662}
   - component: {fileID: 900703578395618448}
   - component: {fileID: 2318046596759386546}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Lane Num 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30985,7 +30995,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4336080113957249093}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Bowling Lane Sides Plus Box
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31197,6 +31207,103 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
   m_IsActive: 1
+--- !u!1001 &4174086048212484414
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4336080113957249093}
+    m_Modifications:
+    - target: {fileID: 839959046497774144, guid: bf57e694d1cec46b5b5000bbded20665, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1372106315365530429, guid: bf57e694d1cec46b5b5000bbded20665, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1559037620441506042, guid: bf57e694d1cec46b5b5000bbded20665, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1582349062228887271, guid: bf57e694d1cec46b5b5000bbded20665, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1582349062228887271, guid: bf57e694d1cec46b5b5000bbded20665, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1582349062228887271, guid: bf57e694d1cec46b5b5000bbded20665, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1582349062228887271, guid: bf57e694d1cec46b5b5000bbded20665, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1582349062228887271, guid: bf57e694d1cec46b5b5000bbded20665, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1582349062228887271, guid: bf57e694d1cec46b5b5000bbded20665, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1582349062228887271, guid: bf57e694d1cec46b5b5000bbded20665, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1582349062228887271, guid: bf57e694d1cec46b5b5000bbded20665, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1582349062228887271, guid: bf57e694d1cec46b5b5000bbded20665, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1582349062228887271, guid: bf57e694d1cec46b5b5000bbded20665, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2531377610423383122, guid: bf57e694d1cec46b5b5000bbded20665, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3436769320026637413, guid: bf57e694d1cec46b5b5000bbded20665, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3438649697946783991, guid: bf57e694d1cec46b5b5000bbded20665, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3818745575426397074, guid: bf57e694d1cec46b5b5000bbded20665, type: 3}
+      propertyPath: m_Name
+      value: Bowling Lane Alone
+      objectReference: {fileID: 0}
+    - target: {fileID: 3818745575426397074, guid: bf57e694d1cec46b5b5000bbded20665, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4085536787068306950, guid: bf57e694d1cec46b5b5000bbded20665, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5627498144056808525, guid: bf57e694d1cec46b5b5000bbded20665, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8369418062809914949, guid: bf57e694d1cec46b5b5000bbded20665, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bf57e694d1cec46b5b5000bbded20665, type: 3}
 --- !u!4 &4180171210575882714
 Transform:
   m_ObjectHideFlags: 0
@@ -31883,7 +31990,7 @@ GameObject:
   - component: {fileID: 3374128254653874167}
   - component: {fileID: 6247871793584124209}
   - component: {fileID: 8891531020591764754}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Lane Metal Side L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32043,7 +32150,7 @@ GameObject:
   - component: {fileID: 8998584543742909277}
   - component: {fileID: 360823932213141475}
   - component: {fileID: 564270278483991633}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Lane End Box
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32773,51 +32880,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
   m_IsActive: 1
---- !u!23 &5325353000958555419
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5973893131062367438}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 44ccb713144d64a43998c9abd8cb6c92, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!4 &5330953225272300637
 Transform:
   m_ObjectHideFlags: 0
@@ -33621,25 +33683,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
   m_IsActive: 1
---- !u!1 &5973893131062367438
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6461636916334694004}
-  - component: {fileID: 7927323938531639761}
-  - component: {fileID: 5325353000958555419}
-  - component: {fileID: 7927323938531639762}
-  m_Layer: 0
-  m_Name: Bowling Lane Alone
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
 --- !u!114 &6016444570311720091
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34032,7 +34075,7 @@ GameObject:
   - component: {fileID: 2463839954437084459}
   - component: {fileID: 7911649069538535299}
   - component: {fileID: 7911649069538535300}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Lane Metal Side R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34397,21 +34440,11 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!4 &6461636916334694004
+--- !u!4 &6461636916334694004 stripped
 Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 1582349062228887271, guid: bf57e694d1cec46b5b5000bbded20665, type: 3}
+  m_PrefabInstance: {fileID: 4174086048212484414}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5973893131062367438}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 4336080113957249093}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6465487985803808503
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -34716,7 +34749,7 @@ GameObject:
   - component: {fileID: 407519916649260466}
   - component: {fileID: 1597029253377272053}
   - component: {fileID: 1805269433919223065}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Lane 1 Light 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35862,7 +35895,7 @@ GameObject:
   - component: {fileID: 769891825994328901}
   - component: {fileID: 8940945299417450190}
   - component: {fileID: 8940945299417450191}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Lane Ball Catcher L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36332,35 +36365,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &7927323938531639761
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5973893131062367438}
-  m_Mesh: {fileID: 6860452238621364835, guid: 7b2a3f80c876f9846bf955dc879d9c21, type: 3}
---- !u!65 &7927323938531639762
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5973893131062367438}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.143, y: 0.03408183, z: 18.763992}
-  m_Center: {x: 0.000000059604645, y: -0.017040916, z: 13.954014}
 --- !u!4 &7956097535913233122
 Transform:
   m_ObjectHideFlags: 0
