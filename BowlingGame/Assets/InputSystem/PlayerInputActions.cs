@@ -53,6 +53,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Toggle"",
+                    ""type"": ""Button"",
+                    ""id"": ""cde99262-fb39-4714-a131-dac193501f80"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -132,6 +141,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Menu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f9c96096-8c9f-4f8d-9920-e1000425378a"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Toggle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -143,6 +163,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_Charge = m_Player.FindAction("Charge", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Menu = m_Player.FindAction("Menu", throwIfNotFound: true);
+        m_Player_Toggle = m_Player.FindAction("Toggle", throwIfNotFound: true);
     }
 
     ~@PlayerInputActions()
@@ -212,6 +233,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Charge;
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Menu;
+    private readonly InputAction m_Player_Toggle;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -219,6 +241,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @Charge => m_Wrapper.m_Player_Charge;
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Menu => m_Wrapper.m_Player_Menu;
+        public InputAction @Toggle => m_Wrapper.m_Player_Toggle;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -237,6 +260,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Menu.started += instance.OnMenu;
             @Menu.performed += instance.OnMenu;
             @Menu.canceled += instance.OnMenu;
+            @Toggle.started += instance.OnToggle;
+            @Toggle.performed += instance.OnToggle;
+            @Toggle.canceled += instance.OnToggle;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -250,6 +276,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Menu.started -= instance.OnMenu;
             @Menu.performed -= instance.OnMenu;
             @Menu.canceled -= instance.OnMenu;
+            @Toggle.started -= instance.OnToggle;
+            @Toggle.performed -= instance.OnToggle;
+            @Toggle.canceled -= instance.OnToggle;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -272,5 +301,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnCharge(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
         void OnMenu(InputAction.CallbackContext context);
+        void OnToggle(InputAction.CallbackContext context);
     }
 }

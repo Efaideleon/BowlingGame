@@ -21,7 +21,7 @@ namespace game_logic {
             var resettingPins = new GameResettingPins(_gameManager);
 
             // Transitions
-            _stateMachine.AddTransition(idle, ballThrown, new FuncPredicate(() => _gameManager.Ball.IsRolling));
+            _stateMachine.AddTransition(idle, ballThrown, new FuncPredicate(() => !_gameManager.Ball.IsSettled));
             _stateMachine.AddTransition(ballThrown, resettingPins, new FuncPredicate(() => BallAndPinsAreSettled));
             _stateMachine.AddTransition(resettingPins, idle, new FuncPredicate(() => _gameManager.PinManager.CountFallenPins() == 0));
 

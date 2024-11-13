@@ -33,9 +33,9 @@ namespace bowling_ball
             transform.SetLocalPositionAndRotation(new Vector3(0f, 0f, 0f), Quaternion.identity);
         }
 
-        public override void Throw(float power)
+        public override void Throw(float power, Vector3 throwDirection)
         {
-            BowlingBall.Throw(power);
+            BowlingBall.Throw(power, throwDirection);
             transform.parent = null;
             OnBallThrown?.Invoke();
         }

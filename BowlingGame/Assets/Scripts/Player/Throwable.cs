@@ -5,6 +5,6 @@ namespace player {
         public virtual void Hold(Transform parent) { }
         public virtual void Swing(Transform parent) { }
         public virtual void Throw() { }
-        public virtual void Throw(float power) { }
+        public virtual void Throw(float power, Vector3 throwDirection) { }
     }
 }

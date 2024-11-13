@@ -49,9 +49,9 @@ namespace player
         /// <summary>
         /// Throws the item is the player is holding with a ChargePercentage.
         /// </summary>
-        public void Throw()
+        public void Throw(Vector3 throwDirection)
         {
-            _player.Item.Throw(ChargePercentage);
+            _player.Item.Throw(ChargePercentage, throwDirection);
             IsReady = false;
         }
 

@@ -6,6 +6,7 @@ namespace player {
         [SerializeField] ThrowActionConfig _throwActionConfig;
         private Player _player;
 
+        private Vector3 _throwDirection = Vector3.right;
         public ChargedThrowAction ChargedThrowAction { get; private set; }
 
         void Awake() {
@@ -16,11 +17,18 @@ namespace player {
         void OnEnable() {
             _player.Input.ChargeStarted += OnChargeStarted;
             _player.Input.ChargeFinished += OnChargeFinished;
+            _player.Input.OnToggleStarted += ToggleThrowDirection;
         }
 
         void OnDisable() {
             _player.Input.ChargeStarted -= OnChargeStarted;
             _player.Input.ChargeFinished -= OnChargeFinished;
+            _player.Input.OnToggleStarted -= ToggleThrowDirection;
+        }
+
+        void ToggleThrowDirection()
+        {
+            _throwDirection = _throwDirection == Vector3.right ? Vector3.left : Vector3.right;
         }
 
         void Update() {
@@ -39,6 +47,6 @@ namespace player {
             ChargedThrowAction.Hold();
         }
 
-        public void Throw() => ChargedThrowAction.Throw();
+        public void Throw() => ChargedThrowAction.Throw(_throwDirection);
     }
 }
