@@ -5,23 +5,27 @@ namespace bowling_ball
     [RequireComponent(typeof(Rigidbody))]
     public class BowlingBall : MonoBehaviour
     {
-        [SerializeField] private float _forceMultiplier = 40f;
+        [Header("Physics Settings")]
         [SerializeField] private float _spinMultiplier = 10f;
-        [SerializeField] private float _lateralFriction = 0.5f;
-        [SerializeField] private float _rayCastDistance = 0.1f;
+        [SerializeField] private float _forceMultiplier = 40f;
         [SerializeField] private float _settledLinearVelocity = 0.4f;
-        [SerializeField] private Rigidbody _rb;
+        [SerializeField, Range(0, 1)] private float _lateralFriction = 0.5f;
+
+        [Header("RayCasting Settings")]
+        [SerializeField] private float _rayCastDistance = 0.1f;
 
         private int _laneLayerMask;
         private Vector3 _throwDirection;
+        private Rigidbody _rigidbody;
 
         /// <summary>
         /// Check if that ball is currently moving.
         /// </summary>
-        public bool IsSettled => _rb.linearVelocity.magnitude < _settledLinearVelocity ? true : false;
+        public bool IsSettled => _rigidbody.linearVelocity.magnitude < _settledLinearVelocity;
 
         void Awake()
         {
+            _rigidbody = GetComponent<Rigidbody>();
             _laneLayerMask = 1 << LayerMask.NameToLayer("Lane");
         }
 
@@ -35,7 +39,7 @@ namespace bowling_ball
         /// </summary>
         public void OnHold()
         {
-            StopAllBallMotion();
+            StopBallMotion();
         }
 
         /// <summary>
@@ -45,22 +49,21 @@ namespace bowling_ball
         /// <param name="throwDirection">The direction that ball should rotate.</param>
         public void Throw(float power, Vector3 throwDirection)
         {
-            _rb.isKinematic = false;
-            _throwDirection = throwDirection;
+            _rigidbody.isKinematic = false;
+            this._throwDirection = throwDirection;
 
             var throwForce = CalculateThrowForce(power);
             var spinTorque = CalculateSpinTorque();
 
-            _rb.AddForce(throwForce, ForceMode.Impulse);
-            _rb.AddTorque(spinTorque, ForceMode.Impulse);
+            _rigidbody.AddForce(throwForce, ForceMode.Impulse);
+            _rigidbody.AddTorque(spinTorque, ForceMode.Impulse);
         }
 
-        private void StopAllBallMotion()
+        private void StopBallMotion()
         {
-            _rb.isKinematic = false;
-            _rb.linearVelocity = Vector3.zero;
-            _rb.angularVelocity = Vector3.zero;
-            _rb.isKinematic = true;
+            _rigidbody.isKinematic = true;
+            _rigidbody.linearVelocity = Vector3.zero;
+            _rigidbody.angularVelocity = Vector3.zero;
         }
 
         private void ApplyMotionForces()
@@ -75,8 +78,8 @@ namespace bowling_ball
 
             DebugLogInfo(hitInfo, friction, lateralForce);
 
-            _rb.AddForce(friction, ForceMode.Force);
-            _rb.AddForce(lateralForce, ForceMode.Force);
+            _rigidbody.AddForce(friction, ForceMode.Force);
+            _rigidbody.AddForce(lateralForce, ForceMode.Force);
         }
 
         private RaycastHit? GetGroundHitInfo()
@@ -96,12 +99,17 @@ namespace bowling_ball
 
         private Vector3 CalculateFrictionForce(float surfaceFriction)
         {
-            return -_rb.linearVelocity.normalized * Physics.gravity.magnitude * surfaceFriction;
+            return -_rigidbody.linearVelocity.normalized *
+                    Physics.gravity.magnitude *
+                    surfaceFriction;
         }
 
         private Vector3 CalculateLateralForce(float surfaceFriction)
         {
-            return _rb.angularVelocity.y * _lateralFriction * surfaceFriction * _throwDirection;
+            return _rigidbody.angularVelocity.y *
+                   _lateralFriction *
+                   surfaceFriction *
+                   _throwDirection;
         }
 
         private Vector3 CalculateSpinTorque()
@@ -111,10 +119,14 @@ namespace bowling_ball
 
         private Vector3 CalculateThrowForce(float power)
         {
-            return _forceMultiplier * power * Vector3.forward;
+            return _forceMultiplier *
+                   Vector3.forward *
+                   power;
         }
 
-        private void DebugLogInfo(RaycastHit hitInfo, Vector3 friction, Vector3 lateralVelocity)
+        private void DebugLogInfo(RaycastHit hitInfo,
+                                  Vector3 friction, 
+                                  Vector3 lateralVelocity)
         {
             var surfaceFriction = hitInfo.collider.material.dynamicFriction;
 
